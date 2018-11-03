@@ -1,0 +1,76 @@
+//
+
+syntax = "proto3";
+
+package tareados;
+
+message LandRequest {
+	int32 planeId = 1;
+}
+
+message LandResponse {
+	int32 runway = 1;
+	int32 queue = 2;
+	int32 altitude = 3;
+}
+
+// service LandService {
+// 	rpc Land(LandRequest) returns (LandResponse) {}
+// }
+
+message TakeoffRequest {
+	int32 planeId = 1;
+	string dest = 2; //Nombre aeropuerto destino
+	int32 passengers = 3;
+	int32 fuel = 4;
+	int32 maxLoad = 5;
+}
+
+message TakeoffResponse {
+	int32 altitude = 1;
+	int32 runway = 2;
+	//string ip_dest = 3;	// ip + puerto
+	bytes ipDest = 3;		//or string ip_dest
+	bytes portDest = 4;	//or string port_dest
+	int32 queuePos = 5;
+	string prevPlane = 6; //
+	
+}
+
+// service TakeoffService {
+// 	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
+// }
+
+// === Panel de informacion ===
+
+message InfoRequest {
+	string controlTower = 1; 	//id de torre de control
+}
+
+message InfoResponse {
+	repeated plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+}
+
+// service InfoService {
+// 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
+// }
+
+message plane {
+	int32 planeId = 1;
+	string sourceName = 2;
+	string destName = 3;
+	string departureTime = 4;
+	string arrivalTime = 5;
+	int32 sourceRunway = 6;
+	int32 destRunway = 7;
+	int32 altitude = 8;
+}
+
+service PlaneControlService {
+	rpc Land(LandRequest) returns (LandResponse) {}
+	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
+	rpc Info(InfoRequest) returns (stream InfoResponse) {}
+}
+
+
