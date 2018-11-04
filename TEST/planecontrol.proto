@@ -5,7 +5,8 @@ syntax = "proto3";
 package tareados;
 
 message LandRequest {
-	int32 planeId = 1;
+	Plane plane = 1;
+	string dest = 2;
 }
 
 message LandResponse {
@@ -19,11 +20,8 @@ message LandResponse {
 // }
 
 message TakeoffRequest {
-	int32 planeId = 1;
-	string dest = 2; //Nombre aeropuerto destino
-	int32 passengers = 3;
-	int32 fuel = 4;
-	int32 maxLoad = 5;
+	Plane plane = 1;
+	string dest = 2;
 }
 
 message TakeoffResponse {
@@ -48,23 +46,23 @@ message InfoRequest {
 }
 
 message InfoResponse {
-	repeated plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
-	repeated plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+	repeated Plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated Plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
 }
 
 // service InfoService {
 // 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
 // }
 
-message plane {
-	int32 planeId = 1;
-	string sourceName = 2;
-	string destName = 3;
-	string departureTime = 4;
-	string arrivalTime = 5;
-	int32 sourceRunway = 6;
-	int32 destRunway = 7;
-	int32 altitude = 8;
+message Plane {
+	string airline = 1;
+	string planeNumber = 2;
+	int32 maxLoad = 3;
+	int32 currLoad = 4;
+	int32 maxCapacity = 5;
+	int32 currCapacity = 6;
+	string sourceAddress = 7;
+	string destAddress = 8;
 }
 
 service PlaneControlService {

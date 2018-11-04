@@ -58,15 +58,15 @@ extern LandRequestDefaultTypeInternal _LandRequest_default_instance_;
 class LandResponse;
 class LandResponseDefaultTypeInternal;
 extern LandResponseDefaultTypeInternal _LandResponse_default_instance_;
+class Plane;
+class PlaneDefaultTypeInternal;
+extern PlaneDefaultTypeInternal _Plane_default_instance_;
 class TakeoffRequest;
 class TakeoffRequestDefaultTypeInternal;
 extern TakeoffRequestDefaultTypeInternal _TakeoffRequest_default_instance_;
 class TakeoffResponse;
 class TakeoffResponseDefaultTypeInternal;
 extern TakeoffResponseDefaultTypeInternal _TakeoffResponse_default_instance_;
-class plane;
-class planeDefaultTypeInternal;
-extern planeDefaultTypeInternal _plane_default_instance_;
 }  // namespace tareados
 namespace google {
 namespace protobuf {
@@ -74,9 +74,9 @@ template<> ::tareados::InfoRequest* Arena::CreateMaybeMessage<::tareados::InfoRe
 template<> ::tareados::InfoResponse* Arena::CreateMaybeMessage<::tareados::InfoResponse>(Arena*);
 template<> ::tareados::LandRequest* Arena::CreateMaybeMessage<::tareados::LandRequest>(Arena*);
 template<> ::tareados::LandResponse* Arena::CreateMaybeMessage<::tareados::LandResponse>(Arena*);
+template<> ::tareados::Plane* Arena::CreateMaybeMessage<::tareados::Plane>(Arena*);
 template<> ::tareados::TakeoffRequest* Arena::CreateMaybeMessage<::tareados::TakeoffRequest>(Arena*);
 template<> ::tareados::TakeoffResponse* Arena::CreateMaybeMessage<::tareados::TakeoffResponse>(Arena*);
-template<> ::tareados::plane* Arena::CreateMaybeMessage<::tareados::plane>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace tareados {
@@ -170,17 +170,38 @@ class LandRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // int32 planeId = 1;
-  void clear_planeid();
-  static const int kPlaneIdFieldNumber = 1;
-  ::google::protobuf::int32 planeid() const;
-  void set_planeid(::google::protobuf::int32 value);
+  // string dest = 2;
+  void clear_dest();
+  static const int kDestFieldNumber = 2;
+  const ::std::string& dest() const;
+  void set_dest(const ::std::string& value);
+  #if LANG_CXX11
+  void set_dest(::std::string&& value);
+  #endif
+  void set_dest(const char* value);
+  void set_dest(const char* value, size_t size);
+  ::std::string* mutable_dest();
+  ::std::string* release_dest();
+  void set_allocated_dest(::std::string* dest);
+
+  // .tareados.Plane plane = 1;
+  bool has_plane() const;
+  void clear_plane();
+  static const int kPlaneFieldNumber = 1;
+  private:
+  const ::tareados::Plane& _internal_plane() const;
+  public:
+  const ::tareados::Plane& plane() const;
+  ::tareados::Plane* release_plane();
+  ::tareados::Plane* mutable_plane();
+  void set_allocated_plane(::tareados::Plane* plane);
 
   // @@protoc_insertion_point(class_scope:tareados.LandRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 planeid_;
+  ::google::protobuf::internal::ArenaStringPtr dest_;
+  ::tareados::Plane* plane_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -404,39 +425,24 @@ class TakeoffRequest : public ::google::protobuf::Message /* @@protoc_insertion_
   ::std::string* release_dest();
   void set_allocated_dest(::std::string* dest);
 
-  // int32 planeId = 1;
-  void clear_planeid();
-  static const int kPlaneIdFieldNumber = 1;
-  ::google::protobuf::int32 planeid() const;
-  void set_planeid(::google::protobuf::int32 value);
-
-  // int32 passengers = 3;
-  void clear_passengers();
-  static const int kPassengersFieldNumber = 3;
-  ::google::protobuf::int32 passengers() const;
-  void set_passengers(::google::protobuf::int32 value);
-
-  // int32 fuel = 4;
-  void clear_fuel();
-  static const int kFuelFieldNumber = 4;
-  ::google::protobuf::int32 fuel() const;
-  void set_fuel(::google::protobuf::int32 value);
-
-  // int32 maxLoad = 5;
-  void clear_maxload();
-  static const int kMaxLoadFieldNumber = 5;
-  ::google::protobuf::int32 maxload() const;
-  void set_maxload(::google::protobuf::int32 value);
+  // .tareados.Plane plane = 1;
+  bool has_plane() const;
+  void clear_plane();
+  static const int kPlaneFieldNumber = 1;
+  private:
+  const ::tareados::Plane& _internal_plane() const;
+  public:
+  const ::tareados::Plane& plane() const;
+  ::tareados::Plane* release_plane();
+  ::tareados::Plane* mutable_plane();
+  void set_allocated_plane(::tareados::Plane* plane);
 
   // @@protoc_insertion_point(class_scope:tareados.TakeoffRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr dest_;
-  ::google::protobuf::int32 planeid_;
-  ::google::protobuf::int32 passengers_;
-  ::google::protobuf::int32 fuel_;
-  ::google::protobuf::int32 maxload_;
+  ::tareados::Plane* plane_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -802,59 +808,59 @@ class InfoResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // repeated .tareados.plane departurePlane = 1;
+  // repeated .tareados.Plane departurePlane = 1;
   int departureplane_size() const;
   void clear_departureplane();
   static const int kDeparturePlaneFieldNumber = 1;
-  ::tareados::plane* mutable_departureplane(int index);
-  ::google::protobuf::RepeatedPtrField< ::tareados::plane >*
+  ::tareados::Plane* mutable_departureplane(int index);
+  ::google::protobuf::RepeatedPtrField< ::tareados::Plane >*
       mutable_departureplane();
-  const ::tareados::plane& departureplane(int index) const;
-  ::tareados::plane* add_departureplane();
-  const ::google::protobuf::RepeatedPtrField< ::tareados::plane >&
+  const ::tareados::Plane& departureplane(int index) const;
+  ::tareados::Plane* add_departureplane();
+  const ::google::protobuf::RepeatedPtrField< ::tareados::Plane >&
       departureplane() const;
 
-  // repeated .tareados.plane arrivalPlane = 2;
+  // repeated .tareados.Plane arrivalPlane = 2;
   int arrivalplane_size() const;
   void clear_arrivalplane();
   static const int kArrivalPlaneFieldNumber = 2;
-  ::tareados::plane* mutable_arrivalplane(int index);
-  ::google::protobuf::RepeatedPtrField< ::tareados::plane >*
+  ::tareados::Plane* mutable_arrivalplane(int index);
+  ::google::protobuf::RepeatedPtrField< ::tareados::Plane >*
       mutable_arrivalplane();
-  const ::tareados::plane& arrivalplane(int index) const;
-  ::tareados::plane* add_arrivalplane();
-  const ::google::protobuf::RepeatedPtrField< ::tareados::plane >&
+  const ::tareados::Plane& arrivalplane(int index) const;
+  ::tareados::Plane* add_arrivalplane();
+  const ::google::protobuf::RepeatedPtrField< ::tareados::Plane >&
       arrivalplane() const;
 
   // @@protoc_insertion_point(class_scope:tareados.InfoResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::tareados::plane > departureplane_;
-  ::google::protobuf::RepeatedPtrField< ::tareados::plane > arrivalplane_;
+  ::google::protobuf::RepeatedPtrField< ::tareados::Plane > departureplane_;
+  ::google::protobuf::RepeatedPtrField< ::tareados::Plane > arrivalplane_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class plane : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:tareados.plane) */ {
+class Plane : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:tareados.Plane) */ {
  public:
-  plane();
-  virtual ~plane();
+  Plane();
+  virtual ~Plane();
 
-  plane(const plane& from);
+  Plane(const Plane& from);
 
-  inline plane& operator=(const plane& from) {
+  inline Plane& operator=(const Plane& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  plane(plane&& from) noexcept
-    : plane() {
+  Plane(Plane&& from) noexcept
+    : Plane() {
     *this = ::std::move(from);
   }
 
-  inline plane& operator=(plane&& from) noexcept {
+  inline Plane& operator=(Plane&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -864,34 +870,34 @@ class plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const plane& default_instance();
+  static const Plane& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const plane* internal_default_instance() {
-    return reinterpret_cast<const plane*>(
-               &_plane_default_instance_);
+  static inline const Plane* internal_default_instance() {
+    return reinterpret_cast<const Plane*>(
+               &_Plane_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     6;
 
-  void Swap(plane* other);
-  friend void swap(plane& a, plane& b) {
+  void Swap(Plane* other);
+  friend void swap(Plane& a, Plane& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline plane* New() const final {
-    return CreateMaybeMessage<plane>(NULL);
+  inline Plane* New() const final {
+    return CreateMaybeMessage<Plane>(NULL);
   }
 
-  plane* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<plane>(arena);
+  Plane* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Plane>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const plane& from);
-  void MergeFrom(const plane& from);
+  void CopyFrom(const Plane& from);
+  void MergeFrom(const Plane& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -908,7 +914,7 @@ class plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(plane* other);
+  void InternalSwap(Plane* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -924,98 +930,98 @@ class plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // string sourceName = 2;
-  void clear_sourcename();
-  static const int kSourceNameFieldNumber = 2;
-  const ::std::string& sourcename() const;
-  void set_sourcename(const ::std::string& value);
+  // string airline = 1;
+  void clear_airline();
+  static const int kAirlineFieldNumber = 1;
+  const ::std::string& airline() const;
+  void set_airline(const ::std::string& value);
   #if LANG_CXX11
-  void set_sourcename(::std::string&& value);
+  void set_airline(::std::string&& value);
   #endif
-  void set_sourcename(const char* value);
-  void set_sourcename(const char* value, size_t size);
-  ::std::string* mutable_sourcename();
-  ::std::string* release_sourcename();
-  void set_allocated_sourcename(::std::string* sourcename);
+  void set_airline(const char* value);
+  void set_airline(const char* value, size_t size);
+  ::std::string* mutable_airline();
+  ::std::string* release_airline();
+  void set_allocated_airline(::std::string* airline);
 
-  // string destName = 3;
-  void clear_destname();
-  static const int kDestNameFieldNumber = 3;
-  const ::std::string& destname() const;
-  void set_destname(const ::std::string& value);
+  // string planeNumber = 2;
+  void clear_planenumber();
+  static const int kPlaneNumberFieldNumber = 2;
+  const ::std::string& planenumber() const;
+  void set_planenumber(const ::std::string& value);
   #if LANG_CXX11
-  void set_destname(::std::string&& value);
+  void set_planenumber(::std::string&& value);
   #endif
-  void set_destname(const char* value);
-  void set_destname(const char* value, size_t size);
-  ::std::string* mutable_destname();
-  ::std::string* release_destname();
-  void set_allocated_destname(::std::string* destname);
+  void set_planenumber(const char* value);
+  void set_planenumber(const char* value, size_t size);
+  ::std::string* mutable_planenumber();
+  ::std::string* release_planenumber();
+  void set_allocated_planenumber(::std::string* planenumber);
 
-  // string departureTime = 4;
-  void clear_departuretime();
-  static const int kDepartureTimeFieldNumber = 4;
-  const ::std::string& departuretime() const;
-  void set_departuretime(const ::std::string& value);
+  // string sourceAddress = 7;
+  void clear_sourceaddress();
+  static const int kSourceAddressFieldNumber = 7;
+  const ::std::string& sourceaddress() const;
+  void set_sourceaddress(const ::std::string& value);
   #if LANG_CXX11
-  void set_departuretime(::std::string&& value);
+  void set_sourceaddress(::std::string&& value);
   #endif
-  void set_departuretime(const char* value);
-  void set_departuretime(const char* value, size_t size);
-  ::std::string* mutable_departuretime();
-  ::std::string* release_departuretime();
-  void set_allocated_departuretime(::std::string* departuretime);
+  void set_sourceaddress(const char* value);
+  void set_sourceaddress(const char* value, size_t size);
+  ::std::string* mutable_sourceaddress();
+  ::std::string* release_sourceaddress();
+  void set_allocated_sourceaddress(::std::string* sourceaddress);
 
-  // string arrivalTime = 5;
-  void clear_arrivaltime();
-  static const int kArrivalTimeFieldNumber = 5;
-  const ::std::string& arrivaltime() const;
-  void set_arrivaltime(const ::std::string& value);
+  // string destAddress = 8;
+  void clear_destaddress();
+  static const int kDestAddressFieldNumber = 8;
+  const ::std::string& destaddress() const;
+  void set_destaddress(const ::std::string& value);
   #if LANG_CXX11
-  void set_arrivaltime(::std::string&& value);
+  void set_destaddress(::std::string&& value);
   #endif
-  void set_arrivaltime(const char* value);
-  void set_arrivaltime(const char* value, size_t size);
-  ::std::string* mutable_arrivaltime();
-  ::std::string* release_arrivaltime();
-  void set_allocated_arrivaltime(::std::string* arrivaltime);
+  void set_destaddress(const char* value);
+  void set_destaddress(const char* value, size_t size);
+  ::std::string* mutable_destaddress();
+  ::std::string* release_destaddress();
+  void set_allocated_destaddress(::std::string* destaddress);
 
-  // int32 planeId = 1;
-  void clear_planeid();
-  static const int kPlaneIdFieldNumber = 1;
-  ::google::protobuf::int32 planeid() const;
-  void set_planeid(::google::protobuf::int32 value);
+  // int32 maxLoad = 3;
+  void clear_maxload();
+  static const int kMaxLoadFieldNumber = 3;
+  ::google::protobuf::int32 maxload() const;
+  void set_maxload(::google::protobuf::int32 value);
 
-  // int32 sourceRunway = 6;
-  void clear_sourcerunway();
-  static const int kSourceRunwayFieldNumber = 6;
-  ::google::protobuf::int32 sourcerunway() const;
-  void set_sourcerunway(::google::protobuf::int32 value);
+  // int32 currLoad = 4;
+  void clear_currload();
+  static const int kCurrLoadFieldNumber = 4;
+  ::google::protobuf::int32 currload() const;
+  void set_currload(::google::protobuf::int32 value);
 
-  // int32 destRunway = 7;
-  void clear_destrunway();
-  static const int kDestRunwayFieldNumber = 7;
-  ::google::protobuf::int32 destrunway() const;
-  void set_destrunway(::google::protobuf::int32 value);
+  // int32 maxCapacity = 5;
+  void clear_maxcapacity();
+  static const int kMaxCapacityFieldNumber = 5;
+  ::google::protobuf::int32 maxcapacity() const;
+  void set_maxcapacity(::google::protobuf::int32 value);
 
-  // int32 altitude = 8;
-  void clear_altitude();
-  static const int kAltitudeFieldNumber = 8;
-  ::google::protobuf::int32 altitude() const;
-  void set_altitude(::google::protobuf::int32 value);
+  // int32 currCapacity = 6;
+  void clear_currcapacity();
+  static const int kCurrCapacityFieldNumber = 6;
+  ::google::protobuf::int32 currcapacity() const;
+  void set_currcapacity(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:tareados.plane)
+  // @@protoc_insertion_point(class_scope:tareados.Plane)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr sourcename_;
-  ::google::protobuf::internal::ArenaStringPtr destname_;
-  ::google::protobuf::internal::ArenaStringPtr departuretime_;
-  ::google::protobuf::internal::ArenaStringPtr arrivaltime_;
-  ::google::protobuf::int32 planeid_;
-  ::google::protobuf::int32 sourcerunway_;
-  ::google::protobuf::int32 destrunway_;
-  ::google::protobuf::int32 altitude_;
+  ::google::protobuf::internal::ArenaStringPtr airline_;
+  ::google::protobuf::internal::ArenaStringPtr planenumber_;
+  ::google::protobuf::internal::ArenaStringPtr sourceaddress_;
+  ::google::protobuf::internal::ArenaStringPtr destaddress_;
+  ::google::protobuf::int32 maxload_;
+  ::google::protobuf::int32 currload_;
+  ::google::protobuf::int32 maxcapacity_;
+  ::google::protobuf::int32 currcapacity_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -1030,18 +1036,111 @@ class plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // LandRequest
 
-// int32 planeId = 1;
-inline void LandRequest::clear_planeid() {
-  planeid_ = 0;
+// .tareados.Plane plane = 1;
+inline bool LandRequest::has_plane() const {
+  return this != internal_default_instance() && plane_ != NULL;
 }
-inline ::google::protobuf::int32 LandRequest::planeid() const {
-  // @@protoc_insertion_point(field_get:tareados.LandRequest.planeId)
-  return planeid_;
+inline void LandRequest::clear_plane() {
+  if (GetArenaNoVirtual() == NULL && plane_ != NULL) {
+    delete plane_;
+  }
+  plane_ = NULL;
 }
-inline void LandRequest::set_planeid(::google::protobuf::int32 value) {
+inline const ::tareados::Plane& LandRequest::_internal_plane() const {
+  return *plane_;
+}
+inline const ::tareados::Plane& LandRequest::plane() const {
+  const ::tareados::Plane* p = plane_;
+  // @@protoc_insertion_point(field_get:tareados.LandRequest.plane)
+  return p != NULL ? *p : *reinterpret_cast<const ::tareados::Plane*>(
+      &::tareados::_Plane_default_instance_);
+}
+inline ::tareados::Plane* LandRequest::release_plane() {
+  // @@protoc_insertion_point(field_release:tareados.LandRequest.plane)
   
-  planeid_ = value;
-  // @@protoc_insertion_point(field_set:tareados.LandRequest.planeId)
+  ::tareados::Plane* temp = plane_;
+  plane_ = NULL;
+  return temp;
+}
+inline ::tareados::Plane* LandRequest::mutable_plane() {
+  
+  if (plane_ == NULL) {
+    auto* p = CreateMaybeMessage<::tareados::Plane>(GetArenaNoVirtual());
+    plane_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:tareados.LandRequest.plane)
+  return plane_;
+}
+inline void LandRequest::set_allocated_plane(::tareados::Plane* plane) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete plane_;
+  }
+  if (plane) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      plane = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, plane, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  plane_ = plane;
+  // @@protoc_insertion_point(field_set_allocated:tareados.LandRequest.plane)
+}
+
+// string dest = 2;
+inline void LandRequest::clear_dest() {
+  dest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LandRequest::dest() const {
+  // @@protoc_insertion_point(field_get:tareados.LandRequest.dest)
+  return dest_.GetNoArena();
+}
+inline void LandRequest::set_dest(const ::std::string& value) {
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.LandRequest.dest)
+}
+#if LANG_CXX11
+inline void LandRequest::set_dest(::std::string&& value) {
+  
+  dest_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:tareados.LandRequest.dest)
+}
+#endif
+inline void LandRequest::set_dest(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.LandRequest.dest)
+}
+inline void LandRequest::set_dest(const char* value, size_t size) {
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:tareados.LandRequest.dest)
+}
+inline ::std::string* LandRequest::mutable_dest() {
+  
+  // @@protoc_insertion_point(field_mutable:tareados.LandRequest.dest)
+  return dest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LandRequest::release_dest() {
+  // @@protoc_insertion_point(field_release:tareados.LandRequest.dest)
+  
+  return dest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LandRequest::set_allocated_dest(::std::string* dest) {
+  if (dest != NULL) {
+    
+  } else {
+    
+  }
+  dest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dest);
+  // @@protoc_insertion_point(field_set_allocated:tareados.LandRequest.dest)
 }
 
 // -------------------------------------------------------------------
@@ -1094,18 +1193,58 @@ inline void LandResponse::set_altitude(::google::protobuf::int32 value) {
 
 // TakeoffRequest
 
-// int32 planeId = 1;
-inline void TakeoffRequest::clear_planeid() {
-  planeid_ = 0;
+// .tareados.Plane plane = 1;
+inline bool TakeoffRequest::has_plane() const {
+  return this != internal_default_instance() && plane_ != NULL;
 }
-inline ::google::protobuf::int32 TakeoffRequest::planeid() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.planeId)
-  return planeid_;
+inline void TakeoffRequest::clear_plane() {
+  if (GetArenaNoVirtual() == NULL && plane_ != NULL) {
+    delete plane_;
+  }
+  plane_ = NULL;
 }
-inline void TakeoffRequest::set_planeid(::google::protobuf::int32 value) {
+inline const ::tareados::Plane& TakeoffRequest::_internal_plane() const {
+  return *plane_;
+}
+inline const ::tareados::Plane& TakeoffRequest::plane() const {
+  const ::tareados::Plane* p = plane_;
+  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.plane)
+  return p != NULL ? *p : *reinterpret_cast<const ::tareados::Plane*>(
+      &::tareados::_Plane_default_instance_);
+}
+inline ::tareados::Plane* TakeoffRequest::release_plane() {
+  // @@protoc_insertion_point(field_release:tareados.TakeoffRequest.plane)
   
-  planeid_ = value;
-  // @@protoc_insertion_point(field_set:tareados.TakeoffRequest.planeId)
+  ::tareados::Plane* temp = plane_;
+  plane_ = NULL;
+  return temp;
+}
+inline ::tareados::Plane* TakeoffRequest::mutable_plane() {
+  
+  if (plane_ == NULL) {
+    auto* p = CreateMaybeMessage<::tareados::Plane>(GetArenaNoVirtual());
+    plane_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:tareados.TakeoffRequest.plane)
+  return plane_;
+}
+inline void TakeoffRequest::set_allocated_plane(::tareados::Plane* plane) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete plane_;
+  }
+  if (plane) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      plane = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, plane, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  plane_ = plane;
+  // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffRequest.plane)
 }
 
 // string dest = 2;
@@ -1159,48 +1298,6 @@ inline void TakeoffRequest::set_allocated_dest(::std::string* dest) {
   }
   dest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dest);
   // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffRequest.dest)
-}
-
-// int32 passengers = 3;
-inline void TakeoffRequest::clear_passengers() {
-  passengers_ = 0;
-}
-inline ::google::protobuf::int32 TakeoffRequest::passengers() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.passengers)
-  return passengers_;
-}
-inline void TakeoffRequest::set_passengers(::google::protobuf::int32 value) {
-  
-  passengers_ = value;
-  // @@protoc_insertion_point(field_set:tareados.TakeoffRequest.passengers)
-}
-
-// int32 fuel = 4;
-inline void TakeoffRequest::clear_fuel() {
-  fuel_ = 0;
-}
-inline ::google::protobuf::int32 TakeoffRequest::fuel() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.fuel)
-  return fuel_;
-}
-inline void TakeoffRequest::set_fuel(::google::protobuf::int32 value) {
-  
-  fuel_ = value;
-  // @@protoc_insertion_point(field_set:tareados.TakeoffRequest.fuel)
-}
-
-// int32 maxLoad = 5;
-inline void TakeoffRequest::clear_maxload() {
-  maxload_ = 0;
-}
-inline ::google::protobuf::int32 TakeoffRequest::maxload() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.maxLoad)
-  return maxload_;
-}
-inline void TakeoffRequest::set_maxload(::google::protobuf::int32 value) {
-  
-  maxload_ = value;
-  // @@protoc_insertion_point(field_set:tareados.TakeoffRequest.maxLoad)
 }
 
 // -------------------------------------------------------------------
@@ -1469,61 +1566,61 @@ inline void InfoRequest::set_allocated_controltower(::std::string* controltower)
 
 // InfoResponse
 
-// repeated .tareados.plane departurePlane = 1;
+// repeated .tareados.Plane departurePlane = 1;
 inline int InfoResponse::departureplane_size() const {
   return departureplane_.size();
 }
 inline void InfoResponse::clear_departureplane() {
   departureplane_.Clear();
 }
-inline ::tareados::plane* InfoResponse::mutable_departureplane(int index) {
+inline ::tareados::Plane* InfoResponse::mutable_departureplane(int index) {
   // @@protoc_insertion_point(field_mutable:tareados.InfoResponse.departurePlane)
   return departureplane_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::tareados::plane >*
+inline ::google::protobuf::RepeatedPtrField< ::tareados::Plane >*
 InfoResponse::mutable_departureplane() {
   // @@protoc_insertion_point(field_mutable_list:tareados.InfoResponse.departurePlane)
   return &departureplane_;
 }
-inline const ::tareados::plane& InfoResponse::departureplane(int index) const {
+inline const ::tareados::Plane& InfoResponse::departureplane(int index) const {
   // @@protoc_insertion_point(field_get:tareados.InfoResponse.departurePlane)
   return departureplane_.Get(index);
 }
-inline ::tareados::plane* InfoResponse::add_departureplane() {
+inline ::tareados::Plane* InfoResponse::add_departureplane() {
   // @@protoc_insertion_point(field_add:tareados.InfoResponse.departurePlane)
   return departureplane_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::tareados::plane >&
+inline const ::google::protobuf::RepeatedPtrField< ::tareados::Plane >&
 InfoResponse::departureplane() const {
   // @@protoc_insertion_point(field_list:tareados.InfoResponse.departurePlane)
   return departureplane_;
 }
 
-// repeated .tareados.plane arrivalPlane = 2;
+// repeated .tareados.Plane arrivalPlane = 2;
 inline int InfoResponse::arrivalplane_size() const {
   return arrivalplane_.size();
 }
 inline void InfoResponse::clear_arrivalplane() {
   arrivalplane_.Clear();
 }
-inline ::tareados::plane* InfoResponse::mutable_arrivalplane(int index) {
+inline ::tareados::Plane* InfoResponse::mutable_arrivalplane(int index) {
   // @@protoc_insertion_point(field_mutable:tareados.InfoResponse.arrivalPlane)
   return arrivalplane_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::tareados::plane >*
+inline ::google::protobuf::RepeatedPtrField< ::tareados::Plane >*
 InfoResponse::mutable_arrivalplane() {
   // @@protoc_insertion_point(field_mutable_list:tareados.InfoResponse.arrivalPlane)
   return &arrivalplane_;
 }
-inline const ::tareados::plane& InfoResponse::arrivalplane(int index) const {
+inline const ::tareados::Plane& InfoResponse::arrivalplane(int index) const {
   // @@protoc_insertion_point(field_get:tareados.InfoResponse.arrivalPlane)
   return arrivalplane_.Get(index);
 }
-inline ::tareados::plane* InfoResponse::add_arrivalplane() {
+inline ::tareados::Plane* InfoResponse::add_arrivalplane() {
   // @@protoc_insertion_point(field_add:tareados.InfoResponse.arrivalPlane)
   return arrivalplane_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::tareados::plane >&
+inline const ::google::protobuf::RepeatedPtrField< ::tareados::Plane >&
 InfoResponse::arrivalplane() const {
   // @@protoc_insertion_point(field_list:tareados.InfoResponse.arrivalPlane)
   return arrivalplane_;
@@ -1531,274 +1628,274 @@ InfoResponse::arrivalplane() const {
 
 // -------------------------------------------------------------------
 
-// plane
+// Plane
 
-// int32 planeId = 1;
-inline void plane::clear_planeid() {
-  planeid_ = 0;
+// string airline = 1;
+inline void Plane::clear_airline() {
+  airline_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::int32 plane::planeid() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.planeId)
-  return planeid_;
+inline const ::std::string& Plane::airline() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.airline)
+  return airline_.GetNoArena();
 }
-inline void plane::set_planeid(::google::protobuf::int32 value) {
+inline void Plane::set_airline(const ::std::string& value) {
   
-  planeid_ = value;
-  // @@protoc_insertion_point(field_set:tareados.plane.planeId)
-}
-
-// string sourceName = 2;
-inline void plane::clear_sourcename() {
-  sourcename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& plane::sourcename() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.sourceName)
-  return sourcename_.GetNoArena();
-}
-inline void plane::set_sourcename(const ::std::string& value) {
-  
-  sourcename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.plane.sourceName)
+  airline_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.Plane.airline)
 }
 #if LANG_CXX11
-inline void plane::set_sourcename(::std::string&& value) {
+inline void Plane::set_airline(::std::string&& value) {
   
-  sourcename_.SetNoArena(
+  airline_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.plane.sourceName)
+  // @@protoc_insertion_point(field_set_rvalue:tareados.Plane.airline)
 }
 #endif
-inline void plane::set_sourcename(const char* value) {
+inline void Plane::set_airline(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  sourcename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.plane.sourceName)
+  airline_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.Plane.airline)
 }
-inline void plane::set_sourcename(const char* value, size_t size) {
+inline void Plane::set_airline(const char* value, size_t size) {
   
-  sourcename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  airline_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.plane.sourceName)
+  // @@protoc_insertion_point(field_set_pointer:tareados.Plane.airline)
 }
-inline ::std::string* plane::mutable_sourcename() {
+inline ::std::string* Plane::mutable_airline() {
   
-  // @@protoc_insertion_point(field_mutable:tareados.plane.sourceName)
-  return sourcename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:tareados.Plane.airline)
+  return airline_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* plane::release_sourcename() {
-  // @@protoc_insertion_point(field_release:tareados.plane.sourceName)
+inline ::std::string* Plane::release_airline() {
+  // @@protoc_insertion_point(field_release:tareados.Plane.airline)
   
-  return sourcename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return airline_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void plane::set_allocated_sourcename(::std::string* sourcename) {
-  if (sourcename != NULL) {
+inline void Plane::set_allocated_airline(::std::string* airline) {
+  if (airline != NULL) {
     
   } else {
     
   }
-  sourcename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), sourcename);
-  // @@protoc_insertion_point(field_set_allocated:tareados.plane.sourceName)
+  airline_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), airline);
+  // @@protoc_insertion_point(field_set_allocated:tareados.Plane.airline)
 }
 
-// string destName = 3;
-inline void plane::clear_destname() {
-  destname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// string planeNumber = 2;
+inline void Plane::clear_planenumber() {
+  planenumber_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& plane::destname() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.destName)
-  return destname_.GetNoArena();
+inline const ::std::string& Plane::planenumber() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.planeNumber)
+  return planenumber_.GetNoArena();
 }
-inline void plane::set_destname(const ::std::string& value) {
+inline void Plane::set_planenumber(const ::std::string& value) {
   
-  destname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.plane.destName)
+  planenumber_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.Plane.planeNumber)
 }
 #if LANG_CXX11
-inline void plane::set_destname(::std::string&& value) {
+inline void Plane::set_planenumber(::std::string&& value) {
   
-  destname_.SetNoArena(
+  planenumber_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.plane.destName)
+  // @@protoc_insertion_point(field_set_rvalue:tareados.Plane.planeNumber)
 }
 #endif
-inline void plane::set_destname(const char* value) {
+inline void Plane::set_planenumber(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  destname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.plane.destName)
+  planenumber_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.Plane.planeNumber)
 }
-inline void plane::set_destname(const char* value, size_t size) {
+inline void Plane::set_planenumber(const char* value, size_t size) {
   
-  destname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  planenumber_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.plane.destName)
+  // @@protoc_insertion_point(field_set_pointer:tareados.Plane.planeNumber)
 }
-inline ::std::string* plane::mutable_destname() {
+inline ::std::string* Plane::mutable_planenumber() {
   
-  // @@protoc_insertion_point(field_mutable:tareados.plane.destName)
-  return destname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:tareados.Plane.planeNumber)
+  return planenumber_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* plane::release_destname() {
-  // @@protoc_insertion_point(field_release:tareados.plane.destName)
+inline ::std::string* Plane::release_planenumber() {
+  // @@protoc_insertion_point(field_release:tareados.Plane.planeNumber)
   
-  return destname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return planenumber_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void plane::set_allocated_destname(::std::string* destname) {
-  if (destname != NULL) {
+inline void Plane::set_allocated_planenumber(::std::string* planenumber) {
+  if (planenumber != NULL) {
     
   } else {
     
   }
-  destname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), destname);
-  // @@protoc_insertion_point(field_set_allocated:tareados.plane.destName)
+  planenumber_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), planenumber);
+  // @@protoc_insertion_point(field_set_allocated:tareados.Plane.planeNumber)
 }
 
-// string departureTime = 4;
-inline void plane::clear_departuretime() {
-  departuretime_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// int32 maxLoad = 3;
+inline void Plane::clear_maxload() {
+  maxload_ = 0;
 }
-inline const ::std::string& plane::departuretime() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.departureTime)
-  return departuretime_.GetNoArena();
+inline ::google::protobuf::int32 Plane::maxload() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.maxLoad)
+  return maxload_;
 }
-inline void plane::set_departuretime(const ::std::string& value) {
+inline void Plane::set_maxload(::google::protobuf::int32 value) {
   
-  departuretime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.plane.departureTime)
+  maxload_ = value;
+  // @@protoc_insertion_point(field_set:tareados.Plane.maxLoad)
+}
+
+// int32 currLoad = 4;
+inline void Plane::clear_currload() {
+  currload_ = 0;
+}
+inline ::google::protobuf::int32 Plane::currload() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.currLoad)
+  return currload_;
+}
+inline void Plane::set_currload(::google::protobuf::int32 value) {
+  
+  currload_ = value;
+  // @@protoc_insertion_point(field_set:tareados.Plane.currLoad)
+}
+
+// int32 maxCapacity = 5;
+inline void Plane::clear_maxcapacity() {
+  maxcapacity_ = 0;
+}
+inline ::google::protobuf::int32 Plane::maxcapacity() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.maxCapacity)
+  return maxcapacity_;
+}
+inline void Plane::set_maxcapacity(::google::protobuf::int32 value) {
+  
+  maxcapacity_ = value;
+  // @@protoc_insertion_point(field_set:tareados.Plane.maxCapacity)
+}
+
+// int32 currCapacity = 6;
+inline void Plane::clear_currcapacity() {
+  currcapacity_ = 0;
+}
+inline ::google::protobuf::int32 Plane::currcapacity() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.currCapacity)
+  return currcapacity_;
+}
+inline void Plane::set_currcapacity(::google::protobuf::int32 value) {
+  
+  currcapacity_ = value;
+  // @@protoc_insertion_point(field_set:tareados.Plane.currCapacity)
+}
+
+// string sourceAddress = 7;
+inline void Plane::clear_sourceaddress() {
+  sourceaddress_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Plane::sourceaddress() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.sourceAddress)
+  return sourceaddress_.GetNoArena();
+}
+inline void Plane::set_sourceaddress(const ::std::string& value) {
+  
+  sourceaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.Plane.sourceAddress)
 }
 #if LANG_CXX11
-inline void plane::set_departuretime(::std::string&& value) {
+inline void Plane::set_sourceaddress(::std::string&& value) {
   
-  departuretime_.SetNoArena(
+  sourceaddress_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.plane.departureTime)
+  // @@protoc_insertion_point(field_set_rvalue:tareados.Plane.sourceAddress)
 }
 #endif
-inline void plane::set_departuretime(const char* value) {
+inline void Plane::set_sourceaddress(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  departuretime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.plane.departureTime)
+  sourceaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.Plane.sourceAddress)
 }
-inline void plane::set_departuretime(const char* value, size_t size) {
+inline void Plane::set_sourceaddress(const char* value, size_t size) {
   
-  departuretime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  sourceaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.plane.departureTime)
+  // @@protoc_insertion_point(field_set_pointer:tareados.Plane.sourceAddress)
 }
-inline ::std::string* plane::mutable_departuretime() {
+inline ::std::string* Plane::mutable_sourceaddress() {
   
-  // @@protoc_insertion_point(field_mutable:tareados.plane.departureTime)
-  return departuretime_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:tareados.Plane.sourceAddress)
+  return sourceaddress_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* plane::release_departuretime() {
-  // @@protoc_insertion_point(field_release:tareados.plane.departureTime)
+inline ::std::string* Plane::release_sourceaddress() {
+  // @@protoc_insertion_point(field_release:tareados.Plane.sourceAddress)
   
-  return departuretime_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return sourceaddress_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void plane::set_allocated_departuretime(::std::string* departuretime) {
-  if (departuretime != NULL) {
+inline void Plane::set_allocated_sourceaddress(::std::string* sourceaddress) {
+  if (sourceaddress != NULL) {
     
   } else {
     
   }
-  departuretime_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), departuretime);
-  // @@protoc_insertion_point(field_set_allocated:tareados.plane.departureTime)
+  sourceaddress_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), sourceaddress);
+  // @@protoc_insertion_point(field_set_allocated:tareados.Plane.sourceAddress)
 }
 
-// string arrivalTime = 5;
-inline void plane::clear_arrivaltime() {
-  arrivaltime_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// string destAddress = 8;
+inline void Plane::clear_destaddress() {
+  destaddress_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& plane::arrivaltime() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.arrivalTime)
-  return arrivaltime_.GetNoArena();
+inline const ::std::string& Plane::destaddress() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.destAddress)
+  return destaddress_.GetNoArena();
 }
-inline void plane::set_arrivaltime(const ::std::string& value) {
+inline void Plane::set_destaddress(const ::std::string& value) {
   
-  arrivaltime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.plane.arrivalTime)
+  destaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.Plane.destAddress)
 }
 #if LANG_CXX11
-inline void plane::set_arrivaltime(::std::string&& value) {
+inline void Plane::set_destaddress(::std::string&& value) {
   
-  arrivaltime_.SetNoArena(
+  destaddress_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.plane.arrivalTime)
+  // @@protoc_insertion_point(field_set_rvalue:tareados.Plane.destAddress)
 }
 #endif
-inline void plane::set_arrivaltime(const char* value) {
+inline void Plane::set_destaddress(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  arrivaltime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.plane.arrivalTime)
+  destaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.Plane.destAddress)
 }
-inline void plane::set_arrivaltime(const char* value, size_t size) {
+inline void Plane::set_destaddress(const char* value, size_t size) {
   
-  arrivaltime_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  destaddress_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.plane.arrivalTime)
+  // @@protoc_insertion_point(field_set_pointer:tareados.Plane.destAddress)
 }
-inline ::std::string* plane::mutable_arrivaltime() {
+inline ::std::string* Plane::mutable_destaddress() {
   
-  // @@protoc_insertion_point(field_mutable:tareados.plane.arrivalTime)
-  return arrivaltime_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:tareados.Plane.destAddress)
+  return destaddress_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* plane::release_arrivaltime() {
-  // @@protoc_insertion_point(field_release:tareados.plane.arrivalTime)
+inline ::std::string* Plane::release_destaddress() {
+  // @@protoc_insertion_point(field_release:tareados.Plane.destAddress)
   
-  return arrivaltime_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return destaddress_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void plane::set_allocated_arrivaltime(::std::string* arrivaltime) {
-  if (arrivaltime != NULL) {
+inline void Plane::set_allocated_destaddress(::std::string* destaddress) {
+  if (destaddress != NULL) {
     
   } else {
     
   }
-  arrivaltime_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), arrivaltime);
-  // @@protoc_insertion_point(field_set_allocated:tareados.plane.arrivalTime)
-}
-
-// int32 sourceRunway = 6;
-inline void plane::clear_sourcerunway() {
-  sourcerunway_ = 0;
-}
-inline ::google::protobuf::int32 plane::sourcerunway() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.sourceRunway)
-  return sourcerunway_;
-}
-inline void plane::set_sourcerunway(::google::protobuf::int32 value) {
-  
-  sourcerunway_ = value;
-  // @@protoc_insertion_point(field_set:tareados.plane.sourceRunway)
-}
-
-// int32 destRunway = 7;
-inline void plane::clear_destrunway() {
-  destrunway_ = 0;
-}
-inline ::google::protobuf::int32 plane::destrunway() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.destRunway)
-  return destrunway_;
-}
-inline void plane::set_destrunway(::google::protobuf::int32 value) {
-  
-  destrunway_ = value;
-  // @@protoc_insertion_point(field_set:tareados.plane.destRunway)
-}
-
-// int32 altitude = 8;
-inline void plane::clear_altitude() {
-  altitude_ = 0;
-}
-inline ::google::protobuf::int32 plane::altitude() const {
-  // @@protoc_insertion_point(field_get:tareados.plane.altitude)
-  return altitude_;
-}
-inline void plane::set_altitude(::google::protobuf::int32 value) {
-  
-  altitude_ = value;
-  // @@protoc_insertion_point(field_set:tareados.plane.altitude)
+  destaddress_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), destaddress);
+  // @@protoc_insertion_point(field_set_allocated:tareados.Plane.destAddress)
 }
 
 #ifdef __GNUC__
