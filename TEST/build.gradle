@@ -51,18 +51,15 @@ protobuf {
     }
 }
 
-// Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.
-sourceSets {
-    main {
-        java {
-            srcDirs 'build/generated/source/proto/main/grpc'
-            srcDirs 'build/generated/source/proto/main/java'
-        }
-    }
-}
-
-// Generate IntelliJ IDEA's .idea & .iml project files
-apply plugin: 'idea'
+// // Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.
+// sourceSets {
+//     main {
+//         java {
+//             srcDirs 'build/generated/source/proto/main/grpc'
+//             srcDirs 'build/generated/source/proto/main/java'
+//         }
+//     }
+// }
 
 // Provide convenience executables for trying out the examples.
 apply plugin: 'application'

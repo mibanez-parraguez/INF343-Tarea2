@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'INF343-Tarea2'
+rootProject.name = 'TEST'
