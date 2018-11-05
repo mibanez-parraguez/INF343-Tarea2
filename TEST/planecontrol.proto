@@ -2,6 +2,11 @@
 
 syntax = "proto3";
 
+option java_multiple_files = true;
+option java_package = "avion";
+option java_outer_classname = "PlaneControl";
+option objc_class_prefix = "HLW";
+
 package tareados;
 
 // === Mensajes de aterrizaje ===

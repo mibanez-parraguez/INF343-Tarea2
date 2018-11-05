@@ -1,0 +1,58 @@
+//
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "avion";
+option java_outer_classname = "PlaneControl";
+option objc_class_prefix = "HLW";
+
+package tareados;
+
+message LandRequest {
+	int32 plane_id = 1;
+}
+
+message LandResponse {
+	int32 runway = 1;
+	int32 queue = 2;
+	int32 altitude = 3;
+}
+
+message TakeoffRequest {
+	int32 plane_id = 1;
+	string dest_name = 2; //Nombre aeropuerto destino
+	int32 passengers = 3;
+	int32 fuel = 4;
+	int32 max_load = 5;
+}
+
+message TakeoffResponse {
+	int32 altitude = 1;
+	int32 runway = 2;
+	//string ip_dest = 3;	// ip + puerto
+	bytes ip_dest = 3;		//or string ip_dest
+	bytes port_dest = 4;	//or string port_dest
+	int32 queue_pos = 5;
+	string prev_plane = 6; //
+	
+}
+
+
+message plane {
+	int32 plane_id = 1;
+	string source_name = 2;
+	string dest_name = 3;
+	string departure_time = 4;
+	string arrival_time = 5;
+	int32 source_runway = 6;
+	int32 dest_runway = 7;
+	int32 altitude = 8;
+}
+
+service PlaneControlService {
+	rpc Land(LandRequest) returns (LandResponse) {}
+	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
+}
+
+

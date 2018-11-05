@@ -1,0 +1,14 @@
+// === Panel de informacion ===
+
+message InfoRequest {
+	string control_tower = 1; 	//id de torre de control
+}
+
+message InfoResponse {
+	repeated plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+} 
+
+service InfoService {
+	rpc Info(InfoRequest) returns (stream InfoResponse) {}
+}
