@@ -1,16 +1,16 @@
-//
-
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "avion";
-option java_outer_classname = "PlaneControl";
-option objc_class_prefix = "HLW";
+option java_package = "avion.proto";
+option java_outer_classname = "PlaneControlProtos";
 
 package tareados;
 
+// === Mensajes de aterrizaje ===
+
 message LandRequest {
-	int32 plane_id = 1;
+	string dest = 1;
+	PlaneMsge plane = 2;
 }
 
 message LandResponse {
@@ -19,40 +19,41 @@ message LandResponse {
 	int32 altitude = 3;
 }
 
+// === Mensajes de despegue ===
+
 message TakeoffRequest {
-	int32 plane_id = 1;
-	string dest_name = 2; //Nombre aeropuerto destino
-	int32 passengers = 3;
-	int32 fuel = 4;
-	int32 max_load = 5;
+	PlaneMsge plane = 1;
+	string dest = 2;
+	bool instOK = 3;			//si el avión necesita instrucciones = true sino no
 }
 
 message TakeoffResponse {
 	int32 altitude = 1;
 	int32 runway = 2;
-	//string ip_dest = 3;	// ip + puerto
-	bytes ip_dest = 3;		//or string ip_dest
-	bytes port_dest = 4;	//or string port_dest
-	int32 queue_pos = 5;
-	string prev_plane = 6; //
-	
+	string dest = 3;
+	int32 queuePos = 4;
+	string prevPlane = 5;
+	bool destOK = 6;			//si el destino es valido destOK = true sino no
+	bool restrOK = 7;   		//si la restricciones se cumplen restrOK = true sino no
+	bool instOK = 8;   			//si el avión envio instrucciones = true sino no
 }
 
 
-message plane {
-	int32 plane_id = 1;
-	string source_name = 2;
-	string dest_name = 3;
-	string departure_time = 4;
-	string arrival_time = 5;
-	int32 source_runway = 6;
-	int32 dest_runway = 7;
-	int32 altitude = 8;
+message PlaneMsge {
+	string airline = 1; 		//nombre aerolinea
+	string planeNumber = 2;		//nombre del avion
+	int32 maxLoad = 3;			//peso maximo
+	int32 currLoad = 4;			//peso actual
+	int32 maxCapacity = 5;		//capacidad de combustible maxima
+	int32 currCapacity = 6;		//capacidad acutal de combustible
+	string sourceAddress = 7;	//direccion de torre fuente
+	string destAddress = 8;		//direccion de torre de destino
+	int32 runway = 9;			//pista en la que se encuentra el avion, -1 si no esta en pista (en vuelo)
 }
 
 service PlaneControlService {
-	rpc Land(LandRequest) returns (LandResponse) {}
-	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
+	rpc Land(stream LandRequest) returns (stream LandResponse) {}
+	rpc Takeoff(stream TakeoffRequest) returns (stream TakeoffResponse) {}
 }
 
 
