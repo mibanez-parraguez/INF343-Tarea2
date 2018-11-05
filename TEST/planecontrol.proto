@@ -4,9 +4,11 @@ syntax = "proto3";
 
 package tareados;
 
+// === Mensajes de aterrizaje ===
+
 message LandRequest {
-	Plane plane = 1;
-	string dest = 2;
+	string dest = 1;
+	Plane plane = 2;
 }
 
 message LandResponse {
@@ -15,29 +17,25 @@ message LandResponse {
 	int32 altitude = 3;
 }
 
-// service LandService {
-// 	rpc Land(LandRequest) returns (LandResponse) {}
-// }
+// === Mensajes de despegue ===
 
 message TakeoffRequest {
 	Plane plane = 1;
 	string dest = 2;
+	bool instOK = 3;			//si el avión necesita instrucciones = true sino no
 }
 
 message TakeoffResponse {
 	int32 altitude = 1;
 	int32 runway = 2;
-	//string ip_dest = 3;	// ip + puerto
-	bytes ipDest = 3;		//or string ip_dest
-	bytes portDest = 4;	//or string port_dest
-	int32 queuePos = 5;
-	string prevPlane = 6; //
+	string dest = 3;
+	int32 queuePos = 4;
+	string prevPlane = 5;
+	bool destOK = 6;			//si el destino es valido destOK = true sino no
+	bool restrOK = 7;   		//si la restricciones se cumplen restrOK = true sino no
+	bool instOK = 8;   			//si el avión envio instrucciones = true sino no
 	
 }
-
-// service TakeoffService {
-// 	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
-// }
 
 // === Panel de informacion ===
 
@@ -50,24 +48,22 @@ message InfoResponse {
 	repeated Plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
 }
 
-// service InfoService {
-// 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
-// }
 
 message Plane {
-	string airline = 1;
-	string planeNumber = 2;
-	int32 maxLoad = 3;
-	int32 currLoad = 4;
-	int32 maxCapacity = 5;
-	int32 currCapacity = 6;
-	string sourceAddress = 7;
-	string destAddress = 8;
+	string airline = 1; 		//nombre aerolinea
+	string planeNumber = 2;		//nombre del avion
+	int32 maxLoad = 3;			//peso maximo
+	int32 currLoad = 4;			//peso actual
+	int32 maxCapacity = 5;		//capacidad de combustible maxima
+	int32 currCapacity = 6;		//capacidad acutal de combustible
+	string sourceAddress = 7;	//direccion de torre fuente
+	string destAddress = 8;		//direccion de torre de destino
+	int32 runway = 9;			//pista en la que se encuentra el avion, -1 si no esta en pista (en vuelo)
 }
 
 service PlaneControlService {
-	rpc Land(LandRequest) returns (LandResponse) {}
-	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
+	rpc Land(stream LandRequest) returns (stream LandResponse) {}
+	rpc Takeoff(stream TakeoffRequest) returns (stream TakeoffResponse) {}
 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
 }
 

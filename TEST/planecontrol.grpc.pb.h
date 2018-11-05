@@ -37,19 +37,23 @@ class PlaneControlService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status Land(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::tareados::LandResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>> AsyncLand(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>>(AsyncLandRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>> Land(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>>(LandRaw(context));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>> PrepareAsyncLand(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>>(PrepareAsyncLandRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>> AsyncLand(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>>(AsyncLandRaw(context, cq, tag));
     }
-    virtual ::grpc::Status Takeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::tareados::TakeoffResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>> AsyncTakeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>>(AsyncTakeoffRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>> PrepareAsyncLand(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>>(PrepareAsyncLandRaw(context, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>> PrepareAsyncTakeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>>(PrepareAsyncTakeoffRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> Takeoff(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(TakeoffRaw(context));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> AsyncTakeoff(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(AsyncTakeoffRaw(context, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> PrepareAsyncTakeoff(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(PrepareAsyncTakeoffRaw(context, cq));
     }
     std::unique_ptr< ::grpc::ClientReaderInterface< ::tareados::InfoResponse>> Info(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) {
       return std::unique_ptr< ::grpc::ClientReaderInterface< ::tareados::InfoResponse>>(InfoRaw(context, request));
@@ -61,10 +65,12 @@ class PlaneControlService final {
       return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::tareados::InfoResponse>>(PrepareAsyncInfoRaw(context, request, cq));
     }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>* AsyncLandRaw(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::tareados::LandResponse>* PrepareAsyncLandRaw(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>* AsyncTakeoffRaw(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::tareados::TakeoffResponse>* PrepareAsyncTakeoffRaw(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>* LandRaw(::grpc::ClientContext* context) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>* AsyncLandRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::tareados::LandRequest, ::tareados::LandResponse>* PrepareAsyncLandRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* TakeoffRaw(::grpc::ClientContext* context) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* AsyncTakeoffRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* PrepareAsyncTakeoffRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderInterface< ::tareados::InfoResponse>* InfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::tareados::InfoResponse>* AsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::tareados::InfoResponse>* PrepareAsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -72,19 +78,23 @@ class PlaneControlService final {
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status Land(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::tareados::LandResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>> AsyncLand(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>>(AsyncLandRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>> Land(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>>(LandRaw(context));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>> PrepareAsyncLand(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>>(PrepareAsyncLandRaw(context, request, cq));
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>> AsyncLand(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>>(AsyncLandRaw(context, cq, tag));
     }
-    ::grpc::Status Takeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::tareados::TakeoffResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>> AsyncTakeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>>(AsyncTakeoffRaw(context, request, cq));
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>> PrepareAsyncLand(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>>(PrepareAsyncLandRaw(context, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>> PrepareAsyncTakeoff(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>>(PrepareAsyncTakeoffRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> Takeoff(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(TakeoffRaw(context));
+    }
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> AsyncTakeoff(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(AsyncTakeoffRaw(context, cq, tag));
+    }
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>> PrepareAsyncTakeoff(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>>(PrepareAsyncTakeoffRaw(context, cq));
     }
     std::unique_ptr< ::grpc::ClientReader< ::tareados::InfoResponse>> Info(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) {
       return std::unique_ptr< ::grpc::ClientReader< ::tareados::InfoResponse>>(InfoRaw(context, request));
@@ -98,10 +108,12 @@ class PlaneControlService final {
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>* AsyncLandRaw(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::tareados::LandResponse>* PrepareAsyncLandRaw(::grpc::ClientContext* context, const ::tareados::LandRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>* AsyncTakeoffRaw(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::tareados::TakeoffResponse>* PrepareAsyncTakeoffRaw(::grpc::ClientContext* context, const ::tareados::TakeoffRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>* LandRaw(::grpc::ClientContext* context) override;
+    ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>* AsyncLandRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>* PrepareAsyncLandRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* TakeoffRaw(::grpc::ClientContext* context) override;
+    ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* AsyncTakeoffRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReaderWriter< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>* PrepareAsyncTakeoffRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientReader< ::tareados::InfoResponse>* InfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) override;
     ::grpc::ClientAsyncReader< ::tareados::InfoResponse>* AsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReader< ::tareados::InfoResponse>* PrepareAsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -115,8 +127,8 @@ class PlaneControlService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status Land(::grpc::ServerContext* context, const ::tareados::LandRequest* request, ::tareados::LandResponse* response);
-    virtual ::grpc::Status Takeoff(::grpc::ServerContext* context, const ::tareados::TakeoffRequest* request, ::tareados::TakeoffResponse* response);
+    virtual ::grpc::Status Land(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::LandResponse, ::tareados::LandRequest>* stream);
+    virtual ::grpc::Status Takeoff(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::TakeoffResponse, ::tareados::TakeoffRequest>* stream);
     virtual ::grpc::Status Info(::grpc::ServerContext* context, const ::tareados::InfoRequest* request, ::grpc::ServerWriter< ::tareados::InfoResponse>* writer);
   };
   template <class BaseClass>
@@ -131,12 +143,12 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Land(::grpc::ServerContext* context, const ::tareados::LandRequest* request, ::tareados::LandResponse* response) override {
+    ::grpc::Status Land(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::LandResponse, ::tareados::LandRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestLand(::grpc::ServerContext* context, ::tareados::LandRequest* request, ::grpc::ServerAsyncResponseWriter< ::tareados::LandResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestLand(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::tareados::LandResponse, ::tareados::LandRequest>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncBidiStreaming(0, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -151,12 +163,12 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Takeoff(::grpc::ServerContext* context, const ::tareados::TakeoffRequest* request, ::tareados::TakeoffResponse* response) override {
+    ::grpc::Status Takeoff(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::TakeoffResponse, ::tareados::TakeoffRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestTakeoff(::grpc::ServerContext* context, ::tareados::TakeoffRequest* request, ::grpc::ServerAsyncResponseWriter< ::tareados::TakeoffResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestTakeoff(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::tareados::TakeoffResponse, ::tareados::TakeoffRequest>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncBidiStreaming(1, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -192,7 +204,7 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Land(::grpc::ServerContext* context, const ::tareados::LandRequest* request, ::tareados::LandResponse* response) override {
+    ::grpc::Status Land(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::LandResponse, ::tareados::LandRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -209,7 +221,7 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Takeoff(::grpc::ServerContext* context, const ::tareados::TakeoffRequest* request, ::tareados::TakeoffResponse* response) override {
+    ::grpc::Status Takeoff(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::TakeoffResponse, ::tareados::TakeoffRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -243,12 +255,12 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Land(::grpc::ServerContext* context, const ::tareados::LandRequest* request, ::tareados::LandResponse* response) override {
+    ::grpc::Status Land(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::LandResponse, ::tareados::LandRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestLand(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestLand(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncBidiStreaming(0, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -263,12 +275,12 @@ class PlaneControlService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Takeoff(::grpc::ServerContext* context, const ::tareados::TakeoffRequest* request, ::tareados::TakeoffResponse* response) override {
+    ::grpc::Status Takeoff(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::tareados::TakeoffResponse, ::tareados::TakeoffRequest>* stream)  override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestTakeoff(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestTakeoff(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncBidiStreaming(1, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -291,47 +303,7 @@ class PlaneControlService final {
       ::grpc::Service::RequestAsyncServerStreaming(2, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_Land : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_Land() {
-      ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler< ::tareados::LandRequest, ::tareados::LandResponse>(std::bind(&WithStreamedUnaryMethod_Land<BaseClass>::StreamedLand, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_Land() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status Land(::grpc::ServerContext* context, const ::tareados::LandRequest* request, ::tareados::LandResponse* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedLand(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::tareados::LandRequest,::tareados::LandResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_Takeoff : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_Takeoff() {
-      ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>(std::bind(&WithStreamedUnaryMethod_Takeoff<BaseClass>::StreamedTakeoff, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_Takeoff() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status Takeoff(::grpc::ServerContext* context, const ::tareados::TakeoffRequest* request, ::tareados::TakeoffResponse* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedTakeoff(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::tareados::TakeoffRequest,::tareados::TakeoffResponse>* server_unary_streamer) = 0;
-  };
-  typedef WithStreamedUnaryMethod_Land<WithStreamedUnaryMethod_Takeoff<Service > > StreamedUnaryService;
+  typedef Service StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_Info : public BaseClass {
    private:
@@ -353,7 +325,7 @@ class PlaneControlService final {
     virtual ::grpc::Status StreamedInfo(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::tareados::InfoRequest,::tareados::InfoResponse>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_Info<Service > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Land<WithStreamedUnaryMethod_Takeoff<WithSplitStreamingMethod_Info<Service > > > StreamedService;
+  typedef WithSplitStreamingMethod_Info<Service > StreamedService;
 };
 
 }  // namespace tareados

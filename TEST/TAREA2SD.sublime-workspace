@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"des",
+				"destName"
+			],
+			[
+				"max",
+				"maxCapacity"
+			],
+			[
+				"plane",
+				"planeNumber"
+			],
+			[
+				"arrival",
+				"arrivalQueue"
+			],
+			[
+				"SE",
+				"Server"
+			],
+			[
+				"unique",
+				"unique_ptr"
+			],
+			[
+				"shut",
+				"shutting"
+			],
+			[
+				"shu",
+				"Shutdown"
+			],
+			[
+				"PLaneCO",
+				"PlaneControlServiceImpl"
+			],
+			[
+				"ass",
+				"assignedPlane"
+			],
+			[
+				"arri",
+				"arrivalRunway"
+			],
+			[
+				"depa",
+				"departureRunway"
+			],
+			[
+				"dire",
+				"direccionDestino"
+			],
+			[
+				"nombre",
+				"nombreDestino"
+			],
+			[
+				"ic",
+				"inc\t#include \"…\""
+			],
+			[
 				"HE",
 				"HeloCallData"
 			],
@@ -27,7 +87,7 @@
 			"file": "planecontrol.proto",
 			"settings":
 			{
-				"buffer_size": 1535,
+				"buffer_size": 1462,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -36,7 +96,24 @@
 			"file": "control_server.cc",
 			"settings":
 			{
-				"buffer_size": 9731,
+				"buffer_size": 8990,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "planecontrol.pb.h",
+			"settings":
+			{
+				"buffer_size": 68504,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "plane_client.cc",
+			"settings":
+			{
+				"buffer_size": 2840,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -50,10 +127,10 @@
 			}
 		},
 		{
-			"file": "planecontrol.pb.h",
+			"file": "/home/paralizis/grpc/include/grpcpp/impl/codegen/async_unary_call.h",
 			"settings":
 			{
-				"buffer_size": 64958,
+				"buffer_size": 12297,
 				"line_ending": "Unix"
 			}
 		}
@@ -90,6 +167,14 @@
 	},
 	"file_history":
 	[
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/Makefile",
+		"/home/paralizis/grpc/src/cpp/server/server_cc.cc",
+		"/home/paralizis/grpc/src/cpp/server/server_builder.cc",
+		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide_server.cc",
+		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide_db.json",
+		"/home/paralizis/grpc/examples/protos/route_guide.proto",
+		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/helper.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/Makefile",
 		"/home/paralizis/grpc/examples/cpp/helloworld/helloworld.grpc.pb.h",
 		"/home/paralizis/grpc/examples/cpp/helloworld/greeter_client.cc",
 		"/home/paralizis/grpc/examples/cpp/helloworld/greeter_server.cc",
@@ -98,7 +183,6 @@
 		"/home/paralizis/grpc/examples/python/helloworld/greeter_server.py",
 		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide.pb.cc",
 		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide.grpc.pb.cc",
-		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/helper.cc",
 		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide.grpc.pb.h",
 		"/home/paralizis/grpc/examples/cpp/helloworld/Makefile",
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol_pb2_grpc.py",
@@ -136,9 +220,49 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"plane",
+			"destName",
+			"plane->",
+			"->",
+			"plane.",
+			"plane",
+			".plane.planenumber()",
+			"plane",
+			"Plane",
+			"plane",
+			"Plane",
+			"plane",
+			"Plane",
+			"plane",
+			"Plane",
+			"plane",
+			"\n      break;",
+			"grpc_server_de",
+			"shutdown",
+			"clear",
+			"Shutdown",
+			"Dest",
+			"dest",
+			"Dest",
+			".",
+			"name",
+			"nombre",
+			"direccionDestino",
+			"nombreDestino",
+			"CallNewArrival",
+			"CallNewDeparture",
+			"CallTakeoffReq",
+			"nDepartureRunway",
+			"CallTakeoffReq",
+			"runway",
+			"PlaneTakeoffRequest",
+			"TakeoffRequest",
+			"string",
+			"Greeter",
+			"GreeterClient",
 			"Greeter",
 			"CallData",
 			"TakeoffReqAsync",
@@ -200,8 +324,8 @@
 						"selection":
 						[
 							[
-								898,
-								898
+								0,
+								0
 							]
 						],
 						"settings":
@@ -222,15 +346,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1535,
+						"buffer_size": 1462,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								294,
-								294
+								100,
+								100
 							]
 						],
 						"settings":
@@ -251,15 +375,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9731,
+						"buffer_size": 8990,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6057,
-								6057
+								8306,
+								8306
 							]
 						],
 						"settings":
@@ -269,7 +393,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2390.0,
+						"translation.y": 3382.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -277,6 +401,66 @@
 				},
 				{
 					"buffer": 3,
+					"file": "planecontrol.pb.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 68504,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7240,
+								7240
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2521.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "plane_client.cc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2840,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2007,
+								2007
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "planecontrol.grpc.pb.h",
 					"semi_transient": false,
 					"settings":
@@ -288,38 +472,8 @@
 						"selection":
 						[
 							[
-								11988,
-								11988
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 498.0,
-						"translation.y": 1955.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "planecontrol.pb.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 64958,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13759,
-								13759
+								16967,
+								16967
 							]
 						],
 						"settings":
@@ -329,10 +483,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5794.0,
+						"translation.y": 4696.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/paralizis/grpc/include/grpcpp/impl/codegen/async_unary_call.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12297,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8005,
+								8005
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2744.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]

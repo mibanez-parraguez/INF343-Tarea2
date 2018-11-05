@@ -170,9 +170,9 @@ class LandRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // string dest = 2;
+  // string dest = 1;
   void clear_dest();
-  static const int kDestFieldNumber = 2;
+  static const int kDestFieldNumber = 1;
   const ::std::string& dest() const;
   void set_dest(const ::std::string& value);
   #if LANG_CXX11
@@ -184,10 +184,10 @@ class LandRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_dest();
   void set_allocated_dest(::std::string* dest);
 
-  // .tareados.Plane plane = 1;
+  // .tareados.Plane plane = 2;
   bool has_plane() const;
   void clear_plane();
-  static const int kPlaneFieldNumber = 1;
+  static const int kPlaneFieldNumber = 2;
   private:
   const ::tareados::Plane& _internal_plane() const;
   public:
@@ -437,12 +437,19 @@ class TakeoffRequest : public ::google::protobuf::Message /* @@protoc_insertion_
   ::tareados::Plane* mutable_plane();
   void set_allocated_plane(::tareados::Plane* plane);
 
+  // bool instOK = 3;
+  void clear_instok();
+  static const int kInstOKFieldNumber = 3;
+  bool instok() const;
+  void set_instok(bool value);
+
   // @@protoc_insertion_point(class_scope:tareados.TakeoffRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr dest_;
   ::tareados::Plane* plane_;
+  bool instok_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -535,37 +542,23 @@ class TakeoffResponse : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // bytes ipDest = 3;
-  void clear_ipdest();
-  static const int kIpDestFieldNumber = 3;
-  const ::std::string& ipdest() const;
-  void set_ipdest(const ::std::string& value);
+  // string dest = 3;
+  void clear_dest();
+  static const int kDestFieldNumber = 3;
+  const ::std::string& dest() const;
+  void set_dest(const ::std::string& value);
   #if LANG_CXX11
-  void set_ipdest(::std::string&& value);
+  void set_dest(::std::string&& value);
   #endif
-  void set_ipdest(const char* value);
-  void set_ipdest(const void* value, size_t size);
-  ::std::string* mutable_ipdest();
-  ::std::string* release_ipdest();
-  void set_allocated_ipdest(::std::string* ipdest);
+  void set_dest(const char* value);
+  void set_dest(const char* value, size_t size);
+  ::std::string* mutable_dest();
+  ::std::string* release_dest();
+  void set_allocated_dest(::std::string* dest);
 
-  // bytes portDest = 4;
-  void clear_portdest();
-  static const int kPortDestFieldNumber = 4;
-  const ::std::string& portdest() const;
-  void set_portdest(const ::std::string& value);
-  #if LANG_CXX11
-  void set_portdest(::std::string&& value);
-  #endif
-  void set_portdest(const char* value);
-  void set_portdest(const void* value, size_t size);
-  ::std::string* mutable_portdest();
-  ::std::string* release_portdest();
-  void set_allocated_portdest(::std::string* portdest);
-
-  // string prevPlane = 6;
+  // string prevPlane = 5;
   void clear_prevplane();
-  static const int kPrevPlaneFieldNumber = 6;
+  static const int kPrevPlaneFieldNumber = 5;
   const ::std::string& prevplane() const;
   void set_prevplane(const ::std::string& value);
   #if LANG_CXX11
@@ -589,22 +582,42 @@ class TakeoffResponse : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 runway() const;
   void set_runway(::google::protobuf::int32 value);
 
-  // int32 queuePos = 5;
+  // int32 queuePos = 4;
   void clear_queuepos();
-  static const int kQueuePosFieldNumber = 5;
+  static const int kQueuePosFieldNumber = 4;
   ::google::protobuf::int32 queuepos() const;
   void set_queuepos(::google::protobuf::int32 value);
+
+  // bool destOK = 6;
+  void clear_destok();
+  static const int kDestOKFieldNumber = 6;
+  bool destok() const;
+  void set_destok(bool value);
+
+  // bool restrOK = 7;
+  void clear_restrok();
+  static const int kRestrOKFieldNumber = 7;
+  bool restrok() const;
+  void set_restrok(bool value);
+
+  // bool instOK = 8;
+  void clear_instok();
+  static const int kInstOKFieldNumber = 8;
+  bool instok() const;
+  void set_instok(bool value);
 
   // @@protoc_insertion_point(class_scope:tareados.TakeoffResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr ipdest_;
-  ::google::protobuf::internal::ArenaStringPtr portdest_;
+  ::google::protobuf::internal::ArenaStringPtr dest_;
   ::google::protobuf::internal::ArenaStringPtr prevplane_;
   ::google::protobuf::int32 altitude_;
   ::google::protobuf::int32 runway_;
   ::google::protobuf::int32 queuepos_;
+  bool destok_;
+  bool restrok_;
+  bool instok_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -1010,6 +1023,12 @@ class Plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 currcapacity() const;
   void set_currcapacity(::google::protobuf::int32 value);
 
+  // int32 runway = 9;
+  void clear_runway();
+  static const int kRunwayFieldNumber = 9;
+  ::google::protobuf::int32 runway() const;
+  void set_runway(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:tareados.Plane)
  private:
 
@@ -1022,6 +1041,7 @@ class Plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 currload_;
   ::google::protobuf::int32 maxcapacity_;
   ::google::protobuf::int32 currcapacity_;
+  ::google::protobuf::int32 runway_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_planecontrol_2eproto::TableStruct;
 };
@@ -1036,7 +1056,60 @@ class Plane : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // LandRequest
 
-// .tareados.Plane plane = 1;
+// string dest = 1;
+inline void LandRequest::clear_dest() {
+  dest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LandRequest::dest() const {
+  // @@protoc_insertion_point(field_get:tareados.LandRequest.dest)
+  return dest_.GetNoArena();
+}
+inline void LandRequest::set_dest(const ::std::string& value) {
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.LandRequest.dest)
+}
+#if LANG_CXX11
+inline void LandRequest::set_dest(::std::string&& value) {
+  
+  dest_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:tareados.LandRequest.dest)
+}
+#endif
+inline void LandRequest::set_dest(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.LandRequest.dest)
+}
+inline void LandRequest::set_dest(const char* value, size_t size) {
+  
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:tareados.LandRequest.dest)
+}
+inline ::std::string* LandRequest::mutable_dest() {
+  
+  // @@protoc_insertion_point(field_mutable:tareados.LandRequest.dest)
+  return dest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LandRequest::release_dest() {
+  // @@protoc_insertion_point(field_release:tareados.LandRequest.dest)
+  
+  return dest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LandRequest::set_allocated_dest(::std::string* dest) {
+  if (dest != NULL) {
+    
+  } else {
+    
+  }
+  dest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dest);
+  // @@protoc_insertion_point(field_set_allocated:tareados.LandRequest.dest)
+}
+
+// .tareados.Plane plane = 2;
 inline bool LandRequest::has_plane() const {
   return this != internal_default_instance() && plane_ != NULL;
 }
@@ -1088,59 +1161,6 @@ inline void LandRequest::set_allocated_plane(::tareados::Plane* plane) {
   }
   plane_ = plane;
   // @@protoc_insertion_point(field_set_allocated:tareados.LandRequest.plane)
-}
-
-// string dest = 2;
-inline void LandRequest::clear_dest() {
-  dest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& LandRequest::dest() const {
-  // @@protoc_insertion_point(field_get:tareados.LandRequest.dest)
-  return dest_.GetNoArena();
-}
-inline void LandRequest::set_dest(const ::std::string& value) {
-  
-  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.LandRequest.dest)
-}
-#if LANG_CXX11
-inline void LandRequest::set_dest(::std::string&& value) {
-  
-  dest_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.LandRequest.dest)
-}
-#endif
-inline void LandRequest::set_dest(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.LandRequest.dest)
-}
-inline void LandRequest::set_dest(const char* value, size_t size) {
-  
-  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.LandRequest.dest)
-}
-inline ::std::string* LandRequest::mutable_dest() {
-  
-  // @@protoc_insertion_point(field_mutable:tareados.LandRequest.dest)
-  return dest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* LandRequest::release_dest() {
-  // @@protoc_insertion_point(field_release:tareados.LandRequest.dest)
-  
-  return dest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void LandRequest::set_allocated_dest(::std::string* dest) {
-  if (dest != NULL) {
-    
-  } else {
-    
-  }
-  dest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dest);
-  // @@protoc_insertion_point(field_set_allocated:tareados.LandRequest.dest)
 }
 
 // -------------------------------------------------------------------
@@ -1300,6 +1320,20 @@ inline void TakeoffRequest::set_allocated_dest(::std::string* dest) {
   // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffRequest.dest)
 }
 
+// bool instOK = 3;
+inline void TakeoffRequest::clear_instok() {
+  instok_ = false;
+}
+inline bool TakeoffRequest::instok() const {
+  // @@protoc_insertion_point(field_get:tareados.TakeoffRequest.instOK)
+  return instok_;
+}
+inline void TakeoffRequest::set_instok(bool value) {
+  
+  instok_ = value;
+  // @@protoc_insertion_point(field_set:tareados.TakeoffRequest.instOK)
+}
+
 // -------------------------------------------------------------------
 
 // TakeoffResponse
@@ -1332,113 +1366,60 @@ inline void TakeoffResponse::set_runway(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.runway)
 }
 
-// bytes ipDest = 3;
-inline void TakeoffResponse::clear_ipdest() {
-  ipdest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// string dest = 3;
+inline void TakeoffResponse::clear_dest() {
+  dest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& TakeoffResponse::ipdest() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.ipDest)
-  return ipdest_.GetNoArena();
+inline const ::std::string& TakeoffResponse::dest() const {
+  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.dest)
+  return dest_.GetNoArena();
 }
-inline void TakeoffResponse::set_ipdest(const ::std::string& value) {
+inline void TakeoffResponse::set_dest(const ::std::string& value) {
   
-  ipdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.ipDest)
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.dest)
 }
 #if LANG_CXX11
-inline void TakeoffResponse::set_ipdest(::std::string&& value) {
+inline void TakeoffResponse::set_dest(::std::string&& value) {
   
-  ipdest_.SetNoArena(
+  dest_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.TakeoffResponse.ipDest)
+  // @@protoc_insertion_point(field_set_rvalue:tareados.TakeoffResponse.dest)
 }
 #endif
-inline void TakeoffResponse::set_ipdest(const char* value) {
+inline void TakeoffResponse::set_dest(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  ipdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.TakeoffResponse.ipDest)
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.TakeoffResponse.dest)
 }
-inline void TakeoffResponse::set_ipdest(const void* value, size_t size) {
+inline void TakeoffResponse::set_dest(const char* value, size_t size) {
   
-  ipdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  dest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.TakeoffResponse.ipDest)
+  // @@protoc_insertion_point(field_set_pointer:tareados.TakeoffResponse.dest)
 }
-inline ::std::string* TakeoffResponse::mutable_ipdest() {
+inline ::std::string* TakeoffResponse::mutable_dest() {
   
-  // @@protoc_insertion_point(field_mutable:tareados.TakeoffResponse.ipDest)
-  return ipdest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:tareados.TakeoffResponse.dest)
+  return dest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* TakeoffResponse::release_ipdest() {
-  // @@protoc_insertion_point(field_release:tareados.TakeoffResponse.ipDest)
+inline ::std::string* TakeoffResponse::release_dest() {
+  // @@protoc_insertion_point(field_release:tareados.TakeoffResponse.dest)
   
-  return ipdest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return dest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void TakeoffResponse::set_allocated_ipdest(::std::string* ipdest) {
-  if (ipdest != NULL) {
+inline void TakeoffResponse::set_allocated_dest(::std::string* dest) {
+  if (dest != NULL) {
     
   } else {
     
   }
-  ipdest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ipdest);
-  // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffResponse.ipDest)
+  dest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dest);
+  // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffResponse.dest)
 }
 
-// bytes portDest = 4;
-inline void TakeoffResponse::clear_portdest() {
-  portdest_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& TakeoffResponse::portdest() const {
-  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.portDest)
-  return portdest_.GetNoArena();
-}
-inline void TakeoffResponse::set_portdest(const ::std::string& value) {
-  
-  portdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.portDest)
-}
-#if LANG_CXX11
-inline void TakeoffResponse::set_portdest(::std::string&& value) {
-  
-  portdest_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:tareados.TakeoffResponse.portDest)
-}
-#endif
-inline void TakeoffResponse::set_portdest(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  portdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:tareados.TakeoffResponse.portDest)
-}
-inline void TakeoffResponse::set_portdest(const void* value, size_t size) {
-  
-  portdest_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:tareados.TakeoffResponse.portDest)
-}
-inline ::std::string* TakeoffResponse::mutable_portdest() {
-  
-  // @@protoc_insertion_point(field_mutable:tareados.TakeoffResponse.portDest)
-  return portdest_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* TakeoffResponse::release_portdest() {
-  // @@protoc_insertion_point(field_release:tareados.TakeoffResponse.portDest)
-  
-  return portdest_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void TakeoffResponse::set_allocated_portdest(::std::string* portdest) {
-  if (portdest != NULL) {
-    
-  } else {
-    
-  }
-  portdest_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), portdest);
-  // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffResponse.portDest)
-}
-
-// int32 queuePos = 5;
+// int32 queuePos = 4;
 inline void TakeoffResponse::clear_queuepos() {
   queuepos_ = 0;
 }
@@ -1452,7 +1433,7 @@ inline void TakeoffResponse::set_queuepos(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.queuePos)
 }
 
-// string prevPlane = 6;
+// string prevPlane = 5;
 inline void TakeoffResponse::clear_prevplane() {
   prevplane_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1503,6 +1484,48 @@ inline void TakeoffResponse::set_allocated_prevplane(::std::string* prevplane) {
   }
   prevplane_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), prevplane);
   // @@protoc_insertion_point(field_set_allocated:tareados.TakeoffResponse.prevPlane)
+}
+
+// bool destOK = 6;
+inline void TakeoffResponse::clear_destok() {
+  destok_ = false;
+}
+inline bool TakeoffResponse::destok() const {
+  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.destOK)
+  return destok_;
+}
+inline void TakeoffResponse::set_destok(bool value) {
+  
+  destok_ = value;
+  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.destOK)
+}
+
+// bool restrOK = 7;
+inline void TakeoffResponse::clear_restrok() {
+  restrok_ = false;
+}
+inline bool TakeoffResponse::restrok() const {
+  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.restrOK)
+  return restrok_;
+}
+inline void TakeoffResponse::set_restrok(bool value) {
+  
+  restrok_ = value;
+  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.restrOK)
+}
+
+// bool instOK = 8;
+inline void TakeoffResponse::clear_instok() {
+  instok_ = false;
+}
+inline bool TakeoffResponse::instok() const {
+  // @@protoc_insertion_point(field_get:tareados.TakeoffResponse.instOK)
+  return instok_;
+}
+inline void TakeoffResponse::set_instok(bool value) {
+  
+  instok_ = value;
+  // @@protoc_insertion_point(field_set:tareados.TakeoffResponse.instOK)
 }
 
 // -------------------------------------------------------------------
@@ -1896,6 +1919,20 @@ inline void Plane::set_allocated_destaddress(::std::string* destaddress) {
   }
   destaddress_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), destaddress);
   // @@protoc_insertion_point(field_set_allocated:tareados.Plane.destAddress)
+}
+
+// int32 runway = 9;
+inline void Plane::clear_runway() {
+  runway_ = 0;
+}
+inline ::google::protobuf::int32 Plane::runway() const {
+  // @@protoc_insertion_point(field_get:tareados.Plane.runway)
+  return runway_;
+}
+inline void Plane::set_runway(::google::protobuf::int32 value) {
+  
+  runway_ = value;
+  // @@protoc_insertion_point(field_set:tareados.Plane.runway)
 }
 
 #ifdef __GNUC__

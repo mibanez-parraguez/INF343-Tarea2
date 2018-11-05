@@ -10,7 +10,7 @@
 #include "planecontrol.grpc.pb.h"
 
 using grpc::Server;
-using grpc::SercerBuilder
+using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerReader;
 using grpc::ServerReaderWriter;
