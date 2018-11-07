@@ -302,10 +302,11 @@ void AddDescriptorsImpl() {
       "keoff\022\030.tareados.TakeoffRequest\032\031.taread"
       "os.TakeoffResponse\"\000(\0010\001\0229\n\004Info\022\025.tarea"
       "dos.InfoRequest\032\026.tareados.InfoResponse\""
-      "\0000\001b\006proto3"
+      "\0000\001B\035\n\005avionB\014PlaneControlP\001\242\002\003HLWb\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 931);
+      descriptor, 962);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "planecontrol.proto", &protobuf_RegisterTypes);
 }

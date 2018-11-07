@@ -1,3 +1,7 @@
+//
+
+syntax = "proto3";
+
 // === Panel de informacion ===
 
 message InfoRequest {
@@ -5,9 +9,21 @@ message InfoRequest {
 }
 
 message InfoResponse {
-	repeated plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
-	repeated plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+	repeated Plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated Plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
 } 
+
+message Plane {
+	string airline = 1; 		//nombre aerolinea
+	string planeNumber = 2;		//nombre del avion
+	int32 maxLoad = 3;			//peso maximo
+	int32 currLoad = 4;			//peso actual
+	int32 maxCapacity = 5;		//capacidad de combustible maxima
+	int32 currCapacity = 6;		//capacidad acutal de combustible
+	string sourceAddress = 7;	//direccion de torre fuente
+	string destAddress = 8;		//direccion de torre de destino
+	int32 runway = 9;			//pista en la que se encuentra el avion, -1 si no esta en pista (en vuelo)
+}
 
 service InfoService {
 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
