@@ -1,3 +1,4 @@
+//
 syntax = "proto3";
 
 // === Panel de informacion ===
@@ -7,11 +8,11 @@ message InfoRequest {
 }
 
 message InfoResponse {
-	repeated PlaneMsge departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
-	repeated PlaneMsge arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+	repeated Plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated Plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
 } 
 
-message PlaneMsge {
+message Plane {
 	string airline = 1; 		//nombre aerolinea
 	string planeNumber = 2;		//nombre del avion
 	int32 maxLoad = 3;			//peso maximo

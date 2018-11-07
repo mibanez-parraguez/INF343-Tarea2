@@ -256,7 +256,7 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           towerResponse.set_altitude(availableHeight);
           stream->Write(towerResponse);
           runwayOK = true;
-          freeRunway = availableRunway;
+          freeRunway = tr.plane().runway();
         } 
         // Si no hay pistas de aterrizaje disponibles entonces el avion se envia a la cola de espera hasta que se disponga una pista
         else {
@@ -277,19 +277,12 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         }
       }
     }
-    //El avion libera una pista de entrada
-    for (std::pair<int, bool> runway : ct.arrivalRunway) {
-      //Si encuentra la pista
-      if (runway.first == freeRunway) {
-        ct.arrivalRunway[freeRunway] = false; // se libera la pista
-        // Se revisa si hay aviones en la cola de espera
-        if (!arrivalDeque.empty()) {
-          firstArrival.clear();
-          firstArrival.push_back(arrivalDeque.front().planenumber());
-          runwayFreed = true;
-        }
-        break;
-      }
+    ct.arrivalRunway[freeRunway] = false; // se libera la pista
+    // Se revisa si hay aviones en la cola de espera
+    if (!arrivalDeque.empty()) {
+      firstArrival.clear();
+      firstArrival.push_back(arrivalDeque.front().planenumber());
+      runwayFreed = true;
     }
     return Status::OK;
   }
