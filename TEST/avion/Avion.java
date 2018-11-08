@@ -158,10 +158,9 @@ public class Avion {
 
 		String host = this.curr_addr.split(":")[0];
 		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
-		
-		System.out.println(channel);
-		
-// 		StreamObserver<LandRequest> requestObserver =
+		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		asyncStub = PlaneControlServiceGrpc.newStub(channel);
+
 		this.landRequestObserver =
 			asyncStub.land(new StreamObserver<LandResponse>() {
 				@Override
@@ -171,7 +170,8 @@ public class Avion {
 					System.console().printf("[land.onNext] asdf 2\n");
 					System.out.println("[land.onNext] getQueue: "+resp.getQueue());
 					aux_int = resp.getQueue();
-
+					dump_resp(resp);
+					
 					if(resp.getRunway() != 0){
 						//Aterrizar
 						c.printf(APROMPT, " - ", id,  "Aterrizando en pista"+ resp.getRunway() +"\n");
@@ -206,6 +206,23 @@ public class Avion {
 		this.load = this.max_load;
 		this.fuel = this.max_fuel;
 	}
+	
+	private void dump_resp(TakeoffResponse resp){
+		System.out.println("[takeoff.onNext.dump]");
+		System.out.println("======== Resp DUMP ========");
+		System.out.println(resp.toString());
+		System.out.println("===========================");
+	}
+	private void dump_resp(LandResponse resp){
+		System.out.println("[land.onNext.dump]");
+		System.out.println("======== Resp DUMP ========");
+		System.out.println("queue : " + resp.getQueue());
+		System.out.println("runway: " + resp.getRunway());
+		System.out.println("altitu: " + resp.getAltitude());
+		System.out.println("===========================");
+		this.aux_int = -22;
+		System.out.println(this.aux_int);
+	}
 
 	private void dump(){
 // 		System.out.println("aerolinea: "+this.airline);
@@ -221,23 +238,24 @@ public class Avion {
 	}
 
 	public static void main(java.lang.String[] args){
+		Console c = System.console();
 		Avion le_avion = new Avion();
 		le_avion.dump();
 		
-		channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-		asyncStub = PlaneControlServiceGrpc.newStub(channel);
-		//le_avion.takeoffProcedure();
-		channel.land();
+// 		channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
+// 		asyncStub = PlaneControlServiceGrpc.newStub(channel);
+// 		le_avion.takeoffProcedure();
+// 		channel.land();
 		while(true){
-			le_avion.dump();
+// 			le_avion.dump();
 			le_avion.aux_int = -8;
 			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...");
 			le_avion.takeoffProcedure();
-			le_avion.dump();
+// 			le_avion.dump();
 			le_avion.aux_int = -7;
 			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
 			le_avion.landProc();
-			le_avion.dump();
+// 			le_avion.dump();
 			le_avion.aux_int = -6;
 		}
 	}
