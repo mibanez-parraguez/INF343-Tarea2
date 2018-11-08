@@ -1,5 +1,6 @@
 # Temp files
 *.kate-swp
+*.log
 
 # Java classes
 *.class

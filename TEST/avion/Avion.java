@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CountDownLatch;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.File;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -40,10 +44,6 @@ public class Avion {
 
 	public Avion(){
 		Console c = System.console();
-		if (c == null) {
-			System.err.println("No console.");
-			System.exit(1);
-		}
 
 		PlaneMsge.Builder pb = PlaneMsge.newBuilder();
 		String input;
@@ -82,6 +82,7 @@ public class Avion {
 	}
 
 	private void takeoffReq(String dest){
+		Console c = System.console();
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.mergeFrom(this.plane);
 		pmsg.setCurrCapacity(this.fuel);
@@ -105,20 +106,25 @@ public class Avion {
 			asyncStub.takeoff(new StreamObserver<TakeoffResponse>() {
 				@Override
 				public void onNext(TakeoffResponse resp) {
-					
+					if(resp.getDestOK()){
+						// ip destino
+ 						//this.dest_addr = resp.getDest();
+						dest_addr = resp.getDest();
+						c.printf(APROMPT, " - ", id,  "Recibida IP de destino.\n");
+					}
+					if(!resp.getRestrOK()){
+						// No se cumple con las restricciones de vencina y peso.
+						gate();
+					}
 					if(resp.getRunway() != 0){
-						//despegar
+						// Despegar
+						altitude = resp.getAltitude();
+						
+						c.printf(APROMPT, " - ", id,  "Pista "+ resp.getRunway() + " y altura de "+ resp.getAltitude()+" [km].\n");
+						c.printf(APROMPT, " - ", id,  "Despegando.\n");
 					} else{
-						//Varios msges de control
-						if(resp.getDestOK()){
-							// ip destino
-// 							this.dest_addr = resp.getDest();
-							dest_addr = resp.getDest(); //Estoy accediendo a la variable de la instancia o no?
-						}
-						if(!resp.getRestrOK()){
-							// No se cumple con las restricciones de vencina y peso.
-							gate();
-						}
+						c.printf(APROMPT, " - ", id,  "Las pistas de despegue están ocupadas.\n");
+						c.printf(APROMPT, " - ", id,  "Avión predecesor: "+ resp.getPrevPlane() +"...\n");
 					}
 					
 				}
@@ -126,7 +132,6 @@ public class Avion {
 				public void onError(Throwable t) {
 					//warning("Take off Failed: {0}", Status.fromThrowable(t));
 					System.console().printf("Takeoff error\n");
-					//finishLatch.countDown();
 				}
 				@Override
 				public void onCompleted() {
@@ -150,8 +155,6 @@ public class Avion {
 	}
 
 	private CountDownLatch landProc(){
-		//TODO hacer output
-		//TODO implmenentar llegada de respuesta
 		final CountDownLatch finishLatch = new CountDownLatch(1);
 		Console c = System.console();
 		c.printf(APROMPT, " - ", this.id,  "Esperando pista de aterrizaje.\n");
@@ -179,9 +182,18 @@ public class Avion {
 					//TODO aterrizar
 					System.console().printf("asdf\n");
 					System.out.println(resp.getQueue());
-					//auxFunc(resp);
+					auxFunc(resp);
 					aux_int = resp.getQueue();
+					try {
+					FileWriter fw = new FileWriter("LandRequest_onNext.log", true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.append(Integer.toString(resp.getQueue()));
+					bw.append('\n');
+					bw.close();
+					fw.close();
+					} catch (IOException e){
 					
+					}
 					if(resp.getRunway() != 0){
 						//Aterrizar
 						c.printf(APROMPT, " - ", id,  "Aterrizando en pista"+ resp.getRunway() +"\n");
@@ -228,12 +240,20 @@ public class Avion {
 
 	public static void main(java.lang.String[] args){
 		Avion le_avion = new Avion();
-		le_avion.dump();
 		
-		//le_avion.takeoffProcedure();
+		//le_avion.dump();
 		
+
+		Console c = System.console();
+		if (c == null) {
+			System.err.println("No console.");
+			System.exit(1);
+		}
 		while(true){
-			break;
+			c.printf(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...\n");
+			le_avion.takeoffProcedure();
+			c.printf(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...\n");
+			le_avion.land();
 		}
 	}
 }
