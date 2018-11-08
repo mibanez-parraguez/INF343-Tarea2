@@ -6,10 +6,6 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CountDownLatch;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.File;
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -41,6 +37,8 @@ public class Avion {
 // 	private final PlaneControlServiceBlockingStub blockingStub;
 	private ManagedChannel channel;
 	private PlaneControlServiceStub asyncStub;
+	private StreamObserver<LandRequest> landRequestObserver;
+	private StreamObserver<TakeoffRequest> takeoffRequestObserver;
 
 	public Avion(){
 		Console c = System.console();
@@ -74,13 +72,6 @@ public class Avion {
 		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
-	private void auxFunc(TakeoffResponse resp) {
-		System.out.println(resp.getQueuePos());
-	}
-	private void auxFunc(LandResponse resp) {
-		System.out.println(resp.getQueue());
-	}
-
 	private void takeoffReq(String dest){
 		Console c = System.console();
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
@@ -99,16 +90,14 @@ public class Avion {
 		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
 		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 		asyncStub = PlaneControlServiceGrpc.newStub(channel);
-		
-		System.out.println(channel);
-		
-		StreamObserver<TakeoffRequest> requestObserver =
+
+		this.takeoffRequestObserver =
 			asyncStub.takeoff(new StreamObserver<TakeoffResponse>() {
 				@Override
 				public void onNext(TakeoffResponse resp) {
+					aux_int = 0;
 					if(resp.getDestOK()){
 						// ip destino
- 						//this.dest_addr = resp.getDest();
 						dest_addr = resp.getDest();
 						c.printf(APROMPT, " - ", id,  "Recibida IP de destino.\n");
 					}
@@ -119,14 +108,12 @@ public class Avion {
 					if(resp.getRunway() != 0){
 						// Despegar
 						altitude = resp.getAltitude();
-						
 						c.printf(APROMPT, " - ", id,  "Pista "+ resp.getRunway() + " y altura de "+ resp.getAltitude()+" [km].\n");
 						c.printf(APROMPT, " - ", id,  "Despegando.\n");
 					} else{
 						c.printf(APROMPT, " - ", id,  "Las pistas de despegue están ocupadas.\n");
 						c.printf(APROMPT, " - ", id,  "Avión predecesor: "+ resp.getPrevPlane() +"...\n");
 					}
-					
 				}
 				@Override
 				public void onError(Throwable t) {
@@ -135,12 +122,13 @@ public class Avion {
 				}
 				@Override
 				public void onCompleted() {
-					// 
-					System.console().printf("onCompleted.\n");
+					System.console().printf("Despegue realizado.\n");
 				}
 			});
+		this.takeoffRequestObserver.onNext(request);
+		this.takeoffRequestObserver.onCompleted();
 	}
-	
+
 	private void takeoffProcedure(){
 		Console c = System.console();
 		c.printf(APROMPT, " - ", this.id,  "Ingrese destino:\n");
@@ -168,39 +156,31 @@ public class Avion {
 				.setPlane(pmsg.build())
 				.setDest(this.dest_addr).build();
 
-		String host = this.curr_addr.split(":")[0];
-		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
+		String host = this.dest_addr.split(":")[0];
+		int port = Integer.parseInt(this.dest_addr.split(":")[1]);
 		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 		asyncStub = PlaneControlServiceGrpc.newStub(channel);
 		
 		System.out.println(channel);
 		
-		StreamObserver<LandRequest> requestObserver =
+// 		StreamObserver<LandRequest> requestObserver =
+		this.landRequestObserver =
 			asyncStub.land(new StreamObserver<LandResponse>() {
 				@Override
 				public void onNext(LandResponse resp) {
 					//TODO aterrizar
-					System.console().printf("asdf\n");
-					System.out.println(resp.getQueue());
-					auxFunc(resp);
+					System.console().printf("[land.onNext] asdf\n");
+					System.console().printf("[land.onNext] asdf 2\n");
+					System.out.println("[land.onNext] getQueue: "+resp.getQueue());
 					aux_int = resp.getQueue();
-					try {
-					FileWriter fw = new FileWriter("LandRequest_onNext.log", true);
-					BufferedWriter bw = new BufferedWriter(fw);
-					bw.append(Integer.toString(resp.getQueue()));
-					bw.append('\n');
-					bw.close();
-					fw.close();
-					} catch (IOException e){
-					
-					}
+
 					if(resp.getRunway() != 0){
 						//Aterrizar
 						c.printf(APROMPT, " - ", id,  "Aterrizando en pista"+ resp.getRunway() +"\n");
 					} else{
 						// Establecer altura de vuelo mientras se espera.
 						c.printf(APROMPT, " - ", id,  "Estableciendo altura de espera\n");
-						altitude = resp.getAltitude(); // this.altitude -> this fuera de scope =P
+						altitude = resp.getAltitude();
 						c.printf(APROMPT, " - ", id,  "Vuelo a: "+ altitude +" [m] de altura.\n");
 					}
 				}
@@ -212,14 +192,13 @@ public class Avion {
 				@Override
 				public void onCompleted() {
 					// 
-					System.console().printf("(borrar)onCompleted.\n");
+					System.console().printf("aterrizaje completado.\n");
 					finishLatch.countDown();
 				}
 			});
-		requestObserver.onNext(request);
-		System.out.println("post_next");
-		System.out.println(this.aux_int);
-		requestObserver.onCompleted();
+		this.landRequestObserver.onNext(request);
+		System.out.println("[post_next] "+this.aux_int);
+		this.landRequestObserver.onCompleted();
 		
 		return finishLatch;
 	}
@@ -233,16 +212,18 @@ public class Avion {
 	private void dump(){
 // 		System.out.println("aerolinea: "+this.airline);
 // 		System.out.println("vuelo: "+this.id);
+		System.out.println("======== DUMP ========");
 		System.out.println("carga: "+this.max_load);
 		System.out.println("fuel: "+this.max_fuel);
 		System.out.println("curr_addr: "+this.curr_addr);
+		System.out.println("dest_addr: "+this.dest_addr);
+		System.out.println("altitude: "+this.altitude);
+		System.out.println("aux_int: "+this.aux_int);
+		System.out.println("======================");
 	}
 
 	public static void main(java.lang.String[] args){
 		Avion le_avion = new Avion();
-		
-		//le_avion.dump();
-		
 
 		Console c = System.console();
 		if (c == null) {
@@ -250,10 +231,16 @@ public class Avion {
 			System.exit(1);
 		}
 		while(true){
-			c.printf(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...\n");
+			le_avion.dump();
+			le_avion.aux_int = -8;
+			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...");
 			le_avion.takeoffProcedure();
-			c.printf(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...\n");
-			le_avion.land();
+			le_avion.dump();
+			le_avion.aux_int = -7;
+			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
+			le_avion.landProc();
+			le_avion.dump();
+			le_avion.aux_int = -6;
 		}
 	}
 }
