@@ -25,6 +25,7 @@ public class Avion {
 	private int max_fuel;
 	private int load;
 	private int fuel;
+	private int altitude;
 	private PlaneMsge plane;
 	private static final String APROMPT="[Avion%1$s%2$s]: %3$s";
 	
@@ -103,7 +104,7 @@ public class Avion {
 					if(resp.getRunway() != 0){
 						//despegar
 					} else{
-					
+						
 					}
 					
 				}
@@ -156,7 +157,7 @@ public class Avion {
 		System.out.println(channel);
 		
 		StreamObserver<LandRequest> requestObserver =
-			asyncStub.takeoff(new StreamObserver<LandResponse>() {
+			asyncStub.land(new StreamObserver<LandResponse>() {
 				@Override
 				public void onNext(LandResponse resp) {
 					//TODO aterrizar
@@ -167,6 +168,11 @@ public class Avion {
 					
 					if(resp.getRunway() != 0){
 						//Aterrizar
+					} else{
+						// Establecer altura de vuelo mientras se espera.
+						this.altitude = resp.getAltitude();
+						
+						
 					}
 				}
 				@Override
