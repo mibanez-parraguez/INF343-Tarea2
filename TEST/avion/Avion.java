@@ -65,7 +65,7 @@ public class Avion {
 		String dest = c.readLine(APROMPT, " - ", this.id,  "Torre de Control inicial:\n> ");
 		this.curr_addr = dest;
 		this.aux_int = -9;
-		this.land(dest);
+		this.land();
 	}
 
 	public void shutdown() throws InterruptedException {
@@ -74,6 +74,9 @@ public class Avion {
 
 	private void auxFunc(TakeoffResponse resp) {
 		System.out.println(resp.getQueuePos());
+	}
+	private void auxFunc(LandResponse resp) {
+		System.out.println(resp.getQueue());
 	}
 
 	private void takeoff(String dest){
@@ -104,7 +107,19 @@ public class Avion {
 					if(resp.getRunway() != 0){
 						//despegar
 					} else{
+						//Varios msges de control
+						if(resp.getDestOK()){
+							// ip destino
+// 							this.dest_addr = resp.getDest();
+							dest_addr = resp.getDest(); //Estoy accediendo a la variable de la instancia o no?
+						}
+						if(!resp.getRestrOK()){
+							// No se cumple con las restricciones de vencina y peso.
+							gate();
+						}
+						if(true){
 						
+						}
 					}
 					
 				}
@@ -163,14 +178,14 @@ public class Avion {
 					//TODO aterrizar
 					System.console().printf("asdf\n");
 					System.out.println(resp.getQueue());
-					auxFunc(resp);
+					//auxFunc(resp);
 					aux_int = resp.getQueue();
 					
 					if(resp.getRunway() != 0){
 						//Aterrizar
 					} else{
 						// Establecer altura de vuelo mientras se espera.
-						this.altitude = resp.getAltitude();
+						altitude = resp.getAltitude();
 						
 						
 					}
