@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CountDownLatch;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -65,7 +66,7 @@ public class Avion {
 		String dest = c.readLine(APROMPT, " - ", this.id,  "Torre de Control inicial:\n> ");
 		this.curr_addr = dest;
 		this.aux_int = -9;
-		this.land();
+		CountDownLatch finishLatch = this.landProc();
 	}
 
 	public void shutdown() throws InterruptedException {
@@ -79,7 +80,7 @@ public class Avion {
 		System.out.println(resp.getQueue());
 	}
 
-	private void takeoff(String dest){
+	private void takeoffReq(String dest){
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.mergeFrom(this.plane);
 		pmsg.setCurrCapacity(this.fuel);
@@ -117,9 +118,6 @@ public class Avion {
 							// No se cumple con las restricciones de vencina y peso.
 							gate();
 						}
-						if(true){
-						
-						}
 					}
 					
 				}
@@ -147,13 +145,15 @@ public class Avion {
 		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
 
 		c.printf(APROMPT, " - ", this.id,  "Pidiendo instrucciones para despegar.\n");
-		this.takeoff(dest);
+		this.takeoffReq(dest);
 	}
 
-	private void land(){
+	private CountDownLatch landProc(){
 		//TODO hacer output
 		//TODO implmenentar llegada de respuesta
+		final CountDownLatch finishLatch = new CountDownLatch(1);
 		Console c = System.console();
+		c.printf(APROMPT, " - ", this.id,  "Esperando pista de aterrizaje.\n");
 
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.setSourceAddress(this.curr_addr);
@@ -183,27 +183,32 @@ public class Avion {
 					
 					if(resp.getRunway() != 0){
 						//Aterrizar
+						c.printf(APROMPT, " - ", id,  "Aterrizando en pista"+ resp.getRunway() +"\n");
 					} else{
 						// Establecer altura de vuelo mientras se espera.
-						altitude = resp.getAltitude();
-						
-						
+						c.printf(APROMPT, " - ", id,  "Estableciendo altura de espera\n");
+						altitude = resp.getAltitude(); // this.altitude -> this fuera de scope =P
+						c.printf(APROMPT, " - ", id,  "Vuelo a: "+ altitude +" [m] de altura.\n");
 					}
 				}
 				@Override
 				public void onError(Throwable t) {
 					System.console().printf("Landing error\n");
+					finishLatch.countDown();
 				}
 				@Override
 				public void onCompleted() {
 					// 
 					System.console().printf("(borrar)onCompleted.\n");
+					finishLatch.countDown();
 				}
 			});
 		requestObserver.onNext(request);
 		System.out.println("post_next");
 		System.out.println(this.aux_int);
 		requestObserver.onCompleted();
+		
+		return finishLatch;
 	}
 
 
