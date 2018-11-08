@@ -166,8 +166,6 @@ public class Avion {
 
 		String host = this.curr_addr.split(":")[0];
 		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
-		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		asyncStub = PlaneControlServiceGrpc.newStub(channel);
 		
 		System.out.println(channel);
 		
@@ -224,8 +222,10 @@ public class Avion {
 		Avion le_avion = new Avion();
 		le_avion.dump();
 		
+		channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
+		asyncStub = PlaneControlServiceGrpc.newStub(channel);
 		//le_avion.takeoffProcedure();
-		
+		channel.land();
 		while(true){
 			break;
 		}

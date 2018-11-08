@@ -4,20 +4,100 @@
 		"selected_items":
 		[
 			[
+				"chann",
+				"channeBuilder"
+			],
+			[
+				"InfoServi",
+				"InfoServiceImpl"
+			],
+			[
+				"arrival",
+				"arrivalPlane"
+			],
+			[
+				"depa",
+				"departureDeque"
+			],
+			[
+				"height",
+				"heightMap"
+			],
+			[
+				"checkA",
+				"checkAvailabilityHeight"
+			],
+			[
+				"available",
+				"availableHeight"
+			],
+			[
+				"inst",
+				"instOK"
+			],
+			[
+				"ins",
+				"instOK"
+			],
+			[
+				"Land",
+				"LandRequest"
+			],
+			[
+				"departure",
+				"departureRunwayFull"
+			],
+			[
+				"plane",
+				"planenumber"
+			],
+			[
+				"restr",
+				"restrOK"
+			],
+			[
+				"Takeo",
+				"TakeoffResponse"
+			],
+			[
+				"depart",
+				"departureDeque"
+			],
+			[
+				"TakeoffRE",
+				"TakeoffRequest"
+			],
+			[
+				"depar",
+				"departureDeque"
+			],
+			[
+				"LandR",
+				"LandRequest"
+			],
+			[
+				"ServerAsync",
+				"ServerAsyncReaderWriter"
+			],
+			[
+				"arri",
+				"arrivalRunway"
+			],
+			[
+				"arriva",
+				"arrivalRunway"
+			],
+			[
+				"arriv",
+				"arrivalDeque"
+			],
+			[
 				"des",
 				"destName"
 			],
 			[
 				"max",
 				"maxCapacity"
-			],
-			[
-				"plane",
-				"planeNumber"
-			],
-			[
-				"arrival",
-				"arrivalQueue"
 			],
 			[
 				"SE",
@@ -44,14 +124,6 @@
 				"assignedPlane"
 			],
 			[
-				"arri",
-				"arrivalRunway"
-			],
-			[
-				"depa",
-				"departureRunway"
-			],
-			[
 				"dire",
 				"direccionDestino"
 			],
@@ -76,61 +148,104 @@
 	"buffers":
 	[
 		{
-			"file": "Makefile",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/protos/infocontrol.proto",
 			"settings":
 			{
-				"buffer_size": 3260,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "planecontrol.proto",
-			"settings":
-			{
-				"buffer_size": 1462,
+				"buffer_size": 1008,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "control_server.cc",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol.proto",
 			"settings":
 			{
-				"buffer_size": 8990,
+				"buffer_size": 1555,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "planecontrol.pb.h",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2_grpc.py",
 			"settings":
 			{
-				"buffer_size": 68504,
+				"buffer_size": 1430,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "plane_client.cc",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/info.py",
 			"settings":
 			{
-				"buffer_size": 2840,
+				"buffer_size": 1194,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "planecontrol.grpc.pb.h",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2.py",
 			"settings":
 			{
-				"buffer_size": 22134,
+				"buffer_size": 9396,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/paralizis/grpc/include/grpcpp/impl/codegen/async_unary_call.h",
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.pb.h",
 			"settings":
 			{
-				"buffer_size": 12297,
+				"buffer_size": 37426,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/control_server.cc",
+			"settings":
+			{
+				"buffer_size": 17780,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/plane_client.cc",
+			"settings":
+			{
+				"buffer_size": 9168,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/Makefile",
+			"settings":
+			{
+				"buffer_size": 3299,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.pb.h",
+			"settings":
+			{
+				"buffer_size": 55563,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/grpc/examples/cpp/route_guide/route_guide_server.cc",
+			"settings":
+			{
+				"buffer_size": 6145,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.grpc.pb.h",
+			"settings":
+			{
+				"buffer_size": 9089,
 				"line_ending": "Unix"
 			}
 		}
@@ -167,7 +282,39 @@
 	},
 	"file_history":
 	[
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2_grpc.py",
+		"/home/paralizis/grpc/examples/python/route_guide/route_guide_client.py",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/avion/Avion.java",
+		"/home/paralizis/grpc/examples/android/helloworld/app/src/main/cpp/grpc-helloworld.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.grpc.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.pb.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.grpc.pb.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.grpc.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/protos/planecontrol.proto",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol.proto",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/planecontrol.proto",
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/Makefile",
+		"/home/paralizis/grpc/include/grpcpp/impl/codegen/async_unary_call.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/planecontrol.grpc.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/planecontrol.pb.h",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/plane_client.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/control_server.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2.py",
+		"/home/paralizis/grpc/examples/python/route_guide/route_guide_pb2_grpc.py",
+		"/home/paralizis/grpc/examples/python/route_guide/route_guide_pb2.py",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/protos/infocontrol.proto",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/infocontrol.proto",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/async_control_server.cc",
+		"/home/paralizis/grpc/examples/cpp/helloworld (copy)/greeter_server.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/TEST/untitled.cpp",
+		"/home/paralizis/grpc/examples/cpp/route_guide/Makefile",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/control_server.cc",
+		"/home/paralizis/Tarea2SD/INF343-Tarea2/torre/control_server.cc",
+		"/home/paralizis/grpc/examples/cpp/route_guide/route_guide_client.cc",
+		"/home/paralizis/grpc/examples/cpp/route_guide/route_guide_server.cc",
+		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide_client.cc",
 		"/home/paralizis/grpc/src/cpp/server/server_cc.cc",
 		"/home/paralizis/grpc/src/cpp/server/server_builder.cc",
 		"/home/paralizis/grpc/examples/cpp/route_guide (copy)/route_guide_server.cc",
@@ -194,7 +341,6 @@
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/helloworld (copy).proto",
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/helloworld.proto",
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol.c",
-		"/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol.proto",
 		"/home/paralizis/Tarea2SD/INF343-Tarea2/aviontorre.proto",
 		"/home/paralizis/grpc/examples/cpp/route_guide/helper.cc",
 		"/home/paralizis/grpc/examples/cpp/route_guide/route_guide_db.json",
@@ -202,7 +348,6 @@
 		"/home/paralizis/grpc/examples/cpp/route_guide/route_guide.pb.h",
 		"/home/paralizis/grpc/examples/cpp/route_guide/route_guide.grpc.pb.h",
 		"/home/paralizis/grpc/examples/cpp/route_guide/helper.h",
-		"/home/paralizis/grpc/examples/cpp/route_guide/Makefile",
 		"/home/paralizis/grpc/examples/cpp/helloworld/helloworld.pb.cc",
 		"/home/paralizis/grpc/examples/cpp/helloworld/greeter_async_client.cc",
 		"/home/paralizis/grpc/examples/cpp/helloworld/helloworld.pb.h"
@@ -220,9 +365,109 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"Re",
+			"Ren",
+			"Rend",
+			"Rende",
+			"Rendez",
+			"rende",
+			"this",
+			"this.",
+			"private",
+			"this.",
+			"private",
+			"mutable",
+			"Plane",
+			"mutable",
+			"PlaneMsge",
+			"acess",
+			"acces",
+			"acceso",
+			"PlaneMsge",
+			"Plane",
+			"PlaneMsge",
+			"address",
+			"PlaneMsge",
+			"plane",
+			"route_guide",
+			"runwayFreed",
+			"tr.plane().planenumber()",
+			"Destino agregado con",
+			"destino agregado con",
+			"availableHeight",
+			"arrivalRunway",
+			"4",
+			"writer3",
+			" && !runwayOK",
+			"sourceAddress",
+			"std::string",
+			"vector",
+			"Plane",
+			"arrivalDeque",
+			"//",
+			"nombre del ",
+			"std::string",
+			"arrivalDeque",
+			"Plane",
+			"//",
+			"string",
+			"arrivalDeque",
+			"availableHeigh",
+			"\\n",
+			"dest",
+			"destOK",
+			"lr",
+			"mensajes",
+			"m",
+			"towerResponse.dest() == tr.dest()",
+			"\\n",
+			"n",
+			"\"\\n",
+			"\\n",
+			"n",
+			"\"\\n",
+			"\\n",
+			"n",
+			"destList",
+			"lr",
+			"dest",
+			"LandResponse",
+			"LandRequest",
+			"airline",
+			"buffer",
+			"maxLoad",
+			"LandRequest",
+			"Land",
+			"lr",
+			"request_",
+			"ll",
+			"landReq",
+			"server_note",
+			"landReq",
+			"notes",
+			"planecontrol",
+			"n",
+			"received_notes",
+			"server_note",
+			"writer",
+			"ServerAsyncWriter",
+			"responder_",
+			"nArrivalRunway",
+			"nDepartureRunway",
+			"map",
+			"auto const &",
+			"plane",
+			"()",
+			"plane.",
+			"plane",
+			"*",
+			"n.",
+			"n",
+			"Queue",
+			"queue",
 			"plane",
 			"destName",
 			"plane->",
@@ -250,49 +495,9 @@
 			".",
 			"name",
 			"nombre",
-			"direccionDestino",
-			"nombreDestino",
-			"CallNewArrival",
-			"CallNewDeparture",
-			"CallTakeoffReq",
-			"nDepartureRunway",
-			"CallTakeoffReq",
-			"runway",
-			"PlaneTakeoffRequest",
-			"TakeoffRequest",
-			"string",
-			"Greeter",
-			"GreeterClient",
-			"Greeter",
-			"CallData",
-			"TakeoffReqAsync",
-			"CallData",
-			"NewTakeOff",
-			"CallData",
-			"RequestSayHello",
-			"NewFlight",
-			"virtual",
-			"HeloCallData",
-			"Greeter",
-			"HelloReply",
-			"gree",
-			"planecontrol",
-			"name",
-			"set_name",
-			";",
-			"Point",
-			"routeguide",
-			"helloworld",
-			"greeter_async_client",
-			"greeter_server",
-			"greeter_client",
-			"plane_client",
-			"helloworld",
-			"plane",
-			"string",
-			"avion"
+			"direccionDestino"
 		],
-		"highlight": true,
+		"highlight": false,
 		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
@@ -308,16 +513,74 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Makefile",
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/protos/infocontrol.proto",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3260,
+						"buffer_size": 1008,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								123,
+								123
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/protobuf-syntax-highlighting/Protobuf.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/protos/planecontrol.proto",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1555,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								747,
+								747
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/protobuf-syntax-highlighting/Protobuf.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 237.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2_grpc.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1430,
 						"regions":
 						{
 						},
@@ -330,8 +593,9 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Makefile/Makefile.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -341,109 +605,80 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "planecontrol.proto",
+					"buffer": 3,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/info.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1462,
+						"buffer_size": 1194,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								100,
-								100
+								996,
+								996
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/protobuf-syntax-highlighting/Protobuf.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "control_server.cc",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8990,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8306,
-								8306
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 2,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3382.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "planecontrol.pb.h",
+					"buffer": 4,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/info/infocontrol_pb2.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 68504,
+						"buffer_size": 9396,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7240,
-								7240
+								532,
+								532
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
+							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2521.0,
+						"translation.y": 720.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "plane_client.cc",
+					"buffer": 5,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.pb.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2840,
+						"buffer_size": 37426,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2007,
-								2007
+								13889,
+								13889
 							]
 						],
 						"settings":
@@ -453,27 +688,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 5333.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "planecontrol.grpc.pb.h",
+					"buffer": 6,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/control_server.cc",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22134,
+						"buffer_size": 17780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16967,
-								16967
+								16638,
+								16638
 							]
 						],
 						"settings":
@@ -483,27 +718,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4696.0,
+						"translation.y": 5918.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "/home/paralizis/grpc/include/grpcpp/impl/codegen/async_unary_call.h",
+					"buffer": 7,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/plane_client.cc",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12297,
+						"buffer_size": 9168,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8005,
-								8005
+								7768,
+								7768
 							]
 						],
 						"settings":
@@ -513,10 +748,129 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2744.0,
+						"translation.y": 3049.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3299,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1400,
+								1400
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 180.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/planecontrol.pb.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 55563,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11098,
+								11098
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5888.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/home/paralizis/grpc/examples/cpp/route_guide/route_guide_server.cc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6145,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3416,
+								3416
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1170.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/home/paralizis/Tarea2SD/INF343-Tarea2/torre/infocontrol.grpc.pb.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9089,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								897,
+								897
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1617.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
 					"type": "text"
 				}
 			]

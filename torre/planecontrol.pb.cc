@@ -43,6 +43,16 @@ class TakeoffResponseDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<TakeoffResponse>
       _instance;
 } _TakeoffResponse_default_instance_;
+class InfoRequestDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<InfoRequest>
+      _instance;
+} _InfoRequest_default_instance_;
+class InfoResponseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<InfoResponse>
+      _instance;
+} _InfoResponse_default_instance_;
 class PlaneMsgeDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<PlaneMsge>
@@ -108,6 +118,35 @@ static void InitDefaultsTakeoffResponse() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_TakeoffResponse =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsTakeoffResponse}, {}};
 
+static void InitDefaultsInfoRequest() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::tareados::_InfoRequest_default_instance_;
+    new (ptr) ::tareados::InfoRequest();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::tareados::InfoRequest::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_InfoRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsInfoRequest}, {}};
+
+static void InitDefaultsInfoResponse() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::tareados::_InfoResponse_default_instance_;
+    new (ptr) ::tareados::InfoResponse();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::tareados::InfoResponse::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_InfoResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsInfoResponse}, {
+      &protobuf_planecontrol_2eproto::scc_info_PlaneMsge.base,}};
+
 static void InitDefaultsPlaneMsge() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -127,10 +166,12 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LandResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_TakeoffRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_TakeoffResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_InfoRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_InfoResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_PlaneMsge.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[5];
+::google::protobuf::Metadata file_level_metadata[7];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -170,6 +211,20 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::TakeoffResponse, restrok_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::TakeoffResponse, instok_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoRequest, control_tower_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoResponse, departureplane_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoResponse, arrivalplane_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::InfoResponse, control_tower_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::tareados::PlaneMsge, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -189,7 +244,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 7, -1, sizeof(::tareados::LandResponse)},
   { 15, -1, sizeof(::tareados::TakeoffRequest)},
   { 23, -1, sizeof(::tareados::TakeoffResponse)},
-  { 36, -1, sizeof(::tareados::PlaneMsge)},
+  { 36, -1, sizeof(::tareados::InfoRequest)},
+  { 42, -1, sizeof(::tareados::InfoResponse)},
+  { 50, -1, sizeof(::tareados::PlaneMsge)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -197,6 +254,8 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_LandResponse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_TakeoffRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_TakeoffResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_InfoRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_InfoResponse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::tareados::_PlaneMsge_default_instance_),
 };
 
@@ -215,7 +274,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 7);
 }
 
 void AddDescriptorsImpl() {
@@ -230,20 +289,26 @@ void AddDescriptorsImpl() {
       " \001(\010\"\227\001\n\017TakeoffResponse\022\020\n\010altitude\030\001 \001"
       "(\005\022\016\n\006runway\030\002 \001(\005\022\014\n\004dest\030\003 \001(\t\022\020\n\010queu"
       "ePos\030\004 \001(\005\022\021\n\tprevPlane\030\005 \001(\t\022\016\n\006destOK\030"
-      "\006 \001(\010\022\017\n\007restrOK\030\007 \001(\010\022\016\n\006instOK\030\010 \001(\010\"\273"
-      "\001\n\tPlaneMsge\022\017\n\007airline\030\001 \001(\t\022\023\n\013planeNu"
-      "mber\030\002 \001(\t\022\017\n\007maxLoad\030\003 \001(\005\022\020\n\010currLoad\030"
-      "\004 \001(\005\022\023\n\013maxCapacity\030\005 \001(\005\022\024\n\014currCapaci"
-      "ty\030\006 \001(\005\022\025\n\rsourceAddress\030\007 \001(\t\022\023\n\013destA"
-      "ddress\030\010 \001(\t\022\016\n\006runway\030\t \001(\0052\230\001\n\023PlaneCo"
-      "ntrolService\022;\n\004Land\022\025.tareados.LandRequ"
-      "est\032\026.tareados.LandResponse\"\000(\0010\001\022D\n\007Tak"
-      "eoff\022\030.tareados.TakeoffRequest\032\031.tareado"
-      "s.TakeoffResponse\"\000(\0010\001B#\n\013avion.protoB\022"
-      "PlaneControlProtosP\001b\006proto3"
+      "\006 \001(\010\022\017\n\007restrOK\030\007 \001(\010\022\016\n\006instOK\030\010 \001(\010\"$"
+      "\n\013InfoRequest\022\025\n\rcontrol_tower\030\001 \001(\t\"}\n\014"
+      "InfoResponse\022+\n\016departurePlane\030\001 \001(\0132\023.t"
+      "areados.PlaneMsge\022)\n\014arrivalPlane\030\002 \001(\0132"
+      "\023.tareados.PlaneMsge\022\025\n\rcontrol_tower\030\003 "
+      "\001(\t\"\273\001\n\tPlaneMsge\022\017\n\007airline\030\001 \001(\t\022\023\n\013pl"
+      "aneNumber\030\002 \001(\t\022\017\n\007maxLoad\030\003 \001(\005\022\020\n\010curr"
+      "Load\030\004 \001(\005\022\023\n\013maxCapacity\030\005 \001(\005\022\024\n\014currC"
+      "apacity\030\006 \001(\005\022\025\n\rsourceAddress\030\007 \001(\t\022\023\n\013"
+      "destAddress\030\010 \001(\t\022\016\n\006runway\030\t \001(\0052\323\001\n\023Pl"
+      "aneControlService\022;\n\004Land\022\025.tareados.Lan"
+      "dRequest\032\026.tareados.LandResponse\"\000(\0010\001\022D"
+      "\n\007Takeoff\022\030.tareados.TakeoffRequest\032\031.ta"
+      "reados.TakeoffResponse\"\000(\0010\001\0229\n\004Info\022\025.t"
+      "areados.InfoRequest\032\026.tareados.InfoRespo"
+      "nse\"\0000\001B#\n\013avion.protoB\022PlaneControlProt"
+      "osP\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 788);
+      descriptor, 1012);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "planecontrol.proto", &protobuf_RegisterTypes);
 }
@@ -1705,6 +1770,591 @@ void TakeoffResponse::InternalSwap(TakeoffResponse* other) {
 
 // ===================================================================
 
+void InfoRequest::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int InfoRequest::kControlTowerFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+InfoRequest::InfoRequest()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_planecontrol_2eproto::scc_info_InfoRequest.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:tareados.InfoRequest)
+}
+InfoRequest::InfoRequest(const InfoRequest& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  control_tower_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.control_tower().size() > 0) {
+    control_tower_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.control_tower_);
+  }
+  // @@protoc_insertion_point(copy_constructor:tareados.InfoRequest)
+}
+
+void InfoRequest::SharedCtor() {
+  control_tower_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+InfoRequest::~InfoRequest() {
+  // @@protoc_insertion_point(destructor:tareados.InfoRequest)
+  SharedDtor();
+}
+
+void InfoRequest::SharedDtor() {
+  control_tower_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void InfoRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* InfoRequest::descriptor() {
+  ::protobuf_planecontrol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_planecontrol_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const InfoRequest& InfoRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_planecontrol_2eproto::scc_info_InfoRequest.base);
+  return *internal_default_instance();
+}
+
+
+void InfoRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:tareados.InfoRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  control_tower_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool InfoRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:tareados.InfoRequest)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string control_tower = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_control_tower()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "tareados.InfoRequest.control_tower"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:tareados.InfoRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:tareados.InfoRequest)
+  return false;
+#undef DO_
+}
+
+void InfoRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:tareados.InfoRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string control_tower = 1;
+  if (this->control_tower().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "tareados.InfoRequest.control_tower");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->control_tower(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:tareados.InfoRequest)
+}
+
+::google::protobuf::uint8* InfoRequest::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:tareados.InfoRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string control_tower = 1;
+  if (this->control_tower().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "tareados.InfoRequest.control_tower");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->control_tower(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:tareados.InfoRequest)
+  return target;
+}
+
+size_t InfoRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:tareados.InfoRequest)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string control_tower = 1;
+  if (this->control_tower().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->control_tower());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void InfoRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:tareados.InfoRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const InfoRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const InfoRequest>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:tareados.InfoRequest)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:tareados.InfoRequest)
+    MergeFrom(*source);
+  }
+}
+
+void InfoRequest::MergeFrom(const InfoRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:tareados.InfoRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.control_tower().size() > 0) {
+
+    control_tower_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.control_tower_);
+  }
+}
+
+void InfoRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:tareados.InfoRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void InfoRequest::CopyFrom(const InfoRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:tareados.InfoRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InfoRequest::IsInitialized() const {
+  return true;
+}
+
+void InfoRequest::Swap(InfoRequest* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void InfoRequest::InternalSwap(InfoRequest* other) {
+  using std::swap;
+  control_tower_.Swap(&other->control_tower_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata InfoRequest::GetMetadata() const {
+  protobuf_planecontrol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_planecontrol_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void InfoResponse::InitAsDefaultInstance() {
+  ::tareados::_InfoResponse_default_instance_._instance.get_mutable()->departureplane_ = const_cast< ::tareados::PlaneMsge*>(
+      ::tareados::PlaneMsge::internal_default_instance());
+  ::tareados::_InfoResponse_default_instance_._instance.get_mutable()->arrivalplane_ = const_cast< ::tareados::PlaneMsge*>(
+      ::tareados::PlaneMsge::internal_default_instance());
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int InfoResponse::kDeparturePlaneFieldNumber;
+const int InfoResponse::kArrivalPlaneFieldNumber;
+const int InfoResponse::kControlTowerFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+InfoResponse::InfoResponse()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_planecontrol_2eproto::scc_info_InfoResponse.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:tareados.InfoResponse)
+}
+InfoResponse::InfoResponse(const InfoResponse& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  control_tower_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.control_tower().size() > 0) {
+    control_tower_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.control_tower_);
+  }
+  if (from.has_departureplane()) {
+    departureplane_ = new ::tareados::PlaneMsge(*from.departureplane_);
+  } else {
+    departureplane_ = NULL;
+  }
+  if (from.has_arrivalplane()) {
+    arrivalplane_ = new ::tareados::PlaneMsge(*from.arrivalplane_);
+  } else {
+    arrivalplane_ = NULL;
+  }
+  // @@protoc_insertion_point(copy_constructor:tareados.InfoResponse)
+}
+
+void InfoResponse::SharedCtor() {
+  control_tower_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&departureplane_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&arrivalplane_) -
+      reinterpret_cast<char*>(&departureplane_)) + sizeof(arrivalplane_));
+}
+
+InfoResponse::~InfoResponse() {
+  // @@protoc_insertion_point(destructor:tareados.InfoResponse)
+  SharedDtor();
+}
+
+void InfoResponse::SharedDtor() {
+  control_tower_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete departureplane_;
+  if (this != internal_default_instance()) delete arrivalplane_;
+}
+
+void InfoResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* InfoResponse::descriptor() {
+  ::protobuf_planecontrol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_planecontrol_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const InfoResponse& InfoResponse::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_planecontrol_2eproto::scc_info_InfoResponse.base);
+  return *internal_default_instance();
+}
+
+
+void InfoResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:tareados.InfoResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  control_tower_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && departureplane_ != NULL) {
+    delete departureplane_;
+  }
+  departureplane_ = NULL;
+  if (GetArenaNoVirtual() == NULL && arrivalplane_ != NULL) {
+    delete arrivalplane_;
+  }
+  arrivalplane_ = NULL;
+  _internal_metadata_.Clear();
+}
+
+bool InfoResponse::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:tareados.InfoResponse)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // .tareados.PlaneMsge departurePlane = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_departureplane()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .tareados.PlaneMsge arrivalPlane = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_arrivalplane()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string control_tower = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_control_tower()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "tareados.InfoResponse.control_tower"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:tareados.InfoResponse)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:tareados.InfoResponse)
+  return false;
+#undef DO_
+}
+
+void InfoResponse::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:tareados.InfoResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .tareados.PlaneMsge departurePlane = 1;
+  if (this->has_departureplane()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->_internal_departureplane(), output);
+  }
+
+  // .tareados.PlaneMsge arrivalPlane = 2;
+  if (this->has_arrivalplane()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, this->_internal_arrivalplane(), output);
+  }
+
+  // string control_tower = 3;
+  if (this->control_tower().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "tareados.InfoResponse.control_tower");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->control_tower(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:tareados.InfoResponse)
+}
+
+::google::protobuf::uint8* InfoResponse::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:tareados.InfoResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .tareados.PlaneMsge departurePlane = 1;
+  if (this->has_departureplane()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        1, this->_internal_departureplane(), deterministic, target);
+  }
+
+  // .tareados.PlaneMsge arrivalPlane = 2;
+  if (this->has_arrivalplane()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        2, this->_internal_arrivalplane(), deterministic, target);
+  }
+
+  // string control_tower = 3;
+  if (this->control_tower().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->control_tower().data(), static_cast<int>(this->control_tower().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "tareados.InfoResponse.control_tower");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->control_tower(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:tareados.InfoResponse)
+  return target;
+}
+
+size_t InfoResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:tareados.InfoResponse)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string control_tower = 3;
+  if (this->control_tower().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->control_tower());
+  }
+
+  // .tareados.PlaneMsge departurePlane = 1;
+  if (this->has_departureplane()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *departureplane_);
+  }
+
+  // .tareados.PlaneMsge arrivalPlane = 2;
+  if (this->has_arrivalplane()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *arrivalplane_);
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void InfoResponse::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:tareados.InfoResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const InfoResponse* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const InfoResponse>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:tareados.InfoResponse)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:tareados.InfoResponse)
+    MergeFrom(*source);
+  }
+}
+
+void InfoResponse::MergeFrom(const InfoResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:tareados.InfoResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.control_tower().size() > 0) {
+
+    control_tower_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.control_tower_);
+  }
+  if (from.has_departureplane()) {
+    mutable_departureplane()->::tareados::PlaneMsge::MergeFrom(from.departureplane());
+  }
+  if (from.has_arrivalplane()) {
+    mutable_arrivalplane()->::tareados::PlaneMsge::MergeFrom(from.arrivalplane());
+  }
+}
+
+void InfoResponse::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:tareados.InfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void InfoResponse::CopyFrom(const InfoResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:tareados.InfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InfoResponse::IsInitialized() const {
+  return true;
+}
+
+void InfoResponse::Swap(InfoResponse* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void InfoResponse::InternalSwap(InfoResponse* other) {
+  using std::swap;
+  control_tower_.Swap(&other->control_tower_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(departureplane_, other->departureplane_);
+  swap(arrivalplane_, other->arrivalplane_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata InfoResponse::GetMetadata() const {
+  protobuf_planecontrol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_planecontrol_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void PlaneMsge::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -2323,6 +2973,12 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::tareados::TakeoffRequest* Arena:
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::tareados::TakeoffResponse* Arena::CreateMaybeMessage< ::tareados::TakeoffResponse >(Arena* arena) {
   return Arena::CreateInternal< ::tareados::TakeoffResponse >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::tareados::InfoRequest* Arena::CreateMaybeMessage< ::tareados::InfoRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::tareados::InfoRequest >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::tareados::InfoResponse* Arena::CreateMaybeMessage< ::tareados::InfoResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::tareados::InfoResponse >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::tareados::PlaneMsge* Arena::CreateMaybeMessage< ::tareados::PlaneMsge >(Arena* arena) {
   return Arena::CreateInternal< ::tareados::PlaneMsge >(arena);

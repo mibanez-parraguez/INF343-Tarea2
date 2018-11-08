@@ -38,7 +38,7 @@ namespace protobuf_planecontrol_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[5];
+  static const ::google::protobuf::internal::ParseTable schema[7];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -46,6 +46,12 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_planecontrol_2eproto
 namespace tareados {
+class InfoRequest;
+class InfoRequestDefaultTypeInternal;
+extern InfoRequestDefaultTypeInternal _InfoRequest_default_instance_;
+class InfoResponse;
+class InfoResponseDefaultTypeInternal;
+extern InfoResponseDefaultTypeInternal _InfoResponse_default_instance_;
 class LandRequest;
 class LandRequestDefaultTypeInternal;
 extern LandRequestDefaultTypeInternal _LandRequest_default_instance_;
@@ -64,6 +70,8 @@ extern TakeoffResponseDefaultTypeInternal _TakeoffResponse_default_instance_;
 }  // namespace tareados
 namespace google {
 namespace protobuf {
+template<> ::tareados::InfoRequest* Arena::CreateMaybeMessage<::tareados::InfoRequest>(Arena*);
+template<> ::tareados::InfoResponse* Arena::CreateMaybeMessage<::tareados::InfoResponse>(Arena*);
 template<> ::tareados::LandRequest* Arena::CreateMaybeMessage<::tareados::LandRequest>(Arena*);
 template<> ::tareados::LandResponse* Arena::CreateMaybeMessage<::tareados::LandResponse>(Arena*);
 template<> ::tareados::PlaneMsge* Arena::CreateMaybeMessage<::tareados::PlaneMsge>(Arena*);
@@ -615,6 +623,254 @@ class TakeoffResponse : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class InfoRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:tareados.InfoRequest) */ {
+ public:
+  InfoRequest();
+  virtual ~InfoRequest();
+
+  InfoRequest(const InfoRequest& from);
+
+  inline InfoRequest& operator=(const InfoRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  InfoRequest(InfoRequest&& from) noexcept
+    : InfoRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline InfoRequest& operator=(InfoRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const InfoRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const InfoRequest* internal_default_instance() {
+    return reinterpret_cast<const InfoRequest*>(
+               &_InfoRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(InfoRequest* other);
+  friend void swap(InfoRequest& a, InfoRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline InfoRequest* New() const final {
+    return CreateMaybeMessage<InfoRequest>(NULL);
+  }
+
+  InfoRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<InfoRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const InfoRequest& from);
+  void MergeFrom(const InfoRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InfoRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string control_tower = 1;
+  void clear_control_tower();
+  static const int kControlTowerFieldNumber = 1;
+  const ::std::string& control_tower() const;
+  void set_control_tower(const ::std::string& value);
+  #if LANG_CXX11
+  void set_control_tower(::std::string&& value);
+  #endif
+  void set_control_tower(const char* value);
+  void set_control_tower(const char* value, size_t size);
+  ::std::string* mutable_control_tower();
+  ::std::string* release_control_tower();
+  void set_allocated_control_tower(::std::string* control_tower);
+
+  // @@protoc_insertion_point(class_scope:tareados.InfoRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr control_tower_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_planecontrol_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class InfoResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:tareados.InfoResponse) */ {
+ public:
+  InfoResponse();
+  virtual ~InfoResponse();
+
+  InfoResponse(const InfoResponse& from);
+
+  inline InfoResponse& operator=(const InfoResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  InfoResponse(InfoResponse&& from) noexcept
+    : InfoResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline InfoResponse& operator=(InfoResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const InfoResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const InfoResponse* internal_default_instance() {
+    return reinterpret_cast<const InfoResponse*>(
+               &_InfoResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(InfoResponse* other);
+  friend void swap(InfoResponse& a, InfoResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline InfoResponse* New() const final {
+    return CreateMaybeMessage<InfoResponse>(NULL);
+  }
+
+  InfoResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<InfoResponse>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const InfoResponse& from);
+  void MergeFrom(const InfoResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InfoResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string control_tower = 3;
+  void clear_control_tower();
+  static const int kControlTowerFieldNumber = 3;
+  const ::std::string& control_tower() const;
+  void set_control_tower(const ::std::string& value);
+  #if LANG_CXX11
+  void set_control_tower(::std::string&& value);
+  #endif
+  void set_control_tower(const char* value);
+  void set_control_tower(const char* value, size_t size);
+  ::std::string* mutable_control_tower();
+  ::std::string* release_control_tower();
+  void set_allocated_control_tower(::std::string* control_tower);
+
+  // .tareados.PlaneMsge departurePlane = 1;
+  bool has_departureplane() const;
+  void clear_departureplane();
+  static const int kDeparturePlaneFieldNumber = 1;
+  private:
+  const ::tareados::PlaneMsge& _internal_departureplane() const;
+  public:
+  const ::tareados::PlaneMsge& departureplane() const;
+  ::tareados::PlaneMsge* release_departureplane();
+  ::tareados::PlaneMsge* mutable_departureplane();
+  void set_allocated_departureplane(::tareados::PlaneMsge* departureplane);
+
+  // .tareados.PlaneMsge arrivalPlane = 2;
+  bool has_arrivalplane() const;
+  void clear_arrivalplane();
+  static const int kArrivalPlaneFieldNumber = 2;
+  private:
+  const ::tareados::PlaneMsge& _internal_arrivalplane() const;
+  public:
+  const ::tareados::PlaneMsge& arrivalplane() const;
+  ::tareados::PlaneMsge* release_arrivalplane();
+  ::tareados::PlaneMsge* mutable_arrivalplane();
+  void set_allocated_arrivalplane(::tareados::PlaneMsge* arrivalplane);
+
+  // @@protoc_insertion_point(class_scope:tareados.InfoResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr control_tower_;
+  ::tareados::PlaneMsge* departureplane_;
+  ::tareados::PlaneMsge* arrivalplane_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_planecontrol_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class PlaneMsge : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:tareados.PlaneMsge) */ {
  public:
   PlaneMsge();
@@ -650,7 +906,7 @@ class PlaneMsge : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_PlaneMsge_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(PlaneMsge* other);
   friend void swap(PlaneMsge& a, PlaneMsge& b) {
@@ -1289,6 +1545,228 @@ inline void TakeoffResponse::set_instok(bool value) {
 
 // -------------------------------------------------------------------
 
+// InfoRequest
+
+// string control_tower = 1;
+inline void InfoRequest::clear_control_tower() {
+  control_tower_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& InfoRequest::control_tower() const {
+  // @@protoc_insertion_point(field_get:tareados.InfoRequest.control_tower)
+  return control_tower_.GetNoArena();
+}
+inline void InfoRequest::set_control_tower(const ::std::string& value) {
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.InfoRequest.control_tower)
+}
+#if LANG_CXX11
+inline void InfoRequest::set_control_tower(::std::string&& value) {
+  
+  control_tower_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:tareados.InfoRequest.control_tower)
+}
+#endif
+inline void InfoRequest::set_control_tower(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.InfoRequest.control_tower)
+}
+inline void InfoRequest::set_control_tower(const char* value, size_t size) {
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:tareados.InfoRequest.control_tower)
+}
+inline ::std::string* InfoRequest::mutable_control_tower() {
+  
+  // @@protoc_insertion_point(field_mutable:tareados.InfoRequest.control_tower)
+  return control_tower_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* InfoRequest::release_control_tower() {
+  // @@protoc_insertion_point(field_release:tareados.InfoRequest.control_tower)
+  
+  return control_tower_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void InfoRequest::set_allocated_control_tower(::std::string* control_tower) {
+  if (control_tower != NULL) {
+    
+  } else {
+    
+  }
+  control_tower_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), control_tower);
+  // @@protoc_insertion_point(field_set_allocated:tareados.InfoRequest.control_tower)
+}
+
+// -------------------------------------------------------------------
+
+// InfoResponse
+
+// .tareados.PlaneMsge departurePlane = 1;
+inline bool InfoResponse::has_departureplane() const {
+  return this != internal_default_instance() && departureplane_ != NULL;
+}
+inline void InfoResponse::clear_departureplane() {
+  if (GetArenaNoVirtual() == NULL && departureplane_ != NULL) {
+    delete departureplane_;
+  }
+  departureplane_ = NULL;
+}
+inline const ::tareados::PlaneMsge& InfoResponse::_internal_departureplane() const {
+  return *departureplane_;
+}
+inline const ::tareados::PlaneMsge& InfoResponse::departureplane() const {
+  const ::tareados::PlaneMsge* p = departureplane_;
+  // @@protoc_insertion_point(field_get:tareados.InfoResponse.departurePlane)
+  return p != NULL ? *p : *reinterpret_cast<const ::tareados::PlaneMsge*>(
+      &::tareados::_PlaneMsge_default_instance_);
+}
+inline ::tareados::PlaneMsge* InfoResponse::release_departureplane() {
+  // @@protoc_insertion_point(field_release:tareados.InfoResponse.departurePlane)
+  
+  ::tareados::PlaneMsge* temp = departureplane_;
+  departureplane_ = NULL;
+  return temp;
+}
+inline ::tareados::PlaneMsge* InfoResponse::mutable_departureplane() {
+  
+  if (departureplane_ == NULL) {
+    auto* p = CreateMaybeMessage<::tareados::PlaneMsge>(GetArenaNoVirtual());
+    departureplane_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:tareados.InfoResponse.departurePlane)
+  return departureplane_;
+}
+inline void InfoResponse::set_allocated_departureplane(::tareados::PlaneMsge* departureplane) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete departureplane_;
+  }
+  if (departureplane) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      departureplane = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, departureplane, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  departureplane_ = departureplane;
+  // @@protoc_insertion_point(field_set_allocated:tareados.InfoResponse.departurePlane)
+}
+
+// .tareados.PlaneMsge arrivalPlane = 2;
+inline bool InfoResponse::has_arrivalplane() const {
+  return this != internal_default_instance() && arrivalplane_ != NULL;
+}
+inline void InfoResponse::clear_arrivalplane() {
+  if (GetArenaNoVirtual() == NULL && arrivalplane_ != NULL) {
+    delete arrivalplane_;
+  }
+  arrivalplane_ = NULL;
+}
+inline const ::tareados::PlaneMsge& InfoResponse::_internal_arrivalplane() const {
+  return *arrivalplane_;
+}
+inline const ::tareados::PlaneMsge& InfoResponse::arrivalplane() const {
+  const ::tareados::PlaneMsge* p = arrivalplane_;
+  // @@protoc_insertion_point(field_get:tareados.InfoResponse.arrivalPlane)
+  return p != NULL ? *p : *reinterpret_cast<const ::tareados::PlaneMsge*>(
+      &::tareados::_PlaneMsge_default_instance_);
+}
+inline ::tareados::PlaneMsge* InfoResponse::release_arrivalplane() {
+  // @@protoc_insertion_point(field_release:tareados.InfoResponse.arrivalPlane)
+  
+  ::tareados::PlaneMsge* temp = arrivalplane_;
+  arrivalplane_ = NULL;
+  return temp;
+}
+inline ::tareados::PlaneMsge* InfoResponse::mutable_arrivalplane() {
+  
+  if (arrivalplane_ == NULL) {
+    auto* p = CreateMaybeMessage<::tareados::PlaneMsge>(GetArenaNoVirtual());
+    arrivalplane_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:tareados.InfoResponse.arrivalPlane)
+  return arrivalplane_;
+}
+inline void InfoResponse::set_allocated_arrivalplane(::tareados::PlaneMsge* arrivalplane) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete arrivalplane_;
+  }
+  if (arrivalplane) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      arrivalplane = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, arrivalplane, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  arrivalplane_ = arrivalplane;
+  // @@protoc_insertion_point(field_set_allocated:tareados.InfoResponse.arrivalPlane)
+}
+
+// string control_tower = 3;
+inline void InfoResponse::clear_control_tower() {
+  control_tower_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& InfoResponse::control_tower() const {
+  // @@protoc_insertion_point(field_get:tareados.InfoResponse.control_tower)
+  return control_tower_.GetNoArena();
+}
+inline void InfoResponse::set_control_tower(const ::std::string& value) {
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:tareados.InfoResponse.control_tower)
+}
+#if LANG_CXX11
+inline void InfoResponse::set_control_tower(::std::string&& value) {
+  
+  control_tower_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:tareados.InfoResponse.control_tower)
+}
+#endif
+inline void InfoResponse::set_control_tower(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:tareados.InfoResponse.control_tower)
+}
+inline void InfoResponse::set_control_tower(const char* value, size_t size) {
+  
+  control_tower_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:tareados.InfoResponse.control_tower)
+}
+inline ::std::string* InfoResponse::mutable_control_tower() {
+  
+  // @@protoc_insertion_point(field_mutable:tareados.InfoResponse.control_tower)
+  return control_tower_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* InfoResponse::release_control_tower() {
+  // @@protoc_insertion_point(field_release:tareados.InfoResponse.control_tower)
+  
+  return control_tower_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void InfoResponse::set_allocated_control_tower(::std::string* control_tower) {
+  if (control_tower != NULL) {
+    
+  } else {
+    
+  }
+  control_tower_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), control_tower);
+  // @@protoc_insertion_point(field_set_allocated:tareados.InfoResponse.control_tower)
+}
+
+// -------------------------------------------------------------------
+
 // PlaneMsge
 
 // string airline = 1;
@@ -1576,6 +2054,10 @@ inline void PlaneMsge::set_runway(::google::protobuf::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

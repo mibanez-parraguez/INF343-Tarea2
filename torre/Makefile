@@ -44,9 +44,6 @@ plane_client: planecontrol.pb.o planecontrol.grpc.pb.o plane_client.o
 control_server: planecontrol.pb.o planecontrol.grpc.pb.o control_server.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-async_control_server: planecontrol.pb.o planecontrol.grpc.pb.o async_control_server.o
-	$(CXX) $^ $(LDFLAGS) -o $@
-
 .PRECIOUS: %.grpc.pb.cc
 %.grpc.pb.cc: %.proto
 	$(PROTOC) -I $(PROTOS_PATH) --grpc_out=. --plugin=protoc-gen-grpc=$(GRPC_CPP_PLUGIN_PATH) $<
@@ -56,7 +53,7 @@ async_control_server: planecontrol.pb.o planecontrol.grpc.pb.o async_control_ser
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h plane_client control_server async_control_server
+	rm -f *.o *.pb.cc *.pb.h plane_client control_server
 
 
 # The following is to test your system and ensure a smoother experience.

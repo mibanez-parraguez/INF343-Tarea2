@@ -16,7 +16,6 @@
 #include <grpcpp/server_context.h>
 #include <grpcpp/security/server_credentials.h>
 #include "planecontrol.grpc.pb.h"
-#include "infocontrol.grpc.pb.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -31,9 +30,8 @@ using tareados::TakeoffRequest;
 using tareados::TakeoffResponse;
 using tareados::PlaneControlService;
 using tareados::PlaneMsge;
-using tareadosinfo::InfoRequest;
-using tareadosinfo::InfoResponse;
-using tareadosinfo::InfoService;
+using tareados::InfoRequest;
+using tareados::InfoResponse;
 
 std::mutex serverOK;
 std::mutex inputOK;
@@ -91,8 +89,8 @@ std::deque<PlaneMsge> departureDeque;               // cola de aviones que quier
 std::vector<std::string> firstArrival;          // nombre del primer avion en la cola de aterrizaje
 std::vector<std::string> firstDeparture;        // nombre del primer avion en la cola de despegue
 std::map<int, bool> heightMap;                  // Hash que guarda la altura y si esta disponible en el espacio aéreo del aeropuerto
-std::deque<PlaneMsge> arrivalPlaneMsge;                 // cola de aviones que en las pistas de aterrizaje
-std::deque<PlaneMsge> departurePlaneMsge;               // cola de aviones que en las pistas de despegue
+std::vector<PlaneMsge> arrivalPlaneMsge;                 // vector de aviones que en las pistas de aterrizaje
+std::vector<PlaneMsge> departurePlaneMsge;               // vector de aviones que en las pistas de despegue
 bool runwayFreed = false;
 int minHeight = 5;
 int maxHeight = 100;
@@ -265,9 +263,14 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           stream->Write(towerResponse);
           runwayOK = true;
           freeRunway = tr.plane().runway();
-          ///////////////////////BUSCAR EL AVION EN DEPARTUREPLANE Y POP
-          arrivalPlaneMsge.pop_front();
+          //se añade el avion a la pista de despegue
           departurePlaneMsge.push_back(tr.plane());
+          //Se elimina el avión de la pista de aterrizaje
+          for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
+            if (arrivalPlaneMsge[i].planenumber() == tr.plane().planenumber()) {
+              arrivalPlaneMsge.erase(arrivalPlaneMsge.begin()+i);
+            }
+          }
         } 
         // Si no hay pistas de aterrizaje disponibles entonces el avion se envia a la cola de espera hasta que se disponga una pista
         else {
@@ -294,11 +297,33 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
       firstArrival.clear();
       firstArrival.push_back(arrivalDeque.front().planenumber());
       runwayFreed = true;
-      ///////////////////////BUSCAR EL AVION EN DEPARTUREPLANE Y POP
-      departurePlaneMsge.pop_front();
+      //Se elimina el avión de la pista de despegue
+      for (unsigned int i = 0; i < departurePlaneMsge.size(); ++i) {
+        if (departurePlaneMsge[i].planenumber() == tr.plane().planenumber()) {
+          departurePlaneMsge.erase(departurePlaneMsge.begin()+i);
+        }
+      }
     }
     return Status::OK;
   }
+
+  Status Info(ServerContext* context, InfoRequest* request, ServerWriter<InfoResponse>* writer) {
+    InfoRequest ir;
+    std::cout << "something is coming :O " << arrivalPlaneMsge.size() << std::endl;
+    std::cout << "something is coming :O " << departurePlaneMsge.size() << std::endl;
+    InfoResponse infoRes;
+    infoRes.set_control_tower(ct.name);
+    for (PlaneMsge p : arrivalPlaneMsge) {
+      // infoRes.add_arrivalplane()->CopyFrom(p);
+      infoRes.mutable_arrivalplane()->CopyFrom(p);
+    }
+    for (PlaneMsge p : departurePlaneMsge) {
+      // infoRes.add_departureplane()->CopyFrom(p);
+      infoRes.mutable_departureplane()->CopyFrom(p);
+    }
+    writer->Write(infoRes);
+    return Status::OK;
+  };
 };
 
 void RunServer() {
@@ -393,45 +418,6 @@ void WaitInput(std::atomic<bool> &run) {
   }
 }
 
-/*===============SERVICIO DE INFORMACION===============*/
-
-class InfoServiceImpl final : public InfoService::Service {
-public:
-  Status Info(ServerContext* context, InfoRequest* request, ServerWriter<InfoResponse>* writer) {
-    InfoRequest ir;
-    InfoResponse infoRes;
-    infoRes.set_control_tower(ct.name);
-    for (PlaneMsge &p : arrivalPlaneMsge) {
-      infoRes.add_arrivalplane();
-    }
-    for (PlaneMsge &p : departurePlaneMsge) {
-      infoRes.add_departureplane();
-      p->infoRes.mutable_departureplane();
-    }
-    writer->Write(infoRes);
-    return Status::OK;
-  };
-};
-
-void RunServerInfo() {
-  std::string server_address(serverAddress+":50052"); //MISMA DIRECCION, PUERTO DISTINTO
-  InfoServiceImpl service;
-  ServerBuilder builder;
-  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-  builder.RegisterService(&service);
-  std::unique_ptr<Server> server(builder.BuildAndStart());
-  std::cout << "Info Server listening on " << server_address << std::endl;
-  server->Wait();
-}
-
-
-//Thread que maneja las consultas de la pantalla de información
-void WaitInfo(std::atomic<bool> &runInfo) {
-  inputOK.lock(); // Solo se puede iniciar cuando se llenaron los campos de informacion de la torre de control
-  RunServerInfo();
-}
-
-
 //Iniciar alturas disponibles
 void initHeight() {  
   for (int i = minHeight; i < maxHeight+1; ++i) {
@@ -441,16 +427,11 @@ void initHeight() {
 
 int main() {
   std::atomic<bool> run(true);
-  std::atomic<bool> runInfo(true);
   serverOK.lock();
-  inputOK.lock();
   std::thread userInputThread(WaitInput, std::ref(run));
-  std::thread userInfoThread(WaitInfo, std::ref(runInfo));
   initHeight();
   RunServer();
   run.store(false);
-  runInfo.store(false);
   userInputThread.join();
-  userInfoThread.join();
   return 0;
 }
