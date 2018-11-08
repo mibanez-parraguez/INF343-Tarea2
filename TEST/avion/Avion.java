@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import avion.proto.PlaneControlServiceGrpc.PlaneControlServiceBlockingStub;
+import io.grpc.stub.StreamObserver;
+import avion.proto.PlaneControlServiceGrpc.PlaneControlServiceStub;
 import avion.proto.PlaneControlServiceGrpc;
 import avion.proto.TakeoffRequest;
 import avion.proto.TakeoffResponse;
@@ -27,10 +28,13 @@ public class Avion {
 	private PlaneMsge plane;
 	private static final String APROMPT="[Avion%1$s%2$s]: %3$s";
 	
+	private int aux_int;
+	private String aux_str;
+	
 // 	private final ManagedChannel channel;
 // 	private final PlaneControlServiceBlockingStub blockingStub;
 	private ManagedChannel channel;
-	private PlaneControlServiceBlockingStub blockingStub;
+	private PlaneControlServiceStub asyncStub;
 
 	public Avion(){
 		Console c = System.console();
@@ -58,22 +62,20 @@ public class Avion {
 		this.plane = pb.build();
 
 		String dest = c.readLine(APROMPT, " - ", this.id,  "Torre de Control inicial:\n> ");
-
-		//this.land(dest);
+		this.curr_addr = dest;
+		this.aux_int = -9;
+		this.land(dest);
 	}
 
 	public void shutdown() throws InterruptedException {
 		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
+	private void auxFunc(TakeoffResponse resp) {
+		System.out.println(resp.getQueuePos());
+	}
 
-	private void takeoff(){
-		Console c = System.console();
-		c.printf(APROMPT, " - ", this.id,  "Ingrese destino:");
-		String dest = c.readLine(APROMPT, " - ", this.id,  "");
-
-		this.gate();
-
+	private void takeoff(String dest){
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.mergeFrom(this.plane);
 		pmsg.setCurrCapacity(this.fuel);
@@ -87,33 +89,55 @@ public class Avion {
 				.setInstOK(true).build();
 
 		String host = this.curr_addr.split(":")[0];
-		int port = Integer.parseInt(this.curr_addr.split(" ")[1]);
-
+		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
 		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		blockingStub = PlaneControlServiceGrpc.newBlockingStub(channel);
+		asyncStub = PlaneControlServiceGrpc.newStub(channel);
+		
+		System.out.println(channel);
+		
+		StreamObserver<TakeoffRequest> requestObserver =
+			asyncStub.takeoff(new StreamObserver<TakeoffResponse>() {
+				@Override
+				public void onNext(TakeoffResponse resp) {
+					
+					if(resp.getRunway() != 0){
+						//despegar
+					} else{
+					
+					}
+					
+				}
+				@Override
+				public void onError(Throwable t) {
+					//warning("Take off Failed: {0}", Status.fromThrowable(t));
+					System.console().printf("Takeoff error\n");
+					//finishLatch.countDown();
+				}
+				@Override
+				public void onCompleted() {
+					// 
+					System.console().printf("onCompleted.\n");
+				}
+			});
+	}
+	
+	private void takeoffProcedure(){
+		Console c = System.console();
+		c.printf(APROMPT, " - ", this.id,  "Ingrese destino:\n");
+		String dest = c.readLine(APROMPT, " - ", this.id,  "");
 
-		Iterator<TakeoffResponse> resps;
-// 		try{
-// 			resps = blockingStub.takeoff(request);
-// 			for (int i = 1; resps.hasNext(); i++) {
-// 				c.printf(APROMPT, " - ", this.id,  "takeoff_resp"+i);
-// 			}
-// 		} catch (StatusRuntimeException e) {
-// // 			warning("RPC failed: {0}", e.getStatus());
-// 				c.printf(APROMPT, " - ", this.id,  "RPC failed: " + e.getStatus());
-// 		}
+		c.printf(APROMPT, " - ", this.id,  "Pasando por gate.\n");
+		this.gate();
+		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
+
+		c.printf(APROMPT, " - ", this.id,  "Pidiendo instrucciones para despegar.\n");
+		this.takeoff(dest);
 	}
 
 	private void land(){
 		//TODO hacer output
 		//TODO implmenentar llegada de respuesta
 		Console c = System.console();
-
-		String host = this.dest_addr.split(":")[0];
-		int port = Integer.parseInt(this.dest_addr.split(" ")[1]);
-
-		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		blockingStub = PlaneControlServiceGrpc.newBlockingStub(channel);
 
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.setSourceAddress(this.curr_addr);
@@ -124,25 +148,47 @@ public class Avion {
 				.setPlane(pmsg.build())
 				.setDest(this.dest_addr).build();
 
-		Iterator<LandResponse> resps;
-// 		try{
-// 			resps = blockingStub.land(request);
-// 			for (int i = 1; resps.hasNext(); i++) {
-// 				c.printf(APROMPT, " - ", this.id,  "land_resp"+i);
-// 			}
-// 		} catch (StatusRuntimeException e) {
-// // 			warning("RPC failed: {0}", e.getStatus());
-// 			c.printf(APROMPT, " - ", this.id,  "RPC failed: " + e.getStatus());
-// 		}
+		String host = this.curr_addr.split(":")[0];
+		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
+		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		asyncStub = PlaneControlServiceGrpc.newStub(channel);
+		
+		System.out.println(channel);
+		
+		StreamObserver<LandRequest> requestObserver =
+			asyncStub.takeoff(new StreamObserver<LandResponse>() {
+				@Override
+				public void onNext(LandResponse resp) {
+					//TODO aterrizar
+					System.console().printf("asdf\n");
+					System.out.println(resp.getQueue());
+					auxFunc(resp);
+					aux_int = resp.getQueue();
+					
+					if(resp.getRunway() != 0){
+						//Aterrizar
+					}
+				}
+				@Override
+				public void onError(Throwable t) {
+					System.console().printf("Landing error\n");
+				}
+				@Override
+				public void onCompleted() {
+					// 
+					System.console().printf("(borrar)onCompleted.\n");
+				}
+			});
+		requestObserver.onNext(request);
+		System.out.println("post_next");
+		System.out.println(this.aux_int);
+		requestObserver.onCompleted();
 	}
 
 
 	private void gate(){
-		Console c = System.console();
-		c.printf(APROMPT, " - ", this.id,  "Pasando por gate.");
 		this.load = this.max_load;
 		this.fuel = this.max_fuel;
-		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.");
 	}
 
 	private void dump(){
@@ -150,11 +196,14 @@ public class Avion {
 // 		System.out.println("vuelo: "+this.id);
 		System.out.println("carga: "+this.max_load);
 		System.out.println("fuel: "+this.max_fuel);
+		System.out.println("curr_addr: "+this.curr_addr);
 	}
 
-	public static void main(String[] args){
+	public static void main(java.lang.String[] args){
 		Avion le_avion = new Avion();
 		le_avion.dump();
+		
+		//le_avion.takeoffProcedure();
 		
 		while(true){
 			break;
