@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x11infocontrol.proto\"$\n\x0bInfoRequest\x12\x15\n\rcontrol_tower\x18\x01 \x01(\t\"L\n\x0cInfoResponse\x12\x1e\n\x0e\x64\x65parturePlane\x18\x01 \x03(\x0b\x32\x06.Plane\x12\x1c\n\x0c\x61rrivalPlane\x18\x02 \x03(\x0b\x32\x06.Plane\"\xb7\x01\n\x05Plane\x12\x0f\n\x07\x61irline\x18\x01 \x01(\t\x12\x13\n\x0bplaneNumber\x18\x02 \x01(\t\x12\x0f\n\x07maxLoad\x18\x03 \x01(\x05\x12\x10\n\x08\x63urrLoad\x18\x04 \x01(\x05\x12\x13\n\x0bmaxCapacity\x18\x05 \x01(\x05\x12\x14\n\x0c\x63urrCapacity\x18\x06 \x01(\x05\x12\x15\n\rsourceAddress\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65stAddress\x18\x08 \x01(\t\x12\x0e\n\x06runway\x18\t \x01(\x05\x32\x36\n\x0bInfoService\x12\'\n\x04Info\x12\x0c.InfoRequest\x1a\r.InfoResponse\"\x00\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x11infocontrol.proto\"$\n\x0bInfoRequest\x12\x15\n\rcontrol_tower\x18\x01 \x01(\t\"c\n\x0cInfoResponse\x12\x1e\n\x0e\x64\x65parturePlane\x18\x01 \x03(\x0b\x32\x06.Plane\x12\x1c\n\x0c\x61rrivalPlane\x18\x02 \x03(\x0b\x32\x06.Plane\x12\x15\n\rcontrol_tower\x18\x03 \x01(\t\"\xb7\x01\n\x05Plane\x12\x0f\n\x07\x61irline\x18\x01 \x01(\t\x12\x13\n\x0bplaneNumber\x18\x02 \x01(\t\x12\x0f\n\x07maxLoad\x18\x03 \x01(\x05\x12\x10\n\x08\x63urrLoad\x18\x04 \x01(\x05\x12\x13\n\x0bmaxCapacity\x18\x05 \x01(\x05\x12\x14\n\x0c\x63urrCapacity\x18\x06 \x01(\x05\x12\x15\n\rsourceAddress\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65stAddress\x18\x08 \x01(\t\x12\x0e\n\x06runway\x18\t \x01(\x05\x32\x36\n\x0bInfoService\x12\'\n\x04Info\x12\x0c.InfoRequest\x1a\r.InfoResponse\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -77,6 +77,13 @@ _INFORESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='control_tower', full_name='InfoResponse.control_tower', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -90,7 +97,7 @@ _INFORESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=59,
-  serialized_end=135,
+  serialized_end=158,
 )
 
 
@@ -176,8 +183,8 @@ _PLANE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=138,
-  serialized_end=321,
+  serialized_start=161,
+  serialized_end=344,
 )
 
 _INFORESPONSE.fields_by_name['departurePlane'].message_type = _PLANE
@@ -216,8 +223,8 @@ _INFOSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=323,
-  serialized_end=377,
+  serialized_start=346,
+  serialized_end=400,
   methods=[
   _descriptor.MethodDescriptor(
     name='Info',

@@ -1,11 +1,17 @@
 //
-
 syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "avion.proto";
+option java_outer_classname = "PlaneControlProtos";
 
 package tareados;
 
+// === Mensajes de aterrizaje ===
+
 message LandRequest {
-	int32 planeId = 1;
+	string dest = 1;
+	PlaneMsge plane = 2;
 }
 
 message LandResponse {
@@ -14,63 +20,41 @@ message LandResponse {
 	int32 altitude = 3;
 }
 
-// service LandService {
-// 	rpc Land(LandRequest) returns (LandResponse) {}
-// }
+// === Mensajes de despegue ===
 
 message TakeoffRequest {
-	int32 planeId = 1;
-	string dest = 2; //Nombre aeropuerto destino
-	int32 passengers = 3;
-	int32 fuel = 4;
-	int32 maxLoad = 5;
+	PlaneMsge plane = 1;
+	string dest = 2;
+	bool instOK = 3;			//si el avión necesita instrucciones = true sino no
 }
 
 message TakeoffResponse {
 	int32 altitude = 1;
 	int32 runway = 2;
-	//string ip_dest = 3;	// ip + puerto
-	bytes ipDest = 3;		//or string ip_dest
-	bytes portDest = 4;	//or string port_dest
-	int32 queuePos = 5;
-	string prevPlane = 6; //
-	
+	string dest = 3;
+	int32 queuePos = 4;
+	string prevPlane = 5;
+	bool destOK = 6;			//si el destino es valido destOK = true sino no
+	bool restrOK = 7;   		//si la restricciones se cumplen restrOK = true sino no
+	bool instOK = 8;   			//si el avión envio instrucciones = true sino no
 }
 
-// service TakeoffService {
-// 	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
-// }
 
-// === Panel de informacion ===
-
-message InfoRequest {
-	string controlTower = 1; 	//id de torre de control
-}
-
-message InfoResponse {
-	repeated plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
-	repeated plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
-}
-
-// service InfoService {
-// 	rpc Info(InfoRequest) returns (stream InfoResponse) {}
-// }
-
-message plane {
-	int32 planeId = 1;
-	string sourceName = 2;
-	string destName = 3;
-	string departureTime = 4;
-	string arrivalTime = 5;
-	int32 sourceRunway = 6;
-	int32 destRunway = 7;
-	int32 altitude = 8;
+message PlaneMsge {
+	string airline = 1; 		//nombre aerolinea
+	string planeNumber = 2;		//nombre del avion
+	int32 maxLoad = 3;			//peso maximo
+	int32 currLoad = 4;			//peso actual
+	int32 maxCapacity = 5;		//capacidad de combustible maxima
+	int32 currCapacity = 6;		//capacidad acutal de combustible
+	string sourceAddress = 7;	//direccion de torre fuente
+	string destAddress = 8;		//direccion de torre de destino
+	int32 runway = 9;			//pista en la que se encuentra el avion, -1 si no esta en pista (en vuelo)
 }
 
 service PlaneControlService {
-	rpc Land(LandRequest) returns (LandResponse) {}
-	rpc Takeoff(TakeoffRequest) returns (TakeoffResponse) {}
-	rpc Info(InfoRequest) returns (stream InfoResponse) {}
+	rpc Land(stream LandRequest) returns (stream LandResponse) {}
+	rpc Takeoff(stream TakeoffRequest) returns (stream TakeoffResponse) {}
 }
 
 

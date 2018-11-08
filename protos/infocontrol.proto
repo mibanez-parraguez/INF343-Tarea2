@@ -2,6 +2,8 @@
 
 syntax = "proto3";
 
+package tareadosinfo;
+
 // === Panel de informacion ===
 
 message InfoRequest {
@@ -9,11 +11,12 @@ message InfoRequest {
 }
 
 message InfoResponse {
-	repeated Plane departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
-	repeated Plane arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+	repeated PlaneMsge departurePlane = 1; 	//id de vuelo de salida desde el aeropuerto
+	repeated PlaneMsge arrivalPlane = 2;   	//id de vuelo de entrada desde el aeropuerto
+	string control_tower = 3;			//nombre de la torre de control
 } 
 
-message Plane {
+message PlaneMsge {
 	string airline = 1; 		//nombre aerolinea
 	string planeNumber = 2;		//nombre del avion
 	int32 maxLoad = 3;			//peso maximo
