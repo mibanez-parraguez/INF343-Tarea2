@@ -65,6 +65,7 @@ public class Avion {
 
 		String dest = c.readLine(APROMPT, " - ", this.id,  "Torre de Control inicial:\n> ");
 		this.curr_addr = dest;
+		this.dest_addr = dest;
 		this.aux_int = -9;
 		CountDownLatch finishLatch = this.landProc();
 	}
