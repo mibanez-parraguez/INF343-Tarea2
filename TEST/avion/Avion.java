@@ -82,42 +82,57 @@ public class Avion {
 		c.printf("[this]  t.resOK: " + this.resOK+"\n");
 		c.printf("[this]  t.insOK: " + this.insOK+"\n");
 		c.printf("------\n");
-		if(resp.getDestOK() && !this.desOK){
-			// Recibe ip de destino
+		if(!resp.getDestOK()){
+			this.plane.setDestName(c.readLine(APROMPT, " - ", this.id,  "Destino inválido. Por favor ingrese un destino valido\n> "));
+			TakeoffRequest request = makeRequest(false,false);
+			this.takeoffRequestObserver.onNext(request);
+			return -1;
+		}
+		if(resp.getDestOK() && !this.desOK){ // Recibe ip de destino
 			this.plane.setDestAddress(resp.getDest());
 			this.desOK = true;
 			c.printf(APROMPT, " - ", this.id,  "Recibida IP de destino.\n");
-			TakeoffRequest request = makeRequest(false,false);
-			this.takeoffRequestObserver.onNext(request);
+// 			TakeoffRequest request = makeRequest(false,false);
+// 			this.takeoffRequestObserver.onNext(request);
 			return 1;
 		}
-		if(!resp.getRestrOK() && !this.resOK){
+		if(!resp.getRestrOK() && !this.resOK){ // Debo pasar por gate
 			this.gate();
-			this.resOK = true;
+			
 			TakeoffRequest request = makeRequest(true,false);
 			c.printf("[request] fuel: " + request.getPlane().getCurrCapacity()+"\n");
 			c.printf("[request] load: " + request.getPlane().getCurrLoad()+"\n");
 			this.takeoffRequestObserver.onNext(request);
 			return 2;
 		}
-		if(resp.getQueuePos()!=0){
-			// Esperando a la habilitación de una pista.
-			c.printf(APROMPT, " - ", this.id,  "Las pistas de despegue están ocupadas.\n");
-			c.printf(APROMPT, " - ", this.id,  "Avión predecesor: "+ resp.getPrevPlane() +".\n");
-			// Hay que hacer un request aca??
+		if(resp.getRestrOK() && !this.resOK){ // Se cumple con restricciones
+			c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
+			this.resOK = true;
 			return 3;
 		}
-		if(resp.getRunway()!=0 && !this.flyOK){
-			// Despegue
+		if(resp.getQueuePos()!=0){ // Esperando a la habilitación de una pista.
+			c.printf(APROMPT, " - ", this.id,  "Las pistas de despegue están ocupadas.\n");
+			c.printf(APROMPT, " - ", this.id,  "Avión predecesor: "+ resp.getPrevPlane() +".\n");
+			return 4;
+		}
+		if(resp.getRunway()!=0 && !this.flyOK /*&& !this.insOK*/){ // Despegue
 			this.altitude = resp.getAltitude();
 			c.printf(APROMPT, " - ", this.id,  "Pista "+ resp.getRunway() + " y altura de "+ resp.getAltitude()+" [km].\n");
-			c.printf(APROMPT, " - ", this.id,  "Despegando.\n");
+			c.readLine(APROMPT, " - ", this.id,  "Todo listo. Presione enter para despegar...");
+			c.printf(APROMPT, " - ", this.id,  "Despegando...\n");
+// 			this.insOK = true;
 			this.flyOK = true;
 			TakeoffRequest request = makeRequest(false,true);
 			this.takeoffRequestObserver.onNext(request);
+			return 5;
 		}
-		if(resp.getRunway()!=0 && this.flyOK){
+// 		if(resp.getRunway()!=0 && !this.flyOK){
+// 			this.flyOK = true;
+// 			return 6;
+// 		}
+		if(resp.getRunway()!=0 && this.flyOK){ // Se confirma despegue y cierra comunicación.
 			System.console().printf("fin.\n");
+			c.printf(APROMPT, " - ", this.id,  "");
 			this.takeoffRequestObserver.onCompleted();
 			return 0;
 		}
@@ -234,26 +249,25 @@ public class Avion {
 		c.printf(APROMPT, " - ", this.id,  "Pasando por gate...\n");
 		this.plane.setCurrLoad(this.plane.getMaxLoad());
 		this.plane.setCurrCapacity(this.plane.getMaxCapacity());
-		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
 	}
 
 	public static void main(java.lang.String[] args) throws InterruptedException {
 		Console c = System.console();
 		Avion le_avion = new Avion();
 		CountDownLatch finishLatch = le_avion.landProcedure();
-		if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+		if (!finishLatch.await(10, TimeUnit.MINUTES)) {
 			c.printf("Error en comunicación");
 		}
 		while(true){
 			try {
 				c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...");
 				finishLatch = le_avion.takeoffProcedure();
-				if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+				if (!finishLatch.await(10, TimeUnit.MINUTES)) {
 					c.printf("Error en comunicación");
 				}
 				c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
 				finishLatch = le_avion.landProcedure();
-				if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+				if (!finishLatch.await(10, TimeUnit.MINUTES)) {
 					c.printf("Error en comunicación");
 				}
 			} finally {
