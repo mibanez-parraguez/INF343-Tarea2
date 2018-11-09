@@ -2,7 +2,7 @@
 Tarea 2 Sistemas Distribuidos
 
 __Autores__
-* Felipe Santander ()
+* Felipe Santander (201104528-9)
 * Miguel Ibáñez (2990010-8)
 
 ---
