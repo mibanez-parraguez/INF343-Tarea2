@@ -232,15 +232,28 @@ Internet-Draft                     T2                      November 2018
 
 2.3.  Pantalla-Torre
 
-   message InfoRequest {
-   string control_tower = 1;
-   }
+   A continuacion se muestran los mensajes intercambiados entre la
+   pantalla de informacion y la torre de control.
 
-   message InfoResponse {
-   repeated PlaneMsge departurePlane = 1;
-   repeated PlaneMsge arrivalPlane = 2;
-   string control_tower = 3;
-   }
+      message InfoRequest {
+      }
+
+   Este mensaje inicia el proceso de envio de informacion desde la torre
+   a la pantalla.
+
+      message InfoResponse {
+         repeated PlaneMsge departurePlane = 1;
+         repeated PlaneMsge arrivalPlane = 2;
+         string control_tower = 3;
+      }
+
+   Este mensaje contiene los campos 'departurePlane' y 'arrivalPlane'
+   los cuales contienen los datos de los aviones que se encuentran
+   dentro del espacio aereo de la torre o que estan dentro del
+   aeropuerto, como pueden ser mas de 1 avion el campo se declara como
+   repeated para poder recibir muchos objetos de tipo avion en la misma
+   respuesta.  Finalmente el string 'control_tower' envia el nombre de
+   la torre de control.
 
 3.  Normative References
 
@@ -259,19 +272,6 @@ Authors' Addresses
    Universidad Tecnica Federico Santa Maria
 
    Email: mibanez@alumnos.inf.utfsm.cl
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
