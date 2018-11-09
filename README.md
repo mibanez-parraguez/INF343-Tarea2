@@ -13,7 +13,7 @@ __Avion__
 
 * Para compilar (desde raíz)
 
-`$ ./gradlew installDist
+`$ ./gradlew installDist`
 
 * Para ejecutar avion cliente
 
