@@ -46,7 +46,7 @@ __Pantalla__
 
 `$ python -m pip install --upgrade pip`
 * Instalar grpc:
-`$ sudo python -m pip install grpcio`
+`$ python -m pip install grpcio`
 * Finalmente:
 
 `$ python -m pip install grpcio-tools googleapis-common-protos`
