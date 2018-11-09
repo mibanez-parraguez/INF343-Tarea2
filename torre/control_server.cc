@@ -7,6 +7,7 @@
 #include <list>
 #include <sstream>
 #include <mutex>
+#include <queue>
 #include <deque>
 #include <algorithm>
 
@@ -87,8 +88,6 @@ ControlTower ct;                                // atributos de ésta torre de c
 std::list<Dest> destList;                       // lista de destinos agregados por el usuario
 std::deque<PlaneMsge> arrivalDeque;                 // cola de aviones que quieren aterrizar
 std::deque<PlaneMsge> departureDeque;               // cola de aviones que quieren despegar
-std::vector<std::string> firstArrival;          // nombre del primer avion en la cola de aterrizaje
-std::vector<std::string> firstDeparture;        // nombre del primer avion en la cola de despegue
 std::map<int, bool> heightMap;                  // Hash que guarda la altura y si esta disponible en el espacio aéreo del aeropuerto
 std::vector<PlaneMsge> arrivalPlaneMsge;                 // vector de aviones que en las pistas de aterrizaje
 std::vector<PlaneMsge> departurePlaneMsge;               // vector de aviones que en las pistas de despegue
@@ -173,10 +172,9 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           int availableHeight = checkAvailabilityHeight(); //Retorna la primera altura disponible
           towerResponse.set_altitude(availableHeight);
           stream->Write(towerResponse);
-          firstArrival.push_back(lr.plane().planenumber());
           // Request queda en espera hasta que se libere un espacio
           while (true) {
-            if (arrivalRunwayFreed && firstArrival.front() == arrivalDeque.front().planenumber()) {
+            if (arrivalRunwayFreed && lr.plane().planenumber() == arrivalDeque.front().planenumber()) {
               // Se revisa disponibilidad de pistas de aterrizaje
               int availableRunway = checkAvailability(0);
               // Si existe una pista disponible entonce se asigna el avion
@@ -185,9 +183,8 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
                 std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada al avión " << arrivalDeque.front().planenumber() << " es la " << availableRunway << std::endl;
                 towerResponse.set_runway(availableRunway);
                 stream->Write(towerResponse);
-                arrivalRunwayFreed = false;
-                firstArrival.pop_back();
                 arrivalDeque.pop_front();
+                arrivalRunwayFreed = false;
                 heightMap[availableHeight] = false; // Deja libre el espacio aereo ocupado
                 ready = true;
                 break;
@@ -213,6 +210,7 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
     bool instOK = false;     //Para enviar instrucciones
     bool runwayOK = false;  //Para el ciclo de espera de pista disponible
     bool planeLeft = false;  //Para reconocer que el avion ya no esta en la pista
+    int freeHeight;
     int freeRunway;         //Pista que se libera al despegar el avion
     while (stream->Read(&tr)) {
       if (!desOK) {
@@ -268,8 +266,9 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         // Se revisa disponibilidad de pistas de despegue
         int availableRunway = checkAvailability(1);
         int availableHeight = checkAvailabilityHeight();
+        freeHeight = availableHeight;
         // Si existe una pista disponible entonce se asigna el avion
-        if (availableRunway != 0) {
+        if (availableRunway != 0 && availableHeight != 0) {
           std::cout << "[Torre de control - " << ct.name << "] La pista de despegue asignada al avión " << tr.plane().planenumber() << " es la " << availableRunway << " y la altura " << availableHeight << std::endl;
           towerResponse.set_runway(availableRunway);
           towerResponse.set_altitude(availableHeight);
@@ -286,8 +285,6 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           ct.arrivalRunway[freeRunway] = false; // se libera la pista
           // Se revisa si hay aviones en la cola de espera
           if (!arrivalDeque.empty()) {
-            firstArrival.clear();
-            firstArrival.push_back(arrivalDeque.front().planenumber());
             arrivalRunwayFreed = true;
           } 
           stream->Write(towerResponse);
@@ -296,6 +293,8 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         else {
           std::cout << "[Torre de control - " << ct.name << "] Todas las pistas están ocupadas, encolando avión." << std::endl;
           departureDeque.push_back(tr.plane());
+          freeRunway = tr.plane().runway();
+          ct.arrivalRunway[freeRunway] = false; // se libera la pista
           if (departureDeque.size() > 1) {
             for (unsigned int i = 0; i < departureDeque.size(); ++i) {
               if (departureDeque[i].planenumber() == tr.plane().planenumber()) {
@@ -308,19 +307,20 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
             towerResponse.set_queuepos(-1);
           }
           stream->Write(towerResponse);
-          firstDeparture.push_back(tr.plane().planenumber());
           while (true) {
-            if (departureRunwayFreed && firstDeparture.front() == departureDeque.front().planenumber()) {
+            if (departureRunwayFreed && tr.plane().planenumber() == departureDeque.front().planenumber()) {
               int availableRunway = checkAvailability(1);
               int availableHeight = checkAvailabilityHeight();
+              freeHeight = availableHeight;
               if (availableRunway != 0 && availableHeight != 0) {
                 std::cout << "[Torre de control - " << ct.name << "] Pista de despegue " << availableRunway << " ha sido desocupada." << std::endl;
-                std::cout << "[Torre de control - " << ct.name << "] La pista de despegue asignada al avión " << departureDeque.front().planenumber() << " es la " << availableRunway << "y la altura " << availableHeight << std::endl;
+                std::cout << "[Torre de control - " << ct.name << "] La pista de despegue asignada al avión " << departureDeque.front().planenumber() << " es la " << availableRunway << " y la altura " << availableHeight << std::endl;
                 towerResponse.set_runway(availableRunway);
+                towerResponse.set_altitude(availableHeight);
+                runwayOK = true;
+                departureDeque.pop_front();
                 stream->Write(towerResponse);
                 departureRunwayFreed = false;
-                firstDeparture.pop_back();
-                departureDeque.pop_front();
                 break;
               }
             }
@@ -339,12 +339,10 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           }
         }
         ct.departureRunway[freeRunway] = false; // se libera la pista
-        heightMap[availableHeight] = false; // Deja libre el espacio aereo ocupado
+        heightMap[freeHeight] = false; // Deja libre el espacio aereo ocupado
         std::cout << freeRunway << std::endl;
         // Se revisa si hay aviones en la cola de espera
         if (!departureDeque.empty()) {
-          firstDeparture.clear();
-          firstDeparture.push_back(departureDeque.front().planenumber());
           departureRunwayFreed = true;
         } 
       }

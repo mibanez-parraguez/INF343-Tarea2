@@ -173,6 +173,7 @@ class PlaneClient {
       //Se revisa si hay pistas disponibles
       else if (desOK && restrOK && instOK && towerResponse.runway() != 0 && !finish) {
         std::cout << "[Avion - " << plane.planenumber() << "] Pista " << towerResponse.runway() << " asignada y altura de "  << towerResponse.altitude() << "." << std::endl;
+        plane.set_runway(towerResponse.runway());
         runwayOK = true;
       } 
       else if (desOK && restrOK && instOK && towerResponse.runway() == 0){
