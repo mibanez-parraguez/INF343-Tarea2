@@ -43,7 +43,7 @@ class requestInfo(object):
     def planeList(self):
         global finish
         try:
-            Request = planecontrol_pb2.InfoRequest(control_tower="something")
+            Request = planecontrol_pb2.InfoRequest()
             Response = self.stub.Info(Request)
             for res in Response:
                 global TCname

@@ -36,10 +36,7 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check plane_client control_server
-
-plane_client: planecontrol.pb.o planecontrol.grpc.pb.o plane_client.o
-	$(CXX) $^ $(LDFLAGS) -o $@
+all: system-check  control_server
 
 control_server: planecontrol.pb.o planecontrol.grpc.pb.o control_server.o
 	$(CXX) $^ $(LDFLAGS) -o $@
@@ -53,7 +50,7 @@ control_server: planecontrol.pb.o planecontrol.grpc.pb.o control_server.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h plane_client control_server
+	rm -f *.o *.pb.cc *.pb.h control_server
 
 
 # The following is to test your system and ensure a smoother experience.

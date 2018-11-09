@@ -205,7 +205,6 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
           if (arrivalPlaneMsge.at(i).planenumber() == lr.plane().planenumber()) {
             arrivalPlaneMsge.at(i) = lr.plane();
-            std::cout << "plane: " << arrivalPlaneMsge.at(i).planenumber() << " : " << arrivalPlaneMsge.at(i).destname() << std::endl;
           }
         }
         return Status::OK;
@@ -365,7 +364,6 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         }
         ct.departureRunway[freeRunway] = false; // se libera la pista
         heightMap[freeHeight] = false; // Deja libre el espacio aereo ocupado
-        std::cout << freeRunway << std::endl;
         // Se revisa si hay aviones en la cola de espera
         if (!departureDeque.empty()) {
           departureRunwayFreed = true;
