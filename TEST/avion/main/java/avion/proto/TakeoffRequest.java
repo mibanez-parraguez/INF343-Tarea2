@@ -18,6 +18,7 @@ private static final long serialVersionUID = 0L;
   private TakeoffRequest() {
     dest_ = "";
     instOK_ = false;
+    flyOK_ = false;
   }
 
   @java.lang.Override
@@ -73,6 +74,11 @@ private static final long serialVersionUID = 0L;
           case 24: {
 
             instOK_ = input.readBool();
+            break;
+          }
+          case 32: {
+
+            flyOK_ = input.readBool();
             break;
           }
         }
@@ -167,6 +173,19 @@ private static final long serialVersionUID = 0L;
     return instOK_;
   }
 
+  public static final int FLYOK_FIELD_NUMBER = 4;
+  private boolean flyOK_;
+  /**
+   * <pre>
+   *si el avion esta listo para despegar (presionar enter)
+   * </pre>
+   *
+   * <code>bool flyOK = 4;</code>
+   */
+  public boolean getFlyOK() {
+    return flyOK_;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -188,6 +207,9 @@ private static final long serialVersionUID = 0L;
     if (instOK_ != false) {
       output.writeBool(3, instOK_);
     }
+    if (flyOK_ != false) {
+      output.writeBool(4, flyOK_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -206,6 +228,10 @@ private static final long serialVersionUID = 0L;
     if (instOK_ != false) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(3, instOK_);
+    }
+    if (flyOK_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(4, flyOK_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -232,6 +258,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getDest());
     result = result && (getInstOK()
         == other.getInstOK());
+    result = result && (getFlyOK()
+        == other.getFlyOK());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -252,6 +280,9 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + INSTOK_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getInstOK());
+    hash = (37 * hash) + FLYOK_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getFlyOK());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -391,6 +422,8 @@ private static final long serialVersionUID = 0L;
 
       instOK_ = false;
 
+      flyOK_ = false;
+
       return this;
     }
 
@@ -420,6 +453,7 @@ private static final long serialVersionUID = 0L;
       }
       result.dest_ = dest_;
       result.instOK_ = instOK_;
+      result.flyOK_ = flyOK_;
       onBuilt();
       return result;
     }
@@ -470,6 +504,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getInstOK() != false) {
         setInstOK(other.getInstOK());
+      }
+      if (other.getFlyOK() != false) {
+        setFlyOK(other.getFlyOK());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -718,6 +755,44 @@ private static final long serialVersionUID = 0L;
     public Builder clearInstOK() {
       
       instOK_ = false;
+      onChanged();
+      return this;
+    }
+
+    private boolean flyOK_ ;
+    /**
+     * <pre>
+     *si el avion esta listo para despegar (presionar enter)
+     * </pre>
+     *
+     * <code>bool flyOK = 4;</code>
+     */
+    public boolean getFlyOK() {
+      return flyOK_;
+    }
+    /**
+     * <pre>
+     *si el avion esta listo para despegar (presionar enter)
+     * </pre>
+     *
+     * <code>bool flyOK = 4;</code>
+     */
+    public Builder setFlyOK(boolean value) {
+      
+      flyOK_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *si el avion esta listo para despegar (presionar enter)
+     * </pre>
+     *
+     * <code>bool flyOK = 4;</code>
+     */
+    public Builder clearFlyOK() {
+      
+      flyOK_ = false;
       onChanged();
       return this;
     }

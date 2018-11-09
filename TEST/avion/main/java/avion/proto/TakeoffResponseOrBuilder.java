@@ -68,4 +68,14 @@ public interface TakeoffResponseOrBuilder extends
    * <code>bool instOK = 8;</code>
    */
   boolean getInstOK();
+
+  /**
+   * <code>string destName = 9;</code>
+   */
+  java.lang.String getDestName();
+  /**
+   * <code>string destName = 9;</code>
+   */
+  com.google.protobuf.ByteString
+      getDestNameBytes();
 }

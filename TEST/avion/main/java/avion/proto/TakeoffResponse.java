@@ -24,6 +24,7 @@ private static final long serialVersionUID = 0L;
     destOK_ = false;
     restrOK_ = false;
     instOK_ = false;
+    destName_ = "";
   }
 
   @java.lang.Override
@@ -97,6 +98,12 @@ private static final long serialVersionUID = 0L;
           case 64: {
 
             instOK_ = input.readBool();
+            break;
+          }
+          case 74: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            destName_ = s;
             break;
           }
         }
@@ -257,6 +264,40 @@ private static final long serialVersionUID = 0L;
     return instOK_;
   }
 
+  public static final int DESTNAME_FIELD_NUMBER = 9;
+  private volatile java.lang.Object destName_;
+  /**
+   * <code>string destName = 9;</code>
+   */
+  public java.lang.String getDestName() {
+    java.lang.Object ref = destName_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      destName_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string destName = 9;</code>
+   */
+  public com.google.protobuf.ByteString
+      getDestNameBytes() {
+    java.lang.Object ref = destName_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      destName_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -292,6 +333,9 @@ private static final long serialVersionUID = 0L;
     }
     if (instOK_ != false) {
       output.writeBool(8, instOK_);
+    }
+    if (!getDestNameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 9, destName_);
     }
     unknownFields.writeTo(output);
   }
@@ -331,6 +375,9 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(8, instOK_);
     }
+    if (!getDestNameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, destName_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -363,6 +410,8 @@ private static final long serialVersionUID = 0L;
         == other.getRestrOK());
     result = result && (getInstOK()
         == other.getInstOK());
+    result = result && getDestName()
+        .equals(other.getDestName());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -393,6 +442,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + INSTOK_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getInstOK());
+    hash = (37 * hash) + DESTNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getDestName().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -538,6 +589,8 @@ private static final long serialVersionUID = 0L;
 
       instOK_ = false;
 
+      destName_ = "";
+
       return this;
     }
 
@@ -568,6 +621,7 @@ private static final long serialVersionUID = 0L;
       result.destOK_ = destOK_;
       result.restrOK_ = restrOK_;
       result.instOK_ = instOK_;
+      result.destName_ = destName_;
       onBuilt();
       return result;
     }
@@ -634,6 +688,10 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getInstOK() != false) {
         setInstOK(other.getInstOK());
+      }
+      if (!other.getDestName().isEmpty()) {
+        destName_ = other.destName_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -988,6 +1046,75 @@ private static final long serialVersionUID = 0L;
     public Builder clearInstOK() {
       
       instOK_ = false;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object destName_ = "";
+    /**
+     * <code>string destName = 9;</code>
+     */
+    public java.lang.String getDestName() {
+      java.lang.Object ref = destName_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        destName_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string destName = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDestNameBytes() {
+      java.lang.Object ref = destName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        destName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string destName = 9;</code>
+     */
+    public Builder setDestName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      destName_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string destName = 9;</code>
+     */
+    public Builder clearDestName() {
+      
+      destName_ = getDefaultInstance().getDestName();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string destName = 9;</code>
+     */
+    public Builder setDestNameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      destName_ = value;
       onChanged();
       return this;
     }

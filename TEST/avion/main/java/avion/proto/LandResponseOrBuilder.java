@@ -21,4 +21,14 @@ public interface LandResponseOrBuilder extends
    * <code>int32 altitude = 3;</code>
    */
   int getAltitude();
+
+  /**
+   * <code>string destName = 4;</code>
+   */
+  java.lang.String getDestName();
+  /**
+   * <code>string destName = 4;</code>
+   */
+  com.google.protobuf.ByteString
+      getDestNameBytes();
 }

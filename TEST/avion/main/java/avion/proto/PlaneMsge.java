@@ -25,6 +25,8 @@ private static final long serialVersionUID = 0L;
     sourceAddress_ = "";
     destAddress_ = "";
     runway_ = 0;
+    destName_ = "";
+    time_ = "";
   }
 
   @java.lang.Override
@@ -105,6 +107,18 @@ private static final long serialVersionUID = 0L;
           case 72: {
 
             runway_ = input.readInt32();
+            break;
+          }
+          case 82: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            destName_ = s;
+            break;
+          }
+          case 90: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            time_ = s;
             break;
           }
         }
@@ -364,6 +378,90 @@ private static final long serialVersionUID = 0L;
     return runway_;
   }
 
+  public static final int DESTNAME_FIELD_NUMBER = 10;
+  private volatile java.lang.Object destName_;
+  /**
+   * <pre>
+   *nombre del destino del avion
+   * </pre>
+   *
+   * <code>string destName = 10;</code>
+   */
+  public java.lang.String getDestName() {
+    java.lang.Object ref = destName_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      destName_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   *nombre del destino del avion
+   * </pre>
+   *
+   * <code>string destName = 10;</code>
+   */
+  public com.google.protobuf.ByteString
+      getDestNameBytes() {
+    java.lang.Object ref = destName_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      destName_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int TIME_FIELD_NUMBER = 11;
+  private volatile java.lang.Object time_;
+  /**
+   * <pre>
+   *tiempo de entrada/salida (?)
+   * </pre>
+   *
+   * <code>string time = 11;</code>
+   */
+  public java.lang.String getTime() {
+    java.lang.Object ref = time_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      time_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   *tiempo de entrada/salida (?)
+   * </pre>
+   *
+   * <code>string time = 11;</code>
+   */
+  public com.google.protobuf.ByteString
+      getTimeBytes() {
+    java.lang.Object ref = time_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      time_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -402,6 +500,12 @@ private static final long serialVersionUID = 0L;
     }
     if (runway_ != 0) {
       output.writeInt32(9, runway_);
+    }
+    if (!getDestNameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 10, destName_);
+    }
+    if (!getTimeBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 11, time_);
     }
     unknownFields.writeTo(output);
   }
@@ -443,6 +547,12 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(9, runway_);
     }
+    if (!getDestNameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, destName_);
+    }
+    if (!getTimeBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, time_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -477,6 +587,10 @@ private static final long serialVersionUID = 0L;
         .equals(other.getDestAddress());
     result = result && (getRunway()
         == other.getRunway());
+    result = result && getDestName()
+        .equals(other.getDestName());
+    result = result && getTime()
+        .equals(other.getTime());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -506,6 +620,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getDestAddress().hashCode();
     hash = (37 * hash) + RUNWAY_FIELD_NUMBER;
     hash = (53 * hash) + getRunway();
+    hash = (37 * hash) + DESTNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getDestName().hashCode();
+    hash = (37 * hash) + TIME_FIELD_NUMBER;
+    hash = (53 * hash) + getTime().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -653,6 +771,10 @@ private static final long serialVersionUID = 0L;
 
       runway_ = 0;
 
+      destName_ = "";
+
+      time_ = "";
+
       return this;
     }
 
@@ -684,6 +806,8 @@ private static final long serialVersionUID = 0L;
       result.sourceAddress_ = sourceAddress_;
       result.destAddress_ = destAddress_;
       result.runway_ = runway_;
+      result.destName_ = destName_;
+      result.time_ = time_;
       onBuilt();
       return result;
     }
@@ -755,6 +879,14 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getRunway() != 0) {
         setRunway(other.getRunway());
+      }
+      if (!other.getDestName().isEmpty()) {
+        destName_ = other.destName_;
+        onChanged();
+      }
+      if (!other.getTime().isEmpty()) {
+        time_ = other.time_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -1325,6 +1457,184 @@ private static final long serialVersionUID = 0L;
     public Builder clearRunway() {
       
       runway_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object destName_ = "";
+    /**
+     * <pre>
+     *nombre del destino del avion
+     * </pre>
+     *
+     * <code>string destName = 10;</code>
+     */
+    public java.lang.String getDestName() {
+      java.lang.Object ref = destName_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        destName_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     *nombre del destino del avion
+     * </pre>
+     *
+     * <code>string destName = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDestNameBytes() {
+      java.lang.Object ref = destName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        destName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     *nombre del destino del avion
+     * </pre>
+     *
+     * <code>string destName = 10;</code>
+     */
+    public Builder setDestName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      destName_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *nombre del destino del avion
+     * </pre>
+     *
+     * <code>string destName = 10;</code>
+     */
+    public Builder clearDestName() {
+      
+      destName_ = getDefaultInstance().getDestName();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *nombre del destino del avion
+     * </pre>
+     *
+     * <code>string destName = 10;</code>
+     */
+    public Builder setDestNameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      destName_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object time_ = "";
+    /**
+     * <pre>
+     *tiempo de entrada/salida (?)
+     * </pre>
+     *
+     * <code>string time = 11;</code>
+     */
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        time_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     *tiempo de entrada/salida (?)
+     * </pre>
+     *
+     * <code>string time = 11;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTimeBytes() {
+      java.lang.Object ref = time_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        time_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     *tiempo de entrada/salida (?)
+     * </pre>
+     *
+     * <code>string time = 11;</code>
+     */
+    public Builder setTime(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      time_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *tiempo de entrada/salida (?)
+     * </pre>
+     *
+     * <code>string time = 11;</code>
+     */
+    public Builder clearTime() {
+      
+      time_ = getDefaultInstance().getTime();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *tiempo de entrada/salida (?)
+     * </pre>
+     *
+     * <code>string time = 11;</code>
+     */
+    public Builder setTimeBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      time_ = value;
       onChanged();
       return this;
     }

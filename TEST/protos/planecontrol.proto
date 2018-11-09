@@ -18,6 +18,7 @@ message LandResponse {
 	int32 runway = 1;
 	int32 queue = 2;
 	int32 altitude = 3;
+	string destName = 4;
 }
 
 // === Mensajes de despegue ===
@@ -26,6 +27,7 @@ message TakeoffRequest {
 	PlaneMsge plane = 1;
 	string dest = 2;
 	bool instOK = 3;			//si el avión necesita instrucciones = true sino no
+	bool flyOK = 4;				//si el avion esta listo para despegar (presionar enter)
 }
 
 message TakeoffResponse {
@@ -37,6 +39,7 @@ message TakeoffResponse {
 	bool destOK = 6;			//si el destino es valido destOK = true sino no
 	bool restrOK = 7;   		//si la restricciones se cumplen restrOK = true sino no
 	bool instOK = 8;   			//si el avión envio instrucciones = true sino no
+	string destName = 9;
 }
 
 
@@ -50,6 +53,8 @@ message PlaneMsge {
 	string sourceAddress = 7;	//direccion de torre fuente
 	string destAddress = 8;		//direccion de torre de destino
 	int32 runway = 9;			//pista en la que se encuentra el avion, -1 si no esta en pista (en vuelo)
+	string destName = 10;		//nombre del destino del avion
+	string time = 11;			//tiempo de entrada/salida (?)
 }
 
 service PlaneControlService {

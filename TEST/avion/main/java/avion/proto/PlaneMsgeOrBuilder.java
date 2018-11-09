@@ -123,4 +123,40 @@ public interface PlaneMsgeOrBuilder extends
    * <code>int32 runway = 9;</code>
    */
   int getRunway();
+
+  /**
+   * <pre>
+   *nombre del destino del avion
+   * </pre>
+   *
+   * <code>string destName = 10;</code>
+   */
+  java.lang.String getDestName();
+  /**
+   * <pre>
+   *nombre del destino del avion
+   * </pre>
+   *
+   * <code>string destName = 10;</code>
+   */
+  com.google.protobuf.ByteString
+      getDestNameBytes();
+
+  /**
+   * <pre>
+   *tiempo de entrada/salida (?)
+   * </pre>
+   *
+   * <code>string time = 11;</code>
+   */
+  java.lang.String getTime();
+  /**
+   * <pre>
+   *tiempo de entrada/salida (?)
+   * </pre>
+   *
+   * <code>string time = 11;</code>
+   */
+  com.google.protobuf.ByteString
+      getTimeBytes();
 }

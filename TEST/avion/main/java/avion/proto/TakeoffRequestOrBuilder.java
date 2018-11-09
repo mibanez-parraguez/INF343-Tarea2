@@ -38,4 +38,13 @@ public interface TakeoffRequestOrBuilder extends
    * <code>bool instOK = 3;</code>
    */
   boolean getInstOK();
+
+  /**
+   * <pre>
+   *si el avion esta listo para despegar (presionar enter)
+   * </pre>
+   *
+   * <code>bool flyOK = 4;</code>
+   */
+  boolean getFlyOK();
 }
