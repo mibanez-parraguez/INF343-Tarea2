@@ -15,6 +15,7 @@ __Torre__
  Si el comando anterior produce el error "--grpc_out: protoc-gen-grpc: Plugin failed with status code 1." entonces utilizar:
 
 `$ protoc -I../protos --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc=/usr/local/bin/grpc_cpp_plugin ../protos/planecontrol.proto`
+
 `$ protoc -I ../protos --cpp_out=. ../protos/planecontrol.proto`
 
 
