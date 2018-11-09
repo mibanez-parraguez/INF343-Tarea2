@@ -20,6 +20,7 @@ import avion.proto.PlaneMsge;
 
 public class Avion {
 	private String id;
+	private String dest;
 	private String dest_addr;
 	private String curr_addr;
 	private int max_load;
@@ -32,6 +33,10 @@ public class Avion {
 	
 	private int aux_int;
 	private String aux_str;
+	
+	private boolean desOK;
+	private boolean resOK;
+	private boolean insOK;
 	
 // 	private final ManagedChannel channel;
 // 	private final PlaneControlServiceBlockingStub blockingStub;
@@ -65,15 +70,14 @@ public class Avion {
 		this.curr_addr = dest;
 		this.dest_addr = dest;
 		this.aux_int = -9;
-		CountDownLatch finishLatch = this.landProc();
+		this.landProcedure();
 	}
 
 	public void shutdown() throws InterruptedException {
 		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
-	private void takeoffReq(String dest){
-		Console c = System.console();
+	private TakeoffRequest makeRequest(String dest, boolean inst_ok){
 		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
 		pmsg.mergeFrom(this.plane);
 		pmsg.setCurrCapacity(this.fuel);
@@ -84,40 +88,73 @@ public class Avion {
 			TakeoffRequest.newBuilder()
 				.setPlane(pmsg.build())
 				.setDest(dest)
-				.setInstOK(true).build();
-
+				.setInstOK(inst_ok).build();
+		return request;
+	}
+	
+	private int handleResponse(TakeoffResponse resp){
+		Console c = System.console();
+		if(resp.getDestOK() && !this.desOK){
+			// Recibe ip de destino
+			this.dest_addr = resp.getDest();
+			this.desOK = true;
+			c.printf(APROMPT, " - ", this.id,  "Recibida IP de destino.\n");
+			TakeoffRequest request = makeRequest("", false);
+			this.takeoffRequestObserver.onNext(request);
+			return 1;
+		}
+		if(resp.getRestrOK() && !this.resOK){
+			this.gate();
+			this.resOK = true;
+			TakeoffRequest request = makeRequest("", false);
+			this.takeoffRequestObserver.onNext(request);
+			return 2;
+		}
+		if(resp.getQueuePos()!=0){
+			// Esperando a la habilitación de una pista.
+			c.printf(APROMPT, " - ", id,  "Las pistas de despegue están ocupadas.\n");
+			c.printf(APROMPT, " - ", id,  "Avión predecesor: "+ resp.getPrevPlane() +".\n");
+			// Hay que hacer request aca??
+// 			TakeoffRequest request = makeRequest("", false);
+// 			takeoffRequestObserver.onNext(request);
+			return 3;
+		}
+		if(resp.getRunway()!=0){
+			// Despegue
+			this.altitude = resp.getAltitude();
+			c.printf(APROMPT, " - ", this.id,  "Pista "+ resp.getRunway() + " y altura de "+ resp.getAltitude()+" [km].\n");
+			c.printf(APROMPT, " - ", this.id,  "Despegando.\n");
+			this.takeoffRequestObserver.onCompleted();
+			this.landProcedure();
+			return 0;
+		}
+		return -1;
+	}
+	
+	private void takeoffProcedure(){
+		Console c = System.console();
+		
+		this.dest_addr = "";
+		this.desOK = false;
+		this.resOK = false;
+		this.insOK = false;
+		
+		c.printf(APROMPT, " - ", this.id,  "Ingrese destino:\n");
+		String dest = c.readLine(APROMPT, " - ", this.id,  "");
+		
 		String host = this.curr_addr.split(":")[0];
 		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
 		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 		asyncStub = PlaneControlServiceGrpc.newStub(channel);
-
+		
 		this.takeoffRequestObserver =
 			asyncStub.takeoff(new StreamObserver<TakeoffResponse>() {
 				@Override
 				public void onNext(TakeoffResponse resp) {
-					aux_int = 0;
-					if(resp.getDestOK()){
-						// ip destino
-						dest_addr = resp.getDest();
-						c.printf(APROMPT, " - ", id,  "Recibida IP de destino.\n");
-					}
-					if(!resp.getRestrOK()){
-						// No se cumple con las restricciones de vencina y peso.
-						gate();
-					}
-					if(resp.getRunway() != 0){
-						// Despegar
-						altitude = resp.getAltitude();
-						c.printf(APROMPT, " - ", id,  "Pista "+ resp.getRunway() + " y altura de "+ resp.getAltitude()+" [km].\n");
-						c.printf(APROMPT, " - ", id,  "Despegando.\n");
-					} else{
-						c.printf(APROMPT, " - ", id,  "Las pistas de despegue están ocupadas.\n");
-						c.printf(APROMPT, " - ", id,  "Avión predecesor: "+ resp.getPrevPlane() +"...\n");
-					}
+					int op = handleResponse(resp);
 				}
 				@Override
 				public void onError(Throwable t) {
-					//warning("Take off Failed: {0}", Status.fromThrowable(t));
 					System.console().printf("Takeoff error\n");
 				}
 				@Override
@@ -125,120 +162,79 @@ public class Avion {
 					System.console().printf("Despegue realizado.\n");
 				}
 			});
+		TakeoffRequest request = makeRequest(dest, false);
 		this.takeoffRequestObserver.onNext(request);
-		this.takeoffRequestObserver.onCompleted();
 	}
 
-	private void takeoffProcedure(){
+	private void handleResponse(LandResponse resp){
 		Console c = System.console();
-		c.printf(APROMPT, " - ", this.id,  "Ingrese destino:\n");
-		String dest = c.readLine(APROMPT, " - ", this.id,  "");
-
-		c.printf(APROMPT, " - ", this.id,  "Pasando por gate.\n");
-		this.gate();
-		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
-
-		c.printf(APROMPT, " - ", this.id,  "Pidiendo instrucciones para despegar.\n");
-		this.takeoffReq(dest);
+		c.printf("[land.onNext.handler] getQueue: "+resp.getQueue()); //Ver si sale antes de "... enter para continuar"
+		if(resp.getRunway() != 0){
+			//Aterrizar
+			c.printf(APROMPT, " - ", this.id,  "*Aterrizando en pista: "+ resp.getRunway() +"\n");
+			this.landRequestObserver.onCompleted(); //!!
+			this.takeoffProcedure();
+		} else{
+			// Establecer altura de vuelo mientras se espera.
+			c.printf(APROMPT, " - ", this.id,  "*Estableciendo altura de espera\n");
+			this.altitude = resp.getAltitude();
+			c.printf(APROMPT, " - ", this.id,  "*Vuelo a: "+ this.altitude +" [m] de altura.\n");
+		}
 	}
 
-	private CountDownLatch landProc(){
-		final CountDownLatch finishLatch = new CountDownLatch(1);
+	private void landProcedure(){
 		Console c = System.console();
 		c.printf(APROMPT, " - ", this.id,  "Esperando pista de aterrizaje.\n");
-
-		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
-		pmsg.setSourceAddress(this.curr_addr);
-		pmsg.setDestAddress(this.dest_addr);
 		
-		LandRequest request = 
-			LandRequest.newBuilder()
-				.setPlane(pmsg.build())
-				.setDest(this.dest_addr).build();
-
 		String host = this.curr_addr.split(":")[0];
 		int port = Integer.parseInt(this.curr_addr.split(":")[1]);
+		channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		asyncStub = PlaneControlServiceGrpc.newStub(channel);
 		
-		System.out.println(channel);
-		
-// 		StreamObserver<LandRequest> requestObserver =
 		this.landRequestObserver =
 			asyncStub.land(new StreamObserver<LandResponse>() {
 				@Override
 				public void onNext(LandResponse resp) {
-					//TODO aterrizar
-					System.console().printf("[land.onNext] asdf\n");
-					System.console().printf("[land.onNext] asdf 2\n");
-					System.out.println("[land.onNext] getQueue: "+resp.getQueue());
-					aux_int = resp.getQueue();
-
-					if(resp.getRunway() != 0){
-						//Aterrizar
-						c.printf(APROMPT, " - ", id,  "Aterrizando en pista"+ resp.getRunway() +"\n");
-					} else{
-						// Establecer altura de vuelo mientras se espera.
-						c.printf(APROMPT, " - ", id,  "Estableciendo altura de espera\n");
-						altitude = resp.getAltitude();
-						c.printf(APROMPT, " - ", id,  "Vuelo a: "+ altitude +" [m] de altura.\n");
-					}
+					handleResponse(resp);
 				}
 				@Override
 				public void onError(Throwable t) {
 					System.console().printf("Landing error\n");
-					finishLatch.countDown();
 				}
 				@Override
 				public void onCompleted() {
-					// 
 					System.console().printf("aterrizaje completado.\n");
-					finishLatch.countDown();
 				}
 			});
-		this.landRequestObserver.onNext(request);
-		System.out.println("[post_next] "+this.aux_int);
-		this.landRequestObserver.onCompleted();
 		
-		return finishLatch;
+		PlaneMsge.Builder pmsg = PlaneMsge.newBuilder();
+		pmsg.setSourceAddress(this.curr_addr);
+		pmsg.setDestAddress(this.dest_addr);
+		LandRequest request = 
+			LandRequest.newBuilder()
+				.setPlane(pmsg.build())
+				.setDest(this.dest_addr).build();
+		this.landRequestObserver.onNext(request);
 	}
 
 
 	private void gate(){
+		Console c = System.console();
+		c.printf(APROMPT, " - ", this.id,  "Pasando por gate...\n");
 		this.load = this.max_load;
 		this.fuel = this.max_fuel;
-	}
-
-	private void dump(){
-// 		System.out.println("aerolinea: "+this.airline);
-// 		System.out.println("vuelo: "+this.id);
-		System.out.println("======== DUMP ========");
-		System.out.println("carga: "+this.max_load);
-		System.out.println("fuel: "+this.max_fuel);
-		System.out.println("curr_addr: "+this.curr_addr);
-		System.out.println("dest_addr: "+this.dest_addr);
-		System.out.println("altitude: "+this.altitude);
-		System.out.println("aux_int: "+this.aux_int);
-		System.out.println("======================");
+		c.printf(APROMPT, " - ", this.id,  "Pasajeros a bordo y combustible cargado.\n");
 	}
 
 	public static void main(java.lang.String[] args){
+		Console c = System.console();
 		Avion le_avion = new Avion();
-		le_avion.dump();
-		
-		channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-		asyncStub = PlaneControlServiceGrpc.newStub(channel);
-		//le_avion.takeoffProcedure();
-		channel.land();
-		while(true){
-			le_avion.dump();
-			le_avion.aux_int = -8;
-			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...");
-			le_avion.takeoffProcedure();
-			le_avion.dump();
-			le_avion.aux_int = -7;
-			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
-			le_avion.landProc();
-			le_avion.dump();
-			le_avion.aux_int = -6;
-		}
+		c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para continuar...");
+// 		while(true){
+// 			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para despegar...");
+// 			le_avion.takeoffProcedure();
+// 			c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
+// 			le_avion.landProcedure();
+// 		}
 	}
 }
