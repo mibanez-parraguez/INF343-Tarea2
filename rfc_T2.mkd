@@ -13,8 +13,7 @@ author:
     organization: Universidad Técnica Federico Santa María
     abbrev: UTFSM
     email: felipe.santander@alumnos.inf.utfsm.cl
- -
- -
+    
     ins: M. Ibáñez
     name: Miguel Ibáñez Parraguez
     organization: Universidad Técnica Federico Santa María
