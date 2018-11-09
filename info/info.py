@@ -2,36 +2,108 @@
 from __future__ import print_function
 
 import random
+import time
+import textwrap
 
 import grpc
 
 import planecontrol_pb2
 import planecontrol_pb2_grpc
 
-def planeList(stub):
-    Request = planecontrol_pb2.InfoRequest(control_tower="something")
+TCname = "ERROR"
+finish = False
+maxWidth = 10
 
-    print(Request)
-    print("Searching planes...")
-    Response = stub.Info(Request)
-    # print(Response.arrivalPlane[0].planeNumber())
-    if Response:
-        print("RESPONDIDOU")
-    # for departurePlane, arrivalPlane, control_tower in Response:
-    #     print("Plane called - ")
+def fill(word):
+    if isinstance(word, (int, long)):
+        word = str(word)
+    word = "{}                         ".format(word)
+    word = "%.10s " % word
+    return word
+def wrap(line):
+    wrapped = textwrap.fill(line, 1000)
+    return wrapped
+
+class requestInfo(object):
+
+    def __init__(self, address, port):
+        try:
+            # self.channel = grpc.insecure_channel("{}:{}".format(address, port))
+            self.channel = grpc.insecure_channel("localhost:50052")
+            self.stub = planecontrol_pb2_grpc.InfoServiceStub(self.channel)
+        except grpc.RpcError as e:
+            global finish
+            self.channel.close()
+            print("Error: " + e.details())
+            status_code = e.code()
+            print("Status: " + status_code.name)
+            print("Value: {}".format(status_code.value))
+            print("Details: {}".format(e.debug_error_string))
+            finish = True
+
+    def planeList(self):
+        global finish
+        try:
+            Request = planecontrol_pb2.InfoRequest(control_tower="something")
+            Response = self.stub.Info(Request)
+            for res in Response:
+                global TCname
+                TCname = res.control_tower
+                print("[Pantalla de información - {} ]".format(TCname))
+                if res.departurePlane and res.arrivalPlane:
+                    print(wrap("%.40s"%"Departures\t\t\t\t    "+" | "+"%.40s"%"Arrivals"))
+                    print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")+" | "+fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
+                    for dp, ap in res.departurePlane, res.arrivalPlane:
+                        print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(dp.runway)+fill(dp.time)+" | " +fill(ap.planeNumber)+fill(ap.destName)+fill(ap.runway)+fill(ap.time)))
+                elif res.departurePlane:
+                    print(wrap(fill("Departures")+" "*maxWidth*3))
+                    print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
+                    for dp in res.departurePlane:
+                        print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(dp.runway)+fill(dp.time)))
+                elif res.arrivalPlane:
+                    print(wrap(fill("Arrivals")+" "*maxWidth*3))
+                    print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
+                    for ap in res.arrivalPlane:
+                        print(wrap(fill(ap.planeNumber)+fill(ap.destName)+fill(ap.runway)+fill(ap.time)))
+                finish = True
+        except grpc.RpcError as e:
+            self.channel.close()
+            print("Error: " + e.details())
+            status_code = e.code()
+            print("Status: " + status_code.name)
+            print("Value: {}".format(status_code.value))
+            print("Details: {}".format(e.debug_error_string))
+            finish = True
+
+def closeMsg():
+    print("[Pantalla de información - {} ] Cerrando...".format(TCname))
+
+
 def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
-    address = raw_input("Ingrese dirección IP de la torre de control:")
-    #PUERTO 50052 = Thread del la torre de control encargada de enviar informacion
-    with grpc.insecure_channel('0.0.0.0:50051') as channel:
-        stub = planecontrol_pb2_grpc.PlaneControlServiceStub(channel)
-        planeList(stub)
-        print("Finish")
-    i = 0
-    while True:
-        i+=1
+    formatOK = False
+    while not formatOK:
+        try:
+            addressPort = raw_input("Ingrese dirección de la torre de control (ip:puerto):")
+            address, port = addressPort.split(":")
+            formatOK = True
+        except ValueError:
+            print("Formato incorrecto, debe ser 'ip:puerto', intentelo nuevamente.")
+
+    requestInfo(address, port).planeList()
+    # Loop para envitar errores de canal cuando se termina el programa antes de
+    # terminar de recibir la respuesta del servidor
+    # Para terminar el programa escribir "exit" o ctrl+c (KeyboardInterrupt)
+    try:
+        while not finish:
+            close = raw_input()
+            if (close == "exit"):
+                break
+        closeMsg()
+    except KeyboardInterrupt:
+        closeMsg()
 
 if __name__ == '__main__':
     run()

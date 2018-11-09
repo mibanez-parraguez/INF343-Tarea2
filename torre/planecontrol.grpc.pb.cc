@@ -18,7 +18,6 @@ namespace tareados {
 static const char* PlaneControlService_method_names[] = {
   "/tareados.PlaneControlService/Land",
   "/tareados.PlaneControlService/Takeoff",
-  "/tareados.PlaneControlService/Info",
 };
 
 std::unique_ptr< PlaneControlService::Stub> PlaneControlService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -30,7 +29,6 @@ std::unique_ptr< PlaneControlService::Stub> PlaneControlService::NewStub(const s
 PlaneControlService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_Land_(PlaneControlService_method_names[0], ::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
   , rpcmethod_Takeoff_(PlaneControlService_method_names[1], ::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
-  , rpcmethod_Info_(PlaneControlService_method_names[2], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::ClientReaderWriter< ::tareados::LandRequest, ::tareados::LandResponse>* PlaneControlService::Stub::LandRaw(::grpc::ClientContext* context) {
@@ -57,18 +55,6 @@ PlaneControlService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>
   return ::grpc::internal::ClientAsyncReaderWriterFactory< ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>::Create(channel_.get(), cq, rpcmethod_Takeoff_, context, false, nullptr);
 }
 
-::grpc::ClientReader< ::tareados::InfoResponse>* PlaneControlService::Stub::InfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) {
-  return ::grpc::internal::ClientReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), rpcmethod_Info_, context, request);
-}
-
-::grpc::ClientAsyncReader< ::tareados::InfoResponse>* PlaneControlService::Stub::AsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), cq, rpcmethod_Info_, context, request, true, tag);
-}
-
-::grpc::ClientAsyncReader< ::tareados::InfoResponse>* PlaneControlService::Stub::PrepareAsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), cq, rpcmethod_Info_, context, request, false, nullptr);
-}
-
 PlaneControlService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       PlaneControlService_method_names[0],
@@ -80,11 +66,6 @@ PlaneControlService::Service::Service() {
       ::grpc::internal::RpcMethod::BIDI_STREAMING,
       new ::grpc::internal::BidiStreamingHandler< PlaneControlService::Service, ::tareados::TakeoffRequest, ::tareados::TakeoffResponse>(
           std::mem_fn(&PlaneControlService::Service::Takeoff), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      PlaneControlService_method_names[2],
-      ::grpc::internal::RpcMethod::SERVER_STREAMING,
-      new ::grpc::internal::ServerStreamingHandler< PlaneControlService::Service, ::tareados::InfoRequest, ::tareados::InfoResponse>(
-          std::mem_fn(&PlaneControlService::Service::Info), this)));
 }
 
 PlaneControlService::Service::~Service() {
@@ -102,7 +83,45 @@ PlaneControlService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status PlaneControlService::Service::Info(::grpc::ServerContext* context, const ::tareados::InfoRequest* request, ::grpc::ServerWriter< ::tareados::InfoResponse>* writer) {
+
+static const char* InfoService_method_names[] = {
+  "/tareados.InfoService/Info",
+};
+
+std::unique_ptr< InfoService::Stub> InfoService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< InfoService::Stub> stub(new InfoService::Stub(channel));
+  return stub;
+}
+
+InfoService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
+  : channel_(channel), rpcmethod_Info_(InfoService_method_names[0], ::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  {}
+
+::grpc::ClientReader< ::tareados::InfoResponse>* InfoService::Stub::InfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), rpcmethod_Info_, context, request);
+}
+
+::grpc::ClientAsyncReader< ::tareados::InfoResponse>* InfoService::Stub::AsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), cq, rpcmethod_Info_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::tareados::InfoResponse>* InfoService::Stub::PrepareAsyncInfoRaw(::grpc::ClientContext* context, const ::tareados::InfoRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::tareados::InfoResponse>::Create(channel_.get(), cq, rpcmethod_Info_, context, request, false, nullptr);
+}
+
+InfoService::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      InfoService_method_names[0],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< InfoService::Service, ::tareados::InfoRequest, ::tareados::InfoResponse>(
+          std::mem_fn(&InfoService::Service::Info), this)));
+}
+
+InfoService::Service::~Service() {
+}
+
+::grpc::Status InfoService::Service::Info(::grpc::ServerContext* context, const ::tareados::InfoRequest* request, ::grpc::ServerWriter< ::tareados::InfoResponse>* writer) {
   (void) context;
   (void) request;
   (void) writer;

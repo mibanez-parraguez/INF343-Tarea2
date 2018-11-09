@@ -34,6 +34,7 @@ PlaneMsge MakePlane(std::string airline, std::string planeNumber, int maxLoad, i
   plane.set_currcapacity(0);
   plane.set_sourceaddress(sourceAddress);
   plane.set_runway(-1);
+  plane.set_time("horaaa");
   return plane;
 }
 
@@ -72,7 +73,15 @@ class PlaneClient {
     while (stream->Read(&towerResponse)) {
       if (towerResponse.runway() != 0) {
         std::cout << "[Avion - " << plane.planenumber() << "] Aterrizando en la pista " << towerResponse.runway() << "..." << std::endl;
+        LandRequest lr;
         plane.set_runway(towerResponse.runway());
+        std::thread writer2([stream, towerResponse]() {
+          LandRequest lr;
+          plane.set_destname(towerResponse.destname());
+          lr.mutable_plane()->CopyFrom(plane);
+          stream->Write(lr);
+        });
+        writer2.join();
         stream->WritesDone();
       } else if (towerResponse.runway() == 0){
         std::cout << "[Avion - " << plane.planenumber() << "] Todas las pistas ocupadas, encolando avión." << std::endl; 
@@ -101,6 +110,8 @@ class PlaneClient {
     static bool desOK = false;
     static bool restrOK = false;
     static bool instOK = false;
+    static bool runwayOK = false;
+    static bool finish = false;
     std::thread writer([stream]() {
       TakeoffRequest tr;
       std::string dest;
@@ -109,7 +120,9 @@ class PlaneClient {
         getline(std::cin, dest);
       }
       tr.set_dest(dest);
+      plane.set_destname(dest);
       tr.set_instok(false);
+      tr.set_flyok(false);
       tr.mutable_plane()->CopyFrom(plane);
       stream->Write(tr);
     });
@@ -119,6 +132,7 @@ class PlaneClient {
     while (stream->Read(&towerResponse)) {
       //Si el destino es correcto
       if (towerResponse.destok() && !desOK) {
+        plane.set_destname(towerResponse.destname());
         std::cout << "[Avion - " << plane.planenumber() << "] Pasando por el Gate..."  << std::endl;
         desOK = true;
       } 
@@ -133,6 +147,7 @@ class PlaneClient {
             getline(std::cin, dest);
           }
           tr.set_dest(dest);
+          plane.set_destname(dest);
           tr.mutable_plane()->CopyFrom(plane);
           stream->Write(tr);
         });
@@ -156,20 +171,18 @@ class PlaneClient {
         writer3.join();
       }
       //Se revisa si hay pistas disponibles
-      else if (desOK && restrOK && instOK && towerResponse.runway() != 0) {
+      else if (desOK && restrOK && instOK && towerResponse.runway() != 0 && !finish) {
         std::cout << "[Avion - " << plane.planenumber() << "] Pista " << towerResponse.runway() << " asignada y altura de "  << towerResponse.altitude() << "." << std::endl;
-        stream->WritesDone();
+        runwayOK = true;
       } 
-      //
       else if (desOK && restrOK && instOK && towerResponse.runway() == 0){
         if (towerResponse.queuepos() != -1) {
           std::cout << "[Avion - " << plane.planenumber() << "] Todas las pistas están ocupadas, avión predecesor es: " << towerResponse.prevplane() << std::endl; 
         } else {
           std::cout << "[Avion - " << plane.planenumber() << "] Todas las pistas están ocupadas, no hay más aviones en cola " << std::endl; 
         }
-      }
-
-
+      } 
+      /* SE ESPERA ENTER */
       //Se piden las instrucciones
       if (desOK && restrOK && towerResponse.instok() && !instOK) {
         std::cout << "[Avion - " << plane.planenumber() << "] Instrucciones recibidas..."  << std::endl;
@@ -190,10 +203,27 @@ class PlaneClient {
           }
         }
       }
+      //Avion listo para despegar, se espera enter
+      if (desOK && restrOK && instOK && runwayOK && !finish) {
+        std::cout << "[Avion - " << plane.planenumber() << "] Despegar?...";
+        while (true) {
+          if (std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n')){
+            std::thread writer5([stream]() {
+              TakeoffRequest tr;
+              tr.set_flyok(true);
+              tr.mutable_plane()->CopyFrom(plane);
+              stream->Write(tr);
+            });
+            writer5.join();
+            finish = true;
+            break;
+          }
+        }
+        finish = true;
+        stream->WritesDone();
+      }
     }
     std::cout << "[Avion - " << plane.planenumber() << "] Despegando..." << std::endl;
-
-
     Status status = stream->Finish();
     if (!status.ok()) {
       std::cout << "Comunicación rpc fallida." << std::endl;
@@ -241,11 +271,12 @@ int main() {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
   }
 
-  std::string destAddress;
-  while (destAddress.empty()){
-    std::cout << "[Avion] destAddress:\n";
-    getline(std::cin, destAddress);
-  }
+  // std::string destAddress;
+  // while (destAddress.empty()){
+  //   std::cout << "[Avion] destAddress:\n";
+  //   getline(std::cin, destAddress);
+  // }
+  std::string destAddress("localhost");
   std::atomic<bool> run(true);
 
   PlaneClient planeReq(grpc::CreateChannel(

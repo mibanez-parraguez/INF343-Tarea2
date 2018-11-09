@@ -32,6 +32,7 @@ using tareados::PlaneControlService;
 using tareados::PlaneMsge;
 using tareados::InfoRequest;
 using tareados::InfoResponse;
+using tareados::InfoService;
 
 std::mutex serverOK;
 std::mutex inputOK;
@@ -91,7 +92,8 @@ std::vector<std::string> firstDeparture;        // nombre del primer avion en la
 std::map<int, bool> heightMap;                  // Hash que guarda la altura y si esta disponible en el espacio aéreo del aeropuerto
 std::vector<PlaneMsge> arrivalPlaneMsge;                 // vector de aviones que en las pistas de aterrizaje
 std::vector<PlaneMsge> departurePlaneMsge;               // vector de aviones que en las pistas de despegue
-bool runwayFreed = false;
+bool arrivalRunwayFreed = false;                //Verdadero si una pista ocupada se desocupa
+bool departureRunwayFreed = false;              //Verdadero si una pista ocupada se desocupa           
 int minHeight = 5;
 int maxHeight = 100;
 
@@ -148,47 +150,55 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
                    ServerReaderWriter<LandResponse, LandRequest>* stream) override {
     LandRequest lr;
     LandResponse towerResponse;
+    bool ready = false;
     // Mientras el stream exista se leera
     while (stream->Read(&lr)) {
-      std::cout << "\n[Torre de control - " << ct.name << "] Nuevo Avión " << lr.plane().planenumber() << " en el Aeropuerto" << std::endl; 
-      std::cout << "[Torre de control - " << ct.name << "] Asignando pista de aterrizaje..." << std::endl;
-      // Se revisa disponibilidad de pistas de aterrizaje
-      int availableRunway = checkAvailability(0);
-      // Si existe una pista disponible entonce se asigna el avion
-      if (availableRunway != 0) {
-        std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada es la " << availableRunway << std::endl;
-        towerResponse.set_runway(availableRunway);
-        stream->Write(towerResponse);
-        arrivalPlaneMsge.push_back(lr.plane());
-      } 
-      // Si no hay pistas de aterrizaje disponibles entonces el avion se envia a la cola de espera hasta que se disponga una pista
-      else {
-        std::cout << "[Torre de control - " << ct.name << "] Todas las pistas están ocupadas, encolando avión." << std::endl;
-        arrivalDeque.push_back(lr.plane());
-        int availableHeight = checkAvailabilityHeight(); //Retorna la primera altura disponible
-        towerResponse.set_altitude(availableHeight);
-        stream->Write(towerResponse);
-        firstArrival.push_back(lr.plane().planenumber());
-        // Request queda en espera hasta que se libere un espacio
-        while (true) {
-          if (runwayFreed && firstArrival.front() == arrivalDeque.front().planenumber()) {
-            // Se revisa disponibilidad de pistas de aterrizaje
-            int availableRunway = checkAvailability(0);
-            // Si existe una pista disponible entonce se asigna el avion
-            if (availableRunway != 0) {
-              std::cout << "[Torre de control - " << ct.name << "] Pista de aterrizaje " << availableRunway << " ha sido desocupada." << std::endl;
-              std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada al avión " << arrivalDeque.front().planenumber() << " es la " << availableRunway << std::endl;
-              towerResponse.set_runway(availableRunway);
-              stream->Write(towerResponse);
-              runwayFreed = false;
-              firstArrival.pop_back();
-              arrivalDeque.pop_front();
-              heightMap[availableHeight] = false; // Deja libre el espacio aereo ocupado
-              arrivalPlaneMsge.push_back(lr.plane());
-              return Status::OK;
-            } 
+      if (!ready) {
+        std::cout << "\n[Torre de control - " << ct.name << "] Nuevo Avión " << lr.plane().planenumber() << " en el Aeropuerto" << std::endl; 
+        std::cout << "[Torre de control - " << ct.name << "] Asignando pista de aterrizaje..." << std::endl;
+        // Se revisa disponibilidad de pistas de aterrizaje
+        int availableRunway = checkAvailability(0);
+        // Si existe una pista disponible entonce se asigna el avion
+        if (availableRunway != 0 and !ready) {
+          std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada es la " << availableRunway << std::endl;
+          towerResponse.set_runway(availableRunway);
+          towerResponse.set_destname(ct.name);
+          stream->Write(towerResponse);
+          ready = true;
+        } 
+        // Si no hay pistas de aterrizaje disponibles entonces el avion se envia a la cola de espera hasta que se disponga una pista
+        else {
+          std::cout << "[Torre de control - " << ct.name << "] Todas las pistas están ocupadas, encolando avión." << std::endl;
+          arrivalDeque.push_back(lr.plane());
+          int availableHeight = checkAvailabilityHeight(); //Retorna la primera altura disponible
+          towerResponse.set_altitude(availableHeight);
+          stream->Write(towerResponse);
+          firstArrival.push_back(lr.plane().planenumber());
+          // Request queda en espera hasta que se libere un espacio
+          while (true) {
+            if (arrivalRunwayFreed && firstArrival.front() == arrivalDeque.front().planenumber()) {
+              // Se revisa disponibilidad de pistas de aterrizaje
+              int availableRunway = checkAvailability(0);
+              // Si existe una pista disponible entonce se asigna el avion
+              if (availableRunway != 0) {
+                std::cout << "[Torre de control - " << ct.name << "] Pista de aterrizaje " << availableRunway << " ha sido desocupada." << std::endl;
+                std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada al avión " << arrivalDeque.front().planenumber() << " es la " << availableRunway << std::endl;
+                towerResponse.set_runway(availableRunway);
+                stream->Write(towerResponse);
+                arrivalRunwayFreed = false;
+                firstArrival.pop_back();
+                arrivalDeque.pop_front();
+                heightMap[availableHeight] = false; // Deja libre el espacio aereo ocupado
+                ready = true;
+                break;
+              } 
+            }
           }
         }
+      }
+      else {
+        arrivalPlaneMsge.push_back(lr.plane()); // Se guarda copia de avion
+        return Status::OK;
       }
     }
     return Status::OK;
@@ -202,6 +212,7 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
     bool restrOK = false;   //Para el ciclo de preguntar restricciones
     bool instOK = false;     //Para enviar instrucciones
     bool runwayOK = false;  //Para el ciclo de espera de pista disponible
+    bool planeLeft = false;  //Para reconocer que el avion ya no esta en la pista
     int freeRunway;         //Pista que se libera al despegar el avion
     while (stream->Read(&tr)) {
       if (!desOK) {
@@ -217,6 +228,8 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
             desOK = true;
             std::cout << "[Torre de control - " << ct.name << "] Enviando dirección de " << tr.dest() << std::endl;
             towerResponse.set_destok(true);
+            towerResponse.set_dest(ct.address);
+            towerResponse.set_destname(ct.name);
             stream->Write(towerResponse);
             std::cout << "[Torre de control - " << ct.name << "] Consultando restricciones de pasajeros y combustible." << std::endl;
           }
@@ -251,7 +264,7 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
       } 
 
       //Se espera una pista de despegue disponible
-      if(desOK && restrOK && instOK && !runwayOK) {
+      if(desOK && restrOK && instOK && !runwayOK && !planeLeft) {
         // Se revisa disponibilidad de pistas de despegue
         int availableRunway = checkAvailability(1);
         int availableHeight = checkAvailabilityHeight();
@@ -263,7 +276,6 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           stream->Write(towerResponse);
           runwayOK = true;
           freeRunway = tr.plane().runway();
-          //se añade el avion a la pista de despegue
           departurePlaneMsge.push_back(tr.plane());
           //Se elimina el avión de la pista de aterrizaje
           for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
@@ -271,7 +283,15 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
               arrivalPlaneMsge.erase(arrivalPlaneMsge.begin()+i);
             }
           }
-        } 
+          ct.arrivalRunway[freeRunway] = false; // se libera la pista
+          // Se revisa si hay aviones en la cola de espera
+          if (!arrivalDeque.empty()) {
+            firstArrival.clear();
+            firstArrival.push_back(arrivalDeque.front().planenumber());
+            arrivalRunwayFreed = true;
+          } 
+          stream->Write(towerResponse);
+        }
         // Si no hay pistas de aterrizaje disponibles entonces el avion se envia a la cola de espera hasta que se disponga una pista
         else {
           std::cout << "[Torre de control - " << ct.name << "] Todas las pistas están ocupadas, encolando avión." << std::endl;
@@ -288,50 +308,56 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
             towerResponse.set_queuepos(-1);
           }
           stream->Write(towerResponse);
+          firstDeparture.push_back(tr.plane().planenumber());
+          while (true) {
+            if (departureRunwayFreed && firstDeparture.front() == departureDeque.front().planenumber()) {
+              int availableRunway = checkAvailability(1);
+              if (availableRunway != 0) {
+                std::cout << "[Torre de control - " << ct.name << "] Pista de despegue " << availableRunway << " ha sido desocupada." << std::endl;
+                std::cout << "[Torre de control - " << ct.name << "] La pista de despegue asignada al avión " << departureDeque.front().planenumber() << " es la " << availableRunway << std::endl;
+                towerResponse.set_runway(availableRunway);
+                stream->Write(towerResponse);
+                departureRunwayFreed = false;
+                firstDeparture.pop_back();
+                departureDeque.pop_front();
+                heightMap[availableHeight] = false; // Deja libre el espacio aereo ocupado
+                break;
+              }
+            }
+          }
         }
       }
-    }
-    ct.arrivalRunway[freeRunway] = false; // se libera la pista
-    // Se revisa si hay aviones en la cola de espera
-    if (!arrivalDeque.empty()) {
-      firstArrival.clear();
-      firstArrival.push_back(arrivalDeque.front().planenumber());
-      runwayFreed = true;
-      //Se elimina el avión de la pista de despegue
-      for (unsigned int i = 0; i < departurePlaneMsge.size(); ++i) {
-        if (departurePlaneMsge[i].planenumber() == tr.plane().planenumber()) {
-          departurePlaneMsge.erase(departurePlaneMsge.begin()+i);
+      //El avion tiene pista asignada pero aun no despega
+      if (desOK && restrOK && instOK && runwayOK && !planeLeft && tr.flyok()) {
+        std::cout << "[Torre de control - " << ct.name << "] Avión " + tr.plane().planenumber() << " ha despegado." << std::endl;
+        planeLeft = true;
+        freeRunway = tr.plane().runway();
+        //Se elimina el avión de la pista de despegue
+        for (unsigned int i = 0; i < departurePlaneMsge.size(); ++i) {
+          if (departurePlaneMsge[i].planenumber() == tr.plane().planenumber()) {
+            departurePlaneMsge.erase(departurePlaneMsge.begin()+i);
+          }
         }
+        ct.departureRunway[freeRunway] = false; // se libera la pista
+        std::cout << freeRunway << std::endl;
+        // Se revisa si hay aviones en la cola de espera
+        if (!departureDeque.empty()) {
+          firstDeparture.clear();
+          firstDeparture.push_back(departureDeque.front().planenumber());
+          departureRunwayFreed = true;
+        } 
       }
     }
     return Status::OK;
   }
-
-  Status Info(ServerContext* context, InfoRequest* request, ServerWriter<InfoResponse>* writer) {
-    InfoRequest ir;
-    std::cout << "something is coming :O " << arrivalPlaneMsge.size() << std::endl;
-    std::cout << "something is coming :O " << departurePlaneMsge.size() << std::endl;
-    InfoResponse infoRes;
-    infoRes.set_control_tower(ct.name);
-    for (PlaneMsge p : arrivalPlaneMsge) {
-      // infoRes.add_arrivalplane()->CopyFrom(p);
-      infoRes.mutable_arrivalplane()->CopyFrom(p);
-    }
-    for (PlaneMsge p : departurePlaneMsge) {
-      // infoRes.add_departureplane()->CopyFrom(p);
-      infoRes.mutable_departureplane()->CopyFrom(p);
-    }
-    writer->Write(infoRes);
-    return Status::OK;
-  };
 };
 
 void RunServer() {
   bool OK = false;
   while(serverAddress.empty() || !OK) {
-    std::cout << "Ingrese dirección IP de la torre de control: ";
+    std::cout << "Ingrese dirección de la torre de control (ip:puerto): ";
     getline(std::cin, serverAddress);
-    std::string server_address(serverAddress+":50051"/*"0.0.0.0:50051"*/);
+    std::string server_address(serverAddress+":50051");
     PlaneControlServiceImpl service;
 
     ServerBuilder builder;
@@ -390,7 +416,7 @@ void WaitInput(std::atomic<bool> &run) {
   while (run.load()) {
     std::cout << "[Torre de control - " << ct.name << "] Para agregar destino presione enter";
     if (std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n')) {
-      std::cout << "[Torre de control - " << ct.name << "] Ingrese nombre y direccion IP del destino:" << std::endl;
+      std::cout << "[Torre de control - " << ct.name << "] Ingrese nombre y direccion del destino (ip:puerto):" << std::endl;
       while(getline(std::cin, buffer) && !buffer.empty()) {
         if (buffer == "exit") {
           run.store(false);
@@ -418,6 +444,54 @@ void WaitInput(std::atomic<bool> &run) {
   }
 }
 
+/*===============SERVICIO DE INFORMACION===============*/
+
+class InfoServiceImpl final : public InfoService::Service {
+public:
+  Status Info(ServerContext* context, const InfoRequest* request, ServerWriter<InfoResponse>* writer) override {
+    InfoRequest ir;
+    InfoResponse infoRes;
+    infoRes.set_control_tower(ct.name);
+    for (PlaneMsge p : arrivalPlaneMsge) {
+      infoRes.add_arrivalplane()->CopyFrom(p);
+      //DEBUG
+      std::cout << "arrival: " << p.planenumber() << std::endl;
+    }
+    for (PlaneMsge p : departurePlaneMsge) {
+      infoRes.add_departureplane()->CopyFrom(p);
+      //DEBUG
+      std::cout << "departure: " << p.planenumber() << std::endl;
+    }
+    writer->Write(infoRes); //Stream innecesario
+    return Status::OK;
+  };
+};
+
+void RunServerInfo() {
+  std::string server_address(serverAddress+":50052");
+  InfoServiceImpl service;
+  ServerBuilder builder;
+  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+  builder.RegisterService(&service);
+  std::unique_ptr<Server> server(builder.BuildAndStart());
+  if (server) {
+      std::cout << "Server listening on " << server_address << std::endl;
+      std::string address(serverAddress);
+      ct.address = address;
+      server->Wait();
+    } else {
+      std::cout << "Segundo Puerto inválido, pantalla de información no podrá realizar consultas, intente otra vez \n";
+    }
+}
+
+
+//Thread que maneja las consultas de la pantalla de información
+void WaitInfo(std::atomic<bool> &runInfo) {
+  inputOK.lock(); // Solo se puede iniciar cuando se llenaron los campos de informacion de la torre de control
+  RunServerInfo();
+}
+
+
 //Iniciar alturas disponibles
 void initHeight() {  
   for (int i = minHeight; i < maxHeight+1; ++i) {
@@ -427,11 +501,16 @@ void initHeight() {
 
 int main() {
   std::atomic<bool> run(true);
+  std::atomic<bool> runInfo(true);
   serverOK.lock();
+  inputOK.lock();
   std::thread userInputThread(WaitInput, std::ref(run));
+  std::thread userInfoThread(WaitInfo, std::ref(runInfo));
   initHeight();
   RunServer();
   run.store(false);
+  runInfo.store(false);
   userInputThread.join();
+  userInfoThread.join();
   return 0;
 }

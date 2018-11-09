@@ -24,11 +24,6 @@ class PlaneControlServiceStub(object):
         request_serializer=planecontrol__pb2.TakeoffRequest.SerializeToString,
         response_deserializer=planecontrol__pb2.TakeoffResponse.FromString,
         )
-    self.Info = channel.unary_stream(
-        '/tareados.PlaneControlService/Info',
-        request_serializer=planecontrol__pb2.InfoRequest.SerializeToString,
-        response_deserializer=planecontrol__pb2.InfoResponse.FromString,
-        )
 
 
 class PlaneControlServiceServicer(object):
@@ -49,13 +44,6 @@ class PlaneControlServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def Info(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
 
 def add_PlaneControlServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -69,6 +57,43 @@ def add_PlaneControlServiceServicer_to_server(servicer, server):
           request_deserializer=planecontrol__pb2.TakeoffRequest.FromString,
           response_serializer=planecontrol__pb2.TakeoffResponse.SerializeToString,
       ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'tareados.PlaneControlService', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
+
+
+class InfoServiceStub(object):
+  # missing associated documentation comment in .proto file
+  pass
+
+  def __init__(self, channel):
+    """Constructor.
+
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.Info = channel.unary_stream(
+        '/tareados.InfoService/Info',
+        request_serializer=planecontrol__pb2.InfoRequest.SerializeToString,
+        response_deserializer=planecontrol__pb2.InfoResponse.FromString,
+        )
+
+
+class InfoServiceServicer(object):
+  # missing associated documentation comment in .proto file
+  pass
+
+  def Info(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+
+def add_InfoServiceServicer_to_server(servicer, server):
+  rpc_method_handlers = {
       'Info': grpc.unary_stream_rpc_method_handler(
           servicer.Info,
           request_deserializer=planecontrol__pb2.InfoRequest.FromString,
@@ -76,5 +101,5 @@ def add_PlaneControlServiceServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'tareados.PlaneControlService', rpc_method_handlers)
+      'tareados.InfoService', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))
