@@ -78,19 +78,19 @@ Internet-Draft                     T2                      November 2018
 
 2.1.  Avion
 
-   message PlaneMsge {
-   string airline = 1;
-   string planeNumber = 2;
-   int32 maxLoad = 3;
-   int32 currLoad = 4;
-   int32 maxCapacity = 5;
-   int32 currCapacity = 6;
-   string sourceAddress = 7;
-   string destAddress = 8;
-   int32 runway = 9;
-   string destName = 10;
-   string time = 11;
-   }
+      message PlaneMsge {
+         string airline = 1;
+         string planeNumber = 2;
+         int32 maxLoad = 3;
+         int32 currLoad = 4;
+         int32 maxCapacity = 5;
+         int32 currCapacity = 6;
+         string sourceAddress = 7;
+         string destAddress = 8;
+         int32 runway = 9;
+         string destName = 10;
+         string time = 11;
+      }
 
    Los campos descritos en este mensaje son los atributos especificos
    del avion que se esta comunicando con la torre.  El avion debe mandar
@@ -132,21 +132,21 @@ Internet-Draft                     T2                      November 2018
    Estos son los mensajes que intercambian el avion y la torre de
    control en la negociacion del aterrizaje del avion.
 
-   message LandRequest {
-   string dest = 1;
-   PlaneMsge plane = 2;
-   }
+      message LandRequest {
+         string dest = 1;
+         PlaneMsge plane = 2;
+      }
 
    Esto son los datos que debe enviar el avion al hacer request para
    aterrizar. 'dest' es el nombre del aeropuerto destino. 'plane' es el
    objeto o mensaje descrito mas arriba en la secccion 2.1 Avion
 
-   message LandResponse {
-   int32 runway = 1;
-   int32 queue = 2;
-   int32 altitude = 3;
-   string destName = 4;
-   }
+      message LandResponse {
+         int32 runway = 1;
+         int32 queue = 2;
+         int32 altitude = 3;
+         string destName = 4;
+      }
 
    Esta es la respuesta de la torre de control.  Si el avion esta
    autorizado para aterrizar y hay pistas disponibles, el campo 'runway'
@@ -170,12 +170,12 @@ Santander & Ibanez        Expires May 13, 2019                  [Page 3]
 Internet-Draft                     T2                      November 2018
 
 
-   message TakeoffRequest {
-   PlaneMsge plane = 1;
-   string dest = 2;
-   bool instOK = 3;
-   bool flyOK = 4;
-   }
+      message TakeoffRequest {
+         PlaneMsge plane = 1;
+         string dest = 2;
+         bool instOK = 3;
+         bool flyOK = 4;
+      }
 
    Este mensaje es el enviado por el avion a la torre de control para
    iniciar la comunicacion y para ir notificando la actualizacion de su
@@ -188,17 +188,17 @@ Internet-Draft                     T2                      November 2018
    pidiendo instrucciones de despegue (numero de runway) y si el avion a
    despegado respectivamente.
 
-   message TakeoffResponse {
-   int32 altitude = 1;
-   int32 runway = 2;
-   string dest = 3;
-   int32 queuePos = 4;
-   string prevPlane = 5;
-   bool destOK = 6;
-   bool restrOK = 7;
-   bool instOK = 8;
-   string destName = 9;
-   }
+      message TakeoffResponse {
+         int32 altitude = 1;
+         int32 runway = 2;
+         string dest = 3;
+         int32 queuePos = 4;
+         string prevPlane = 5;
+         bool destOK = 6;
+         bool restrOK = 7;
+         bool instOK = 8;
+         string destName = 9;
+      }
 
    Esta es la estructura de los mensajes de respuesta que envia la torre
    de control al avion solicitando despegar.  Si el avion puede despegar
