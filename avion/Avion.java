@@ -25,7 +25,6 @@ public class Avion {
 	
 	private boolean desOK;
 	private boolean resOK;
-	private boolean insOK;
 	private boolean flyOK;
 
 	private ManagedChannel channel;
@@ -207,7 +206,7 @@ public class Avion {
 		LandRequest request = 
 			LandRequest.newBuilder()
 				.setPlane(this.plane.build())
-				.setDest(this.plane.getDestAddress()).build(); //TODO IP o name?
+				.setDest(this.plane.getDestAddress()).build();
 				
 		try {
 			this.landRequestObserver.onNext(request);
