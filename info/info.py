@@ -28,8 +28,7 @@ class requestInfo(object):
 
     def __init__(self, address, port):
         try:
-            # self.channel = grpc.insecure_channel("{}:{}".format(address, port))
-            self.channel = grpc.insecure_channel("localhost:50052")
+            self.channel = grpc.insecure_channel("{}:{}".format(address, port))
             self.stub = planecontrol_pb2_grpc.InfoServiceStub(self.channel)
         except grpc.RpcError as e:
             global finish

@@ -37,7 +37,10 @@ using tareados::InfoService;
 
 std::mutex serverOK;
 std::mutex inputOK;
-std::string serverAddress;
+std::string serverAddresss;
+std::string ipAddress;
+std::string portServer;
+std::string portServerInfo;
 
 // Clase torre de control
 class ControlTower {
@@ -375,23 +378,38 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
 
 void RunServer() {
   bool OK = false;
-  while(serverAddress.empty() || !OK) {
-    std::cout << "Ingrese dirección de la torre de control (ip:puerto): ";
-    getline(std::cin, serverAddress);
-    std::string server_address(serverAddress+":50051");
-    PlaneControlServiceImpl service;
+  while(serverAddresss.empty() || !OK) {
+    std::cout << "Ingrese dirección de la torre de control\nFormato (ip:puerto:puerto2) segundo puerto distinto al primero\nEjemplo: localhost:50051:50052: ";
+    getline(std::cin, serverAddresss);
+    std::stringstream ss(serverAddresss);
+    std::string addressPart;
+    std::vector<std::string> splitInput;
+    char delim = ':';
+    while(std::getline(ss, addressPart, delim)) {
+      splitInput.push_back(addressPart);
+    }
+    if (splitInput.size() == 3) {
+      ipAddress = splitInput[0];
+      portServer = splitInput[1];
+      portServerInfo = splitInput[2];
+      std::string server_address(ipAddress+":"+portServer);
+      PlaneControlServiceImpl service;
 
-    ServerBuilder builder;
-    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-    builder.RegisterService(&service);
-    std::unique_ptr<Server> server(builder.BuildAndStart());
-    if (server) {
-      OK = true;
-      std::cout << "Server listening on " << server_address << std::endl;
-      serverOK.unlock(); //Desbloquea el thread que maneja el input de usuario
-      server->Wait();
-      break;
-    } else {
+      ServerBuilder builder;
+      builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+      builder.RegisterService(&service);
+      std::unique_ptr<Server> server(builder.BuildAndStart());
+      if (server) {
+        OK = true;
+        std::cout << "Torre de control en " << server_address << std::endl;
+        serverOK.unlock(); //Desbloquea el thread que maneja el input de usuario
+        server->Wait();
+        break;
+      } else {
+        std::cout << "Direccion inválida, intente otra vez \n";
+      }
+    }
+    else {
       std::cout << "Direccion inválida, intente otra vez \n";
     }
   }
@@ -410,7 +428,7 @@ void WaitInput(std::atomic<bool> &run) {
   std::string name(buffer);
   ct.name = name;
   int nArrivalRunway = 0;
-  while (nArrivalRunway == 0) {
+  while (nArrivalRunway <= 0) {
     std::cout << "[Torre de control - " << name << "]" << " Cantidad de pistas de aterrizaje:\n";
     std::cin >> nArrivalRunway;
     std::cin.clear();
@@ -421,7 +439,7 @@ void WaitInput(std::atomic<bool> &run) {
     ct.arrivalRunway.insert(std::pair<int, bool>(i, false));
   }
   int nDepartureRunway = 0;
-  while (nDepartureRunway == 0) {
+  while (nDepartureRunway <= 0) {
     std::cout << "[Torre de control - " << name << "]" << " Cantidad de pistas de despegue:\n";
     std::cin >> nDepartureRunway;
     std::cin.clear();
@@ -485,19 +503,19 @@ public:
 };
 
 void RunServerInfo() {
-  std::string server_address(serverAddress+":50052");
+  std::string server_address(ipAddress+":"+portServerInfo);
   InfoServiceImpl service;
   ServerBuilder builder;
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
   builder.RegisterService(&service);
   std::unique_ptr<Server> server(builder.BuildAndStart());
   if (server) {
-      std::cout << "Server listening on " << server_address << std::endl;
-      std::string address(serverAddress);
+      std::cout << "\nPanel de información en " << server_address << std::endl;
+      std::string address(serverAddresss);
       ct.address = address;
       server->Wait();
     } else {
-      std::cout << "Segundo Puerto inválido, pantalla de información no podrá realizar consultas, intente otra vez \n";
+      std::cout << "\nSegundo Puerto inválido, pantalla de información no podrá realizar consultas, intente otra vez \n";
     }
 }
 
