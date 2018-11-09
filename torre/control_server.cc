@@ -155,6 +155,9 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
       if (!ready) {
         std::cout << "\n[Torre de control - " << ct.name << "] Nuevo Avión " << lr.plane().planenumber() << " en el Aeropuerto" << std::endl; 
         std::cout << "[Torre de control - " << ct.name << "] Asignando pista de aterrizaje..." << std::endl;
+        PlaneMsge tempPlane = lr.plane();
+        tempPlane.set_destname(ct.name);
+        arrivalPlaneMsge.push_back(tempPlane); // Se guarda copia de avion
         // Se revisa disponibilidad de pistas de aterrizaje
         int availableRunway = checkAvailability(0);
         // Si existe una pista disponible entonce se asigna el avion
@@ -182,6 +185,7 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
                 std::cout << "[Torre de control - " << ct.name << "] Pista de aterrizaje " << availableRunway << " ha sido desocupada." << std::endl;
                 std::cout << "[Torre de control - " << ct.name << "] La pista de aterrizaje asignada al avión " << arrivalDeque.front().planenumber() << " es la " << availableRunway << std::endl;
                 towerResponse.set_runway(availableRunway);
+                towerResponse.set_destname(ct.name);
                 stream->Write(towerResponse);
                 arrivalDeque.pop_front();
                 arrivalRunwayFreed = false;
@@ -194,7 +198,13 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
         }
       }
       else {
-        arrivalPlaneMsge.push_back(lr.plane()); // Se guarda copia de avion
+        //Se reemplaza el avion en el vector de aviones en el espacio aéreo
+        for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
+          if (arrivalPlaneMsge.at(i).planenumber() == lr.plane().planenumber()) {
+            arrivalPlaneMsge.at(i) = lr.plane();
+            std::cout << "plane: " << arrivalPlaneMsge.at(i).planenumber() << " : " << arrivalPlaneMsge.at(i).destname() << std::endl;
+          }
+        }
         return Status::OK;
       }
     }
@@ -226,8 +236,15 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
             desOK = true;
             std::cout << "[Torre de control - " << ct.name << "] Enviando dirección de " << tr.dest() << std::endl;
             towerResponse.set_destok(true);
-            towerResponse.set_dest(ct.address);
-            towerResponse.set_destname(ct.name);
+            towerResponse.set_dest(dest.getAddress());
+            towerResponse.set_destname(dest.getName());
+            departurePlaneMsge.push_back(tr.plane());
+            //Se elimina el avión de la pista de aterrizaje
+            for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
+              if (arrivalPlaneMsge[i].planenumber() == tr.plane().planenumber()) {
+                arrivalPlaneMsge.erase(arrivalPlaneMsge.begin()+i);
+              }
+            }
             stream->Write(towerResponse);
             std::cout << "[Torre de control - " << ct.name << "] Consultando restricciones de pasajeros y combustible." << std::endl;
           }
@@ -275,13 +292,6 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
           stream->Write(towerResponse);
           runwayOK = true;
           freeRunway = tr.plane().runway();
-          departurePlaneMsge.push_back(tr.plane());
-          //Se elimina el avión de la pista de aterrizaje
-          for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
-            if (arrivalPlaneMsge[i].planenumber() == tr.plane().planenumber()) {
-              arrivalPlaneMsge.erase(arrivalPlaneMsge.begin()+i);
-            }
-          }
           ct.arrivalRunway[freeRunway] = false; // se libera la pista
           // Se revisa si hay aviones en la cola de espera
           if (!arrivalDeque.empty()) {
@@ -321,9 +331,21 @@ class PlaneControlServiceImpl final : public PlaneControlService::Service {
                 departureDeque.pop_front();
                 stream->Write(towerResponse);
                 departureRunwayFreed = false;
+                //Se elimina el avión de la pista de aterrizaje
+                for (unsigned int i = 0; i < arrivalPlaneMsge.size(); ++i) {
+                  if (arrivalPlaneMsge[i].planenumber() == tr.plane().planenumber()) {
+                    arrivalPlaneMsge.erase(arrivalPlaneMsge.begin()+i);
+                  }
+                }
                 break;
               }
             }
+          }
+        }
+        //Se reemplaza el avion en el vector de aviones en el espacio aéreo
+        for (unsigned int i = 0; i < departurePlaneMsge.size(); ++i) {
+          if (departurePlaneMsge.at(i).planenumber() == tr.plane().planenumber()) {
+            departurePlaneMsge.at(i) = tr.plane();
           }
         }
       }
@@ -453,13 +475,9 @@ public:
     infoRes.set_control_tower(ct.name);
     for (PlaneMsge p : arrivalPlaneMsge) {
       infoRes.add_arrivalplane()->CopyFrom(p);
-      //DEBUG
-      std::cout << "arrival: " << p.planenumber() << std::endl;
     }
     for (PlaneMsge p : departurePlaneMsge) {
       infoRes.add_departureplane()->CopyFrom(p);
-      //DEBUG
-      std::cout << "departure: " << p.planenumber() << std::endl;
     }
     writer->Write(infoRes); //Stream innecesario
     return Status::OK;

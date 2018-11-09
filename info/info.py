@@ -49,22 +49,36 @@ class requestInfo(object):
             for res in Response:
                 global TCname
                 TCname = res.control_tower
+                runway = ""
                 print("[Pantalla de información - {} ]".format(TCname))
-                if res.departurePlane and res.arrivalPlane:
-                    print(wrap("%.40s"%"Departures\t\t\t\t    "+" | "+"%.40s"%"Arrivals"))
-                    print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")+" | "+fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
-                    for dp, ap in res.departurePlane, res.arrivalPlane:
-                        print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(dp.runway)+fill(dp.time)+" | " +fill(ap.planeNumber)+fill(ap.destName)+fill(ap.runway)+fill(ap.time)))
-                elif res.departurePlane:
+                # if res.departurePlane and res.arrivalPlane:
+                #     print(wrap("%.40s"%"Departures\t\t\t\t    "+" | "+"%.40s"%"Arrivals"))
+                #     print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")+" | "+fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
+                #     for dp, ap in res.departurePlane, res.arrivalPlane:
+                #         print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(dp.runway)+fill(dp.time)+" | " +fill(ap.planeNumber)+fill(ap.destName)+fill(ap.runway)+fill(ap.time)))
+                if res.departurePlane:
+                    print("*"*maxWidth*5)
                     print(wrap(fill("Departures")+" "*maxWidth*3))
+                    print("-"*maxWidth*5)
                     print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
                     for dp in res.departurePlane:
-                        print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(dp.runway)+fill(dp.time)))
-                elif res.arrivalPlane:
+                        if (dp.runway == -1):
+                            runway = "En espera"
+                        else:
+                            runway = dp.runway
+                        print(wrap(fill(dp.planeNumber)+fill(dp.destName)+fill(runway)+fill(dp.time)))
+                    print("*"*maxWidth*5)
+                if res.arrivalPlane:
                     print(wrap(fill("Arrivals")+" "*maxWidth*3))
+                    print("-"*maxWidth*5)
                     print(wrap(fill("Avion")+fill("Destino")+fill("Pista")+fill("Hr")))
                     for ap in res.arrivalPlane:
-                        print(wrap(fill(ap.planeNumber)+fill(ap.destName)+fill(ap.runway)+fill(ap.time)))
+                        if (ap.runway == -1):
+                            runway = "En espera"
+                        else:
+                            runway = ap.runway
+                        print(wrap(fill(ap.planeNumber)+fill(ap.destName)+fill(runway)+fill(ap.time)))
+                    print("*"*maxWidth*5)
                 finish = True
         except grpc.RpcError as e:
             self.channel.close()
