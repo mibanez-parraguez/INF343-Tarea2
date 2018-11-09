@@ -10,15 +10,17 @@ author:
  -
     ins: F. Santander
     name: Felipe Santander Flores
-    organization: Universidad TÈcnica Federico Santa MarÌa
+    organization: Universidad T√©cnica Federico Santa Mar√≠a
     abbrev: UTFSM
     email: felipe.santander@alumnos.inf.utfsm.cl
  -
-    ins: M. Ib·Òez
-    name: Miguel Ib·Òez Parraguez
-    organization: Universidad TÈcnica Federico Santa MarÌa
+ -
+    ins: M. Ib√°√±ez
+    name: Miguel Ib√°√±ez Parraguez
+    organization: Universidad T√©cnica Federico Santa Mar√≠a
     abbrev: UTFSM
     email: mibanez@alumnos.inf.utfsm.cl
+ -
 
 normative:
   RFC2119:
@@ -27,13 +29,13 @@ informative:
 
 --- abstract
 
-Este documento describe los protocolos de comunicaciÛn entre un aviÛn y una torre, y entre una pantalla de informaciÛn y una torre de control. 
+Este documento describe los protocolos de comunicaci√≥n entre un avi√≥n y una torre, y entre una pantalla de informaci√≥n y una torre de control. 
 
 --- middle
 
 # Introduction
 
-En la comunicaciÛn siempre son los aviones o las pantallas de informaciÛn las que inician la conversaciÛn con la torre de control. 
+En la comunicaci√≥n siempre son los aviones o las pantallas de informaci√≥n las que inician la conversaci√≥n con la torre de control. 
 
 ## Terminology
 
@@ -46,7 +48,7 @@ and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119
 
 La primera palabra indica el tipo de dato (int32 o string); la segunda, el nombre del campo (ej: airline) y el tercero es el indice del campo dentro del mensaje.
 
-## AviÛn
+## Avi√≥n
 
 message PlaneMsge {\\
   string airline = 1;\\
@@ -62,28 +64,28 @@ message PlaneMsge {\\
   string time = 11;\\
 }
 
-Los campos descritos en este mensaje son los atributos especÌficos del aviÛn que se est· comunicando con la torre. El aviÛn debe mandar informaciÛn actualizada de su estado en cada mensaje que envÌa a la torre de control. 
+Los campos descritos en este mensaje son los atributos espec√≠ficos del avi√≥n que se est√° comunicando con la torre. El avi√≥n debe mandar informaci√≥n actualizada de su estado en cada mensaje que env√≠a a la torre de control. 
 
-Este mensaje en sÌ, va contenido dentro de los otros mensajes usados para la comunicaciÛn. A continuaciÛn se explica cada uno.
+Este mensaje en s√≠, va contenido dentro de los otros mensajes usados para la comunicaci√≥n. A continuaci√≥n se explica cada uno.
 
-'airline' es el nombre de la aerolinea del avion, 'planeNumber' su n˙mero de identificaciÛn (por ejemplo LAM123). 'maxLoad' y 'currLoad' son la capacidad m·xima de peso y el peso que est· transportando actualmente (pasajeros o carga). Asimismo, 'maxCapacity' y 'currCapacity' se refieren a la capacidad m·xima de combustible y al que tienen en el momento del mensaje. 
+'airline' es el nombre de la aerolinea del avion, 'planeNumber' su n√∫mero de identificaci√≥n (por ejemplo LAM123). 'maxLoad' y 'currLoad' son la capacidad m√°xima de peso y el peso que est√° transportando actualmente (pasajeros o carga). Asimismo, 'maxCapacity' y 'currCapacity' se refieren a la capacidad m√°xima de combustible y al que tienen en el momento del mensaje. 
 
-El campo 'sourceAddress' corresponde a la direcciÛn ip (ip:puerto) de la torre de control donde se encuentra actualmente el aviÛn o de donde viene viajando. Por otro lado, 'destAddress' es la direcciÛn ip de aeropuerto destino. 'destName' es el nombre de dicho aeropuerto destino.
+El campo 'sourceAddress' corresponde a la direcci√≥n ip (ip:puerto) de la torre de control donde se encuentra actualmente el avi√≥n o de donde viene viajando. Por otro lado, 'destAddress' es la direcci√≥n ip de aeropuerto destino. 'destName' es el nombre de dicho aeropuerto destino.
 
-La pista de despegue o aterrizaje que le fue asignada al aviÛn corresponde al campo 'runway'. Finalmente 'time' corresponde al tiempo de aterrizaje o despegue del aviÛn. Este ˙ltimo campo es usado para desplegar en las pantallas de informaciÛn.
+La pista de despegue o aterrizaje que le fue asignada al avi√≥n corresponde al campo 'runway'. Finalmente 'time' corresponde al tiempo de aterrizaje o despegue del avi√≥n. Este √∫ltimo campo es usado para desplegar en las pantallas de informaci√≥n.
 
 ## Avion-Torre
 
 ### Aterrizaje
 
-Estos son los mensajes que intercambian el aviÛn y la torre de control en la negociaciÛn del aterrizaje del aviÛn.
+Estos son los mensajes que intercambian el avi√≥n y la torre de control en la negociaci√≥n del aterrizaje del avi√≥n.
 
 message LandRequest {\\
   string dest = 1;\\
   PlaneMsge plane = 2;\\
 }
 
-Esto son los datos que debe enviar el aviÛn al hacer request para aterrizar. 'dest' es el nombre del aeropuerto destino. 'plane' es el objeto o mensaje descrito m·s arriba en la seccciÛn 2.1 AviÛn
+Esto son los datos que debe enviar el avi√≥n al hacer request para aterrizar. 'dest' es el nombre del aeropuerto destino. 'plane' es el objeto o mensaje descrito m√°s arriba en la seccci√≥n 2.1 Avi√≥n
 
 message LandResponse {\\
   int32 runway = 1;\\
@@ -92,12 +94,12 @@ message LandResponse {\\
   string destName = 4;\\
 }
 
-Esta es la respuesta de la torre de control. Si el aviÛn est· autorizado para aterrizar y hay pistas disponibles, el campo 'runway' indica el n˙mero de pista de aterrizaje y el campo 'queue' (lista de espera) tendr· valor cero. Si el aviÛn debe esperar el campo 'queue' indica la posiciÛn en la lista de espera que se encuentra el aviÛn. Adem·s, se le indica al aviÛn la altura a la que ddebe esperar en el campo 'altitude'. El campo 'destName' corresponde al aeropuerto de destino. 
+Esta es la respuesta de la torre de control. Si el avi√≥n est√° autorizado para aterrizar y hay pistas disponibles, el campo 'runway' indica el n√∫mero de pista de aterrizaje y el campo 'queue' (lista de espera) tendr√° valor cero. Si el avi√≥n debe esperar el campo 'queue' indica la posici√≥n en la lista de espera que se encuentra el avi√≥n. Adem√°s, se le indica al avi√≥n la altura a la que debe esperar en el campo 'altitude'. El campo 'destName' corresponde al aeropuerto de destino. 
 
 
 ### Despegue
 
-A continuaciÛn se muestran los mensajes intercambiados entre aviÛn y torre en el proceso de despegue
+A continuaci√≥n se muestran los mensajes intercambiados entre avi√≥n y torre en el proceso de despegue
 
 message TakeoffRequest {\\
   PlaneMsge plane = 1;\\
@@ -106,9 +108,9 @@ message TakeoffRequest {\\
   bool flyOK = 4;\\
 }
 
-Este mensaje es el enviado por el aviÛn a la torre de control para iniciar la comunicaciÛn y para ir notificando la actualizaciÛn de su estado en los mensajes posteriores del proceso. El campo 'plane' contiene el estado actual del aviÛn y es descrito con detalle en la secciÛn 2.1  
+Este mensaje es el enviado por el avi√≥n a la torre de control para iniciar la comunicaci√≥n y para ir notificando la actualizaci√≥n de su estado en los mensajes posteriores del proceso. El campo 'plane' contiene el estado actual del avi√≥n y es descrito con detalle en la secci√≥n 2.1  
 
-El nombre del aeropuerto destino es el campo 'dest' del mensaje. Los campos 'instOK' y 'flyOK' son de control e indican si se est· pidiendo instrucciones de despegue (n˙mero de runway) y si el aviÛn a despegado respectivamente.
+El nombre del aeropuerto destino es el campo 'dest' del mensaje. Los campos 'instOK' y 'flyOK' son de control e indican si se est√° pidiendo instrucciones de despegue (n√∫mero de runway) y si el avi√≥n a despegado respectivamente.
 
 message TakeoffResponse {\\
   int32 altitude = 1;\\
@@ -123,22 +125,28 @@ message TakeoffResponse {\\
 }
 
 
-Esta es la estructura de los mensajes de respuesta que envÌa la torre de control al aviÛn solicitando despegar. Si el aviÛn puede despegar y hay pistas disponibles los campos 'runway' y 'altitude' indican el n˙mero de la pista de despegue y la altura que debe alcanzar el aviÛn luego de despegar. 
+Esta es la estructura de los mensajes de respuesta que env√≠a la torre de control al avi√≥n solicitando despegar. Si el avi√≥n puede despegar y hay pistas disponibles los campos 'runway' y 'altitude' indican el n√∫mero de la pista de despegue y la altura que debe alcanzar el avi√≥n luego de despegar. 
 
-Si el aviÛn debe esperar en cola, el campo 'queuePos' indica la posiciÛn del aviÛn en la lista de espera. En este caso, el campo 'prevPlane' indica el n˙mero o id del aviÛn que est· antes en la lista.
+Si el avi√≥n debe esperar en cola, el campo 'queuePos' indica la posici√≥n del avi√≥n en la lista de espera. En este caso, el campo 'prevPlane' indica el n√∫mero o id del avi√≥n que est√° antes en la lista.
 
-El campo 'dest' indica la direcciÛn IP (formato ip:port) del aeropuerto destino del aviÛn.
+El campo 'dest' indica la direcci√≥n IP (formato ip:port) del aeropuerto destino del avi√≥n.
 
-Adem·s hay tres campos booleanos en el mensaje que sirven de control en el estado de avance del proceso de despegue. El campo 'destOK' indica al aviÛn si el destino consultado existe o no y si el mensaje contiene la IP de dicho destino. El campo 'restrOK' indican si el aviÛn cumple las condiciones para despegar (combustible y peso). El campo 'instOK' indica que se est·n enviando instrucciones de despegue (runway o cola de espera).
+Adem√°s hay tres campos booleanos en el mensaje que sirven de control en el estado de avance del proceso de despegue. El campo 'destOK' indica al avi√≥n si el destino consultado existe o no y si el mensaje contiene la IP de dicho destino. El campo 'restrOK' indican si el avi√≥n cumple las condiciones para despegar (combustible y peso). El campo 'instOK' indica que se est√°n enviando instrucciones de despegue (runway o cola de espera).
 
 ## Pantalla-Torre
+
+A continuaci√≥n se muestran los mensajes intercambiados entre la pantalla de informaci√≥n y la torre de control.
 
 message InfoRequest {\\
   string control_tower = 1;\\
 }
+
+Este mensaje inicia el proceso de env√≠o de informaci√≥n desde la torre a la pantalla.
 
 message InfoResponse {\\
   repeated PlaneMsge departurePlane = 1;\\
   repeated PlaneMsge arrivalPlane = 2;\\
   string control_tower = 3;\\
 }
+
+Este mensaje contiene los campos 'departurePlane' y 'arrivalPlane' los cuales contienen los datos de los aviones que se encuentran dentro del espacio a√©reo de la torre o que est√°n dentro del aeropuerto, como pueden ser mas de 1 avi√≥n el campo se declara como repeated para poder recibir muchos objetos de tipo avi√≥n en la misma respuesta. Finalmente el string 'control_tower' envia el nombre de la torre de control.
