@@ -24,3 +24,6 @@ __Avion__
 `$ ./build/install/Tarea2/bin/Avion`
 
 __Pantalla__
+
+* Para ejecutar pantalla cliente (desde carpeta /info):
+`$ python info.py`
