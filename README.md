@@ -34,6 +34,22 @@ __Avion__
 `$ ./build/install/Tarea2/bin/Avion`
 
 __Pantalla__
+* Se debe tener pip version 9.0.1 o mayor:
+`$ python -m pip install --upgrade pip`
+* Si lo anterior tiene error, utilizar:
+
+`$ $ python -m pip install virtualenv`
+
+`$ virtualenv venv`
+
+`$ source venv/bin/activate`
+
+`$ python -m pip install --upgrade pip`
+* Instalar grpc:
+`$ sudo python -m pip install grpcio`
+* Finalmente:
+
+`$ python -m pip install grpcio-tools googleapis-common-protos`
 
 * Para crear las dependencias (desde carpeta info/):
 `$ python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/planecontrol.proto`
