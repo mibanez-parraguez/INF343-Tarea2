@@ -137,7 +137,6 @@ Además hay tres campos booleanos en el mensaje que sirven de control en el esta
 A continuación se muestran los mensajes intercambiados entre la pantalla de información y la torre de control.
 
 message InfoRequest {\\
-  string control_tower = 1;\\
 }
 
 Este mensaje inicia el proceso de envío de información desde la torre a la pantalla.
