@@ -25,5 +25,5 @@ __Avion__
 
 __Pantalla__
 
-* Para ejecutar pantalla cliente (desde carpeta /info):
+* Para ejecutar pantalla cliente (desde carpeta info/):
 `$ python info.py`
