@@ -243,7 +243,6 @@ public class Avion {
 				if (!finishLatch.await(1, TimeUnit.MINUTES)) {
 					c.printf("Error en comunicación");
 				}
-				
 				c.readLine(APROMPT, " - ", le_avion.id,  "Presione enter para aterrizar...");
 				finishLatch = le_avion.landProcedure();
 				if (!finishLatch.await(1, TimeUnit.MINUTES)) {
