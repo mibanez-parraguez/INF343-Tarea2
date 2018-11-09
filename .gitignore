@@ -11,7 +11,7 @@
 *.ear
 
 # Gradle
--gradle/
+.gradle/
 TEST/.gradle/
 build/
 gradle-app.setting

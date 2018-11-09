@@ -1,0 +1,280 @@
+
+
+
+
+Network Working Group                                       F. Santander
+Internet-Draft                                                 M. Ibanez
+Intended status: Informational                                     UTFSM
+Expires: May 13, 2019                                  November 09, 2018
+
+
+                     Tarea 2 Sistemas Distribuidos
+                Protocolos avion-torre y pantalla-torre
+
+Abstract
+
+   Este documento describe los protocolos de comunicacion entre un avion
+   y una torre, y entre una pantalla de informacion y una torre de
+   control.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on May 13, 2019.
+
+Copyright Notice
+
+   Copyright (c) 2018 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+Santander & Ibanez        Expires May 13, 2019                  [Page 1]
+
+Internet-Draft                     T2                      November 2018
+
+
+1.  Introduction
+
+   En la comunicacion siempre son los aviones o las pantallas de
+   informacion las que inician la conversacion con la torre de control.
+
+1.1.  Terminology
+
+   In this document, the key words "MUST", "MUST NOT", "REQUIRED",
+   "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
+   and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119
+   [RFC2119].
+
+2.  Mensajes
+
+   La primera palabra indica el tipo de dato (int32 o string); la
+   segunda, el nombre del campo (ej: airline) y el tercero es el indice
+   del campo dentro del mensaje.
+
+2.1.  Avion
+
+   message PlaneMsge {
+   string airline = 1;
+   string planeNumber = 2;
+   int32 maxLoad = 3;
+   int32 currLoad = 4;
+   int32 maxCapacity = 5;
+   int32 currCapacity = 6;
+   string sourceAddress = 7;
+   string destAddress = 8;
+   int32 runway = 9;
+   string destName = 10;
+   string time = 11;
+   }
+
+   Los campos descritos en este mensaje son los atributos especificos
+   del avion que se esta comunicando con la torre.  El avion debe mandar
+   informacion actualizada de su estado en cada mensaje que envia a la
+   torre de control.
+
+   Este mensaje en si, va contenido dentro de los otros mensajes usados
+   para la comunicacion.  A continuacion se explica cada uno.
+
+   'airline' es el nombre de la aerolinea del avion, 'planeNumber' su
+   numero de identificacion (por ejemplo LAM123). 'maxLoad' y 'currLoad'
+   son la capacidad maxima de peso y el peso que esta transportando
+   actualmente (pasajeros o carga).  Asimismo, 'maxCapacity' y
+   'currCapacity' se refieren a la capacidad maxima de combustible y al
+   que tienen en el momento del mensaje.
+
+
+
+Santander & Ibanez        Expires May 13, 2019                  [Page 2]
+
+Internet-Draft                     T2                      November 2018
+
+
+   El campo 'sourceAddress' corresponde a la direccion ip (ip:puerto) de
+   la torre de control donde se encuentra actualmente el avion o de
+   donde viene viajando.  Por otro lado, 'destAddress' es la direccion
+   ip de aeropuerto destino. 'destName' es el nombre de dicho aeropuerto
+   destino.
+
+   La pista de despegue o aterrizaje que le fue asignada al avion
+   corresponde al campo 'runway'.  Finalmente 'time' corresponde al
+   tiempo de aterrizaje o despegue del avion.  Este ultimo campo es
+   usado para desplegar en las pantallas de informacion.
+
+2.2.  Avion-Torre
+
+2.2.1.  Aterrizaje
+
+   Estos son los mensajes que intercambian el avion y la torre de
+   control en la negociacion del aterrizaje del avion.
+
+   message LandRequest {
+   string dest = 1;
+   PlaneMsge plane = 2;
+   }
+
+   Esto son los datos que debe enviar el avion al hacer request para
+   aterrizar. 'dest' es el nombre del aeropuerto destino. 'plane' es el
+   objeto o mensaje descrito mas arriba en la secccion 2.1 Avion
+
+   message LandResponse {
+   int32 runway = 1;
+   int32 queue = 2;
+   int32 altitude = 3;
+   string destName = 4;
+   }
+
+   Esta es la respuesta de la torre de control.  Si el avion esta
+   autorizado para aterrizar y hay pistas disponibles, el campo 'runway'
+   indica el numero de pista de aterrizaje y el campo 'queue' (lista de
+   espera) tendra valor cero.  Si el avion debe esperar el campo 'queue'
+   indica la posicion en la lista de espera que se encuentra el avion.
+   Ademas, se le indica al avion la altura a la que ddebe esperar en el
+   campo 'altitude'.  El campo 'destName' corresponde al aeropuerto de
+   destino.
+
+2.2.2.  Despegue
+
+   A continuacion se muestran los mensajes intercambiados entre avion y
+   torre en el proceso de despegue
+
+
+
+
+Santander & Ibanez        Expires May 13, 2019                  [Page 3]
+
+Internet-Draft                     T2                      November 2018
+
+
+   message TakeoffRequest {
+   PlaneMsge plane = 1;
+   string dest = 2;
+   bool instOK = 3;
+   bool flyOK = 4;
+   }
+
+   Este mensaje es el enviado por el avion a la torre de control para
+   iniciar la comunicacion y para ir notificando la actualizacion de su
+   estado en los mensajes posteriores del proceso.  El campo 'plane'
+   contiene el estado actual del avion y es descrito con detalle en la
+   seccion 2.1
+
+   El nombre del aeropuerto destino es el campo 'dest' del mensaje.  Los
+   campos 'instOK' y 'flyOK' son de control e indican si se esta
+   pidiendo instrucciones de despegue (numero de runway) y si el avion a
+   despegado respectivamente.
+
+   message TakeoffResponse {
+   int32 altitude = 1;
+   int32 runway = 2;
+   string dest = 3;
+   int32 queuePos = 4;
+   string prevPlane = 5;
+   bool destOK = 6;
+   bool restrOK = 7;
+   bool instOK = 8;
+   string destName = 9;
+   }
+
+   Esta es la estructura de los mensajes de respuesta que envia la torre
+   de control al avion solicitando despegar.  Si el avion puede despegar
+   y hay pistas disponibles los campos 'runway' y 'altitude' indican el
+   numero de la pista de despegue y la altura que debe alcanzar el avion
+   luego de despegar.
+
+   Si el avion debe esperar en cola, el campo 'queuePos' indica la
+   posicion del avion en la lista de espera.  En este caso, el campo
+   'prevPlane' indica el numero o id del avion que esta antes en la
+   lista.
+
+   El campo 'dest' indica la direccion IP (formato ip:port) del
+   aeropuerto destino del avion.
+
+   Ademas hay tres campos booleanos en el mensaje que sirven de control
+   en el estado de avance del proceso de despegue.  El campo 'destOK'
+   indica al avion si el destino consultado existe o no y si el mensaje
+   contiene la IP de dicho destino.  El campo 'restrOK' indican si el
+
+
+
+Santander & Ibanez        Expires May 13, 2019                  [Page 4]
+
+Internet-Draft                     T2                      November 2018
+
+
+   avion cumple las condiciones para despegar (combustible y peso).  El
+   campo 'instOK' indica que se estan enviando instrucciones de despegue
+   (runway o cola de espera).
+
+2.3.  Pantalla-Torre
+
+   message InfoRequest {
+   string control_tower = 1;
+   }
+
+   message InfoResponse {
+   repeated PlaneMsge departurePlane = 1;
+   repeated PlaneMsge arrivalPlane = 2;
+   string control_tower = 3;
+   }
+
+3.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+Authors' Addresses
+
+   Felipe Santander Flores
+   Universidad Tecnica Federico Santa Maria
+
+   Email: felipe.santander@alumnos.inf.utfsm.cl
+
+
+   Miguel Ibanez Parraguez
+   Universidad Tecnica Federico Santa Maria
+
+   Email: mibanez@alumnos.inf.utfsm.cl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Santander & Ibanez        Expires May 13, 2019                  [Page 5]
